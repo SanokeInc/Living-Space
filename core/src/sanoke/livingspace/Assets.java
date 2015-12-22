@@ -20,8 +20,8 @@ public class Assets {
     private static Sound missileSound;
 
     public static void loadAssets() {
-        /*background = new Texture(Gdx.files.internal("*.jpg"));
-        spaceship = new Texture(Gdx.files.internal("*.jpg"));
+        background = new Texture(Gdx.files.internal("space.jpg"));
+        /*spaceship = new Texture(Gdx.files.internal("*.jpg"));
    
         
         music = Gdx.audio.newMusic(Gdx.files.internal("*.mp3"));

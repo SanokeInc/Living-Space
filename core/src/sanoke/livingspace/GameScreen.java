@@ -27,7 +27,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         game.batch.begin();
-        // game.batch.draw(Assets.background, 0, 0);
+        game.batch.draw(Assets.background, 0, 0);
 
         // updateUnitsPosition(delta);
         // drawUnits();
