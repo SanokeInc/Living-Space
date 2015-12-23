@@ -30,12 +30,11 @@ public class GameScreen implements Screen {
 	private static final int BACKGROUND_SPEED = 400;
 	private float currentBgY;
 
-	public GameScreen(final LivingSpaceGame game) {
-		Assets.loadAssets();
+	public GameScreen(final LivingSpaceGame game, Spaceship player) {
+		this.player = player;
 		this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
-		player = new Spaceship();
 		aliens = new Array<Alien>();
 		lastSpawnTime = TimeUtils.millis();
 		initBackground();

@@ -42,12 +42,11 @@ public class LevelOne implements Screen {
 	private static final int BACKGROUND_SPEED = 400;
 	private float currentBgY;
 
-	public LevelOne(final LivingSpaceGame game) {
-		Assets.loadAssets();
+	public LevelOne(final LivingSpaceGame game, Spaceship player) {
+		this.player = player;
 		this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
-		player = new Spaceship();
 		aliens = new Array<Alien>();
 		afkSpawnTime = lastSpawnTime = TimeUtils.millis();
 		initBackground();

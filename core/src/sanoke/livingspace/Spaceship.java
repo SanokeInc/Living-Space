@@ -37,7 +37,15 @@ public class Spaceship {
 		movementSpeed = INIT_MOVEMENT_SPEED;
 		missileSpeed = INIT_MISSILE_SPEED;
 		firingCooldown = INIT_COOLDOWN;
-		lastFireTime = 0;
+		lastFireTime = TimeUtils.millis();
+		missiles = new Array<Missile>();
+	}
+	
+	// Used when loading a new screen.
+	public void refreshShip() {
+		x = INIT_POS_X;
+		y = INIT_POS_Y;
+		lastFireTime = TimeUtils.millis();
 		missiles = new Array<Missile>();
 	}
 	
