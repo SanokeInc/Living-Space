@@ -18,7 +18,7 @@ public class LivingSpaceGame extends Game {
         font = new BitmapFont(Gdx.files.internal("petitafont.fnt"));
         //TODO main menu
         //this.setScreen(new MainMenuScreen(this));
-        this.setScreen(new GameScreen(this));
+        this.setScreen(new LevelOne(this));
     }
 
     public void render() {
