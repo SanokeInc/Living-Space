@@ -9,12 +9,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen implements Screen {
     final LivingSpaceGame game;
 
     OrthographicCamera camera;
     Spaceship player;
+    
+    private static final int BACKGROUND_HEIGHT = 1080;
+    private static final int BACKGROUND_SPEED = 400;
+    private float currentBgY;
 
     public GameScreen(final LivingSpaceGame game) {
         Assets.loadAssets();
@@ -22,6 +27,7 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
         player = new Spaceship();
+        initBackground();
         // Assets.playMusic();
     }
 
@@ -33,7 +39,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         game.batch.begin();
-        game.batch.draw(Assets.background, 0, 0);
+        drawBackground(delta);
 
         updateUnitsPosition(delta);
         drawUnits();
@@ -41,6 +47,19 @@ public class GameScreen implements Screen {
         game.batch.end();
         processInput(delta);
     }
+
+    private void initBackground() {
+    	currentBgY = BACKGROUND_HEIGHT;
+    }
+    
+	private void drawBackground(float delta) {
+		game.batch.draw(Assets.background, 0, currentBgY - BACKGROUND_HEIGHT);
+		game.batch.draw(Assets.background, 0, currentBgY);
+		currentBgY -= BACKGROUND_SPEED * delta;
+		if (currentBgY <= 0) {
+			currentBgY = BACKGROUND_HEIGHT;
+		}
+	}
 
     private void updateUnitsPosition(float delta) {
     	updateMissilesPosition(delta);
