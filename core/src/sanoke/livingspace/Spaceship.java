@@ -10,6 +10,8 @@ public class Spaceship {
 	private float x;
 	private float y;
 	
+	private boolean isAlive;
+	
 	private float movementSpeed;
 	private float missileSpeed;
 	private long firingCooldown;
@@ -20,18 +22,19 @@ public class Spaceship {
 	private static final Texture image = Assets.spaceship;
 	private static final float INIT_POS_X = 450;
 	private static final float INIT_POS_Y = 80;
-	private static final float INIT_SPEED = 50;
+	private static final float INIT_MOVEMENT_SPEED = 80;
 	private static final float INIT_MISSILE_SPEED = 200;
 	private static final long INIT_COOLDOWN = 200;
 	
 	//TODO To adjust figures according to real size of image.
-	public static final int SHIP_WIDTH = 149;
-	public static final int SHIP_HEIGHT = 149;
+	public static final int SHIP_WIDTH = 38;
+	public static final int SHIP_HEIGHT = 38;
 	
 	public Spaceship() {
+		isAlive = true;
 		x = INIT_POS_X;
 		y = INIT_POS_Y;
-		movementSpeed = INIT_SPEED;
+		movementSpeed = INIT_MOVEMENT_SPEED;
 		missileSpeed = INIT_MISSILE_SPEED;
 		firingCooldown = INIT_COOLDOWN;
 		lastFireTime = 0;
@@ -71,7 +74,7 @@ public class Spaceship {
 	}
 	
 	public void fire() {
-		if (!isCooldown()) {
+		if (!isCooldown() && isAlive()) {
 			missiles.add(new Missile(x + SHIP_WIDTH / (float) 2, y + SHIP_HEIGHT, missileSpeed));
 			lastFireTime = TimeUtils.millis();
 		}
@@ -87,5 +90,13 @@ public class Spaceship {
 			return true;
 		}
 		return false;
+	}
+	
+	public void kill() {
+		isAlive = false;
+	}
+	
+	public boolean isAlive() {
+		return isAlive;
 	}
 }
