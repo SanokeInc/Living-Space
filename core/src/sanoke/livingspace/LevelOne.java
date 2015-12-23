@@ -44,6 +44,7 @@ public class LevelOne implements Screen {
 
 	public LevelOne(final LivingSpaceGame game, Spaceship player) {
 		this.player = player;
+		player.refreshShip();
 		this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.HEIGHT, game.WIDTH);

@@ -32,6 +32,7 @@ public class GameScreen implements Screen {
 
 	public GameScreen(final LivingSpaceGame game, Spaceship player) {
 		this.player = player;
+		player.refreshShip();
 		this.game = game;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
