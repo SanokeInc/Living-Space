@@ -33,8 +33,8 @@ public class Alien {
 		switch (alienType) {
 			case 1:
 				image = Assets.alienType1;
-				ALIEN_WIDTH = 21;
-				ALIEN_HEIGHT = 25;
+				ALIEN_WIDTH = 18;
+				ALIEN_HEIGHT = 21;
 				break;
 		}
 	}

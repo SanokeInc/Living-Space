@@ -23,7 +23,7 @@ public class Assets {
 
     public static void loadAssets() {
         background = new Texture(Gdx.files.internal("space.jpg"));
-        spaceship = new Texture(Gdx.files.internal("Placeholder.jpg"));
+        spaceship = new Texture(Gdx.files.internal("ship_placeholder.png"));
         missile = new Texture(Gdx.files.internal("missile_placeholder.png"));
         alienType1 = new Texture(Gdx.files.internal("monster_placeholder.png"));
    /*
