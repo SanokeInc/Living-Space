@@ -43,31 +43,25 @@ public class GameScreen implements Screen {
 	}
 
 	@Override
-	public void show() {
-
-	}
-
-	@Override
 	public void render(float delta) {
 		game.batch.begin();
 		drawBackground(delta);
+		drawUnits();
+		game.batch.end();
 
 		spawnAliens();
-		updateUnitsPosition(delta);
+        updateUnitsPosition(delta);
 
-		checkCollisions();
-
-		drawUnits();
-
-		game.batch.end();
+        checkCollisions();
+        
 		processInput(delta);
 	}
 
 	private void initBackground() {
-		currentBgY = BACKGROUND_HEIGHT;
-	}
+    	currentBgY = BACKGROUND_HEIGHT;
+    }
 
-	private void drawBackground(float delta) {
+    private void drawBackground(float delta) {
 		game.batch.draw(Assets.background, 0, currentBgY - BACKGROUND_HEIGHT);
 		game.batch.draw(Assets.background, 0, currentBgY);
 		currentBgY -= BACKGROUND_SPEED * delta;
@@ -105,8 +99,6 @@ public class GameScreen implements Screen {
 			Alien alien = iter.next();
 			alien.move(delta, game.WIDTH, game.HEIGHT);
 
-			// TODO if collide with enemy.
-
 			if (alien.isOutOfScreen()) {
 				iter.remove();
 			}
@@ -125,8 +117,6 @@ public class GameScreen implements Screen {
 		while (iter.hasNext()) {
 			Missile missile = iter.next();
 			missile.move(delta, game.HEIGHT);
-
-			// TODO if collide with enemy.
 
 			if (missile.isOutOfScreen()) {
 				iter.remove();
@@ -161,16 +151,6 @@ public class GameScreen implements Screen {
 
 	private void processInput(float delta) {
 		processKeyBoardInputs(delta);
-
-		/**
-		 * For mouse clicks only.
-		 *
-		 * if (Gdx.input.justTouched()) { /*float xPos = (Gdx.input.getX() -
-		 * BOARD_X_OFFSET); float yPos = (game.HEIGHT - BOARD_Y_OFFSET -
-		 * Gdx.input.getY()); // lazy validation for positive numbers if (xPos
-		 * >= 0 && yPos >= 0) { board.highlightAndSwapUnit((int) yPos /
-		 * Assets.UNIT_LENGTH, (int) xPos / Assets.UNIT_WIDTH); } }
-		 */
 	}
 
 	private void processKeyBoardInputs(float delta) {
@@ -188,7 +168,6 @@ public class GameScreen implements Screen {
 		}
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 			player.fire();
-			// TODO play missile sound here.
 		}
 	}
 
@@ -218,6 +197,11 @@ public class GameScreen implements Screen {
 	}
 
 	@Override
+    public void show() {
+    
+    }
+
+    @Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
 

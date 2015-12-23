@@ -75,6 +75,7 @@ public class Spaceship {
 	
 	public void fire() {
 		if (!isCooldown() && isAlive()) {
+		 // TODO play missile sound here.
 			missiles.add(new Missile(x + SHIP_WIDTH / (float) 2, y + SHIP_HEIGHT, missileSpeed));
 			lastFireTime = TimeUtils.millis();
 		}
