@@ -12,7 +12,8 @@ public class Assets {
     public static Texture spaceship;
     public static Texture missile;
 
-    private static TextureRegion alienType1;
+    public static Texture alienType1;
+    
     private static TextureRegion alienType2;
     private static TextureRegion alienType3;
     public static TextureRegion[] alienTypes;
@@ -24,6 +25,7 @@ public class Assets {
         background = new Texture(Gdx.files.internal("space.jpg"));
         spaceship = new Texture(Gdx.files.internal("Placeholder.jpg"));
         missile = new Texture(Gdx.files.internal("missile_placeholder.png"));
+        alienType1 = new Texture(Gdx.files.internal("monster_placeholder.png"));
    /*
         
         music = Gdx.audio.newMusic(Gdx.files.internal("*.mp3"));
