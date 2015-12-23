@@ -9,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Assets {
     public static Texture background;
 
-    private static Texture spaceship;
+    public static Texture spaceship;
+    public static Texture missile;
 
     private static TextureRegion alienType1;
     private static TextureRegion alienType2;
@@ -21,8 +22,9 @@ public class Assets {
 
     public static void loadAssets() {
         background = new Texture(Gdx.files.internal("space.jpg"));
-        /*spaceship = new Texture(Gdx.files.internal("*.jpg"));
-   
+        spaceship = new Texture(Gdx.files.internal("Placeholder.jpg"));
+        missile = new Texture(Gdx.files.internal("missile_placeholder.png"));
+   /*
         
         music = Gdx.audio.newMusic(Gdx.files.internal("*.mp3"));
         music.setLooping(true);
