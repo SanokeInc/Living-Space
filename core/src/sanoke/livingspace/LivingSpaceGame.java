@@ -22,7 +22,26 @@ public class LivingSpaceGame extends Game {
         player = new Spaceship();
         //TODO main menu
         //this.setScreen(new MainMenuScreen(this, player));
-        this.setScreen(new LevelOne(this, player));
+        setLevelScreen(1);
+    }
+    
+    public void setLevelScreen(int level) {
+    	switch (level) {
+    		case 1:
+    			this.setScreen(new LevelOne(this, player));
+    			break;
+    		case 2:
+    			this.setScreen(new GameScreen(this, player));
+    			break;
+    		default:
+    			assert(false);
+    			break;
+    	}
+    }
+    
+    // TODO: For changing current screen to upgrade/spaceship screen view.
+    public void setUpgradeScreen() {
+    	// this.setScreen(new ???(this, player));
     }
 
     @Override
