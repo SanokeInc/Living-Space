@@ -111,7 +111,9 @@ public class LevelOne extends LevelTemplate {
 			
 			aliens.add(new Alien(randomStartX, randomStartY, 1, movementX,
 					movementY));
-			enemyCount++;
+			if (player.isAlive()) {
+				enemyCount++;
+			}
 		}
 	}
 	
