@@ -18,6 +18,7 @@ public class LevelThree extends LevelTemplate {
 	// private static final int NUMBER_TO_WIN = 50;
 	
 	private static final int NUM_TO_SPAWN = 4;
+	private static final int ALIEN_TYPE = 2;
 	private static final long SPAWN_WARNING_TIME = 500;
 	
 	// Time delay for warning to spawn aliens.
@@ -71,7 +72,7 @@ public class LevelThree extends LevelTemplate {
 				int[] factor_y = {1, 0, -1, 0};
 				
 				for (int i = 0; i < NUM_TO_SPAWN; i++) {
-					aliens.add(new Alien(x, y, 1, MOVE_FACTOR_X * factor_x[i],
+					aliens.add(new Alien(x, y, ALIEN_TYPE, MOVE_FACTOR_X * factor_x[i],
 							MOVE_FACTOR_Y * factor_y[i]));
 				}
 			}

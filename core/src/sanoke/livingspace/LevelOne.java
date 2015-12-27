@@ -15,6 +15,7 @@ public class LevelOne extends LevelTemplate {
 	private static final int NUMBER_TO_WIN = 50;
 	
 	private static final int NUM_TO_SPAWN = 2;
+	private static final int ALIEN_TYPE = 0;
 	private static final long SPAWN_TIME = 2700;
 	
 	private static final long AFK_SPAWN_TIME = 500;
@@ -109,7 +110,7 @@ public class LevelOne extends LevelTemplate {
 			int randomStartX = MathUtils.random(minSpawnX, maxSpawnX);
 			int randomStartY = MathUtils.random(minSpawnY, maxSpawnY);
 			
-			aliens.add(new Alien(randomStartX, randomStartY, 1, movementX,
+			aliens.add(new Alien(randomStartX, randomStartY, ALIEN_TYPE, movementX,
 					movementY));
 			if (player.isAlive()) {
 				enemyCount++;
@@ -126,14 +127,14 @@ public class LevelOne extends LevelTemplate {
 		int randomStartX = MathUtils.random(minSpawnX, maxSpawnX);
 		int startY = 0;
 			
-		aliens.add(new Alien(randomStartX, startY, 1, movementX,
+		aliens.add(new Alien(randomStartX, startY, ALIEN_TYPE, movementX,
 				movementY));
 		
 		minSpawnX = game.WIDTH - AFK_SPAWN_VARIATION_X;
 		maxSpawnX = game.WIDTH - 18;
 		randomStartX = MathUtils.random(minSpawnX, maxSpawnX);
 		
-		aliens.add(new Alien(randomStartX, startY, 1, movementX,
+		aliens.add(new Alien(randomStartX, startY, ALIEN_TYPE, movementX,
 				movementY));
 	}
 }

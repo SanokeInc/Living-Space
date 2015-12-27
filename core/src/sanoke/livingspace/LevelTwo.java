@@ -14,6 +14,7 @@ public class LevelTwo extends LevelTemplate {
 	private static final int NUMBER_TO_WIN = 400;
 	
 	private static final int NUM_TO_SPAWN = 8;
+	private static final int ALIEN_TYPE = 3;
 	private static final long SPAWN_TIME = 500;
 	private static final int MIN_SPAWN_X = 50;
 	private static final int MAX_SPAWN_X = 800;
@@ -50,7 +51,7 @@ public class LevelTwo extends LevelTemplate {
 						* MathUtils.sin((float) (MathUtils.PI
 								/ (float) (NUM_TO_SPAWN - 1) * i));
 
-				aliens.add(new Alien(randomStartX, randomStartY, 1, movementX,
+				aliens.add(new Alien(randomStartX, randomStartY, ALIEN_TYPE, movementX,
 						movementY));
 				if (player.isAlive()) {
 					enemyCount++;
