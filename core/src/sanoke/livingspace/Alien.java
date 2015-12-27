@@ -1,6 +1,6 @@
 package sanoke.livingspace;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Alien {
@@ -9,12 +9,15 @@ public class Alien {
 	private float y;
 	private int type;
 	
+	private int currentFrameNumber;
+	private static final int FRAME_SWITCH_DELAY = 3;
+	
 	private float movementX;
 	private float movementY;
 	
 	private boolean onScreen;
 	
-	private Texture image;
+	private TextureRegion image;
 	
 	private int ALIEN_WIDTH;
 	private int ALIEN_HEIGHT;
@@ -30,13 +33,10 @@ public class Alien {
 	}
 	
 	private void initType(int alienType) {
-		switch (alienType) {
-			case 1:
-				image = Assets.alienType1;
-				ALIEN_WIDTH = 18;
-				ALIEN_HEIGHT = 21;
-				break;
-		}
+		currentFrameNumber = 0;
+		image = Assets.alienTypeFrame[alienType][currentFrameNumber];
+		ALIEN_WIDTH = Assets.ALIEN_WIDTH;
+		ALIEN_HEIGHT = Assets.ALIEN_HEIGHT;
 	}
 	
 	public Rectangle getAlienRegion() {
@@ -51,8 +51,12 @@ public class Alien {
 		return y;
 	}
 	
-	public Texture getImage() {
-		return image;
+	public TextureRegion getImage() {
+		TextureRegion imageToShow = image;
+		currentFrameNumber = (currentFrameNumber + 1) % (Assets.NUM_FRAMES_ALIEN * FRAME_SWITCH_DELAY); 
+		image = Assets.alienTypeFrame[type][currentFrameNumber / FRAME_SWITCH_DELAY];
+		
+		return imageToShow;
 	}
 	
 	public void move(float delta, int gameWidth, int gameHeight) {
