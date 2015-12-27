@@ -170,26 +170,26 @@ public abstract class LevelTemplate implements Screen {
 		}
 	}
 
-	private void drawUnits() {
+	protected void drawUnits() {
 		drawSpaceship();
 		drawMissiles();
 		drawAliens();
 	}
 
-	private void drawSpaceship() {
+	protected void drawSpaceship() {
 		if (player.isAlive()) {
 			game.batch.draw(player.getImage(), player.getX(), player.getY());
 		}
 	}
 
-	private void drawMissiles() {
+	protected void drawMissiles() {
 		Array<Missile> missiles = player.getMissiles();
 		for (Missile missile : missiles) {
 			game.batch.draw(missile.getImage(), missile.getX(), missile.getY());
 		}
 	}
 
-	private void drawAliens() {
+	protected void drawAliens() {
 		for (Alien alien : aliens) {
 			game.batch.draw(alien.getImage(), alien.getX(), alien.getY());
 		}

@@ -1,12 +1,17 @@
 package sanoke.livingspace;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class GameScreen extends LevelTemplate {
+public class LevelTwo extends LevelTemplate {
+	private int enemyCount;
+	
 	private long lastSpawnTime;
 	
 	private static final int CURRENT_LEVEL = 2;
+	
+	private static final int NUMBER_TO_WIN = 400;
 	
 	private static final int NUM_TO_SPAWN = 8;
 	private static final long SPAWN_TIME = 500;
@@ -15,14 +20,21 @@ public class GameScreen extends LevelTemplate {
 	private static final int SPAWN_VARIATION_Y = 150;
 	private static final int CONSTANT_MOVE_FACTOR = 200;
 
-	public GameScreen(final LivingSpaceGame game, Spaceship player) {
+	public LevelTwo(final LivingSpaceGame game, Spaceship player) {
 		super(game, player, CURRENT_LEVEL);	
 		
+		enemyCount = 0;
 		lastSpawnTime = TimeUtils.millis();
 	}
 
 	@Override
 	protected void spawnAliens() {
+		if (enemyCount > NUMBER_TO_WIN) {
+			aliens = new Array<Alien>();
+			game.setLevelScreen(3);
+			return;
+		}
+		
 		long currentTime = TimeUtils.millis();
 		if (currentTime - lastSpawnTime > SPAWN_TIME) {
 			lastSpawnTime = currentTime;
@@ -40,6 +52,9 @@ public class GameScreen extends LevelTemplate {
 
 				aliens.add(new Alien(randomStartX, randomStartY, 1, movementX,
 						movementY));
+				if (player.isAlive()) {
+					enemyCount++;
+				}
 			}
 		}
 	}
