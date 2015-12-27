@@ -17,11 +17,11 @@ public abstract class LevelTemplate implements Screen {
 	Spaceship player;
 
 	Array<Alien> aliens;
-	
+
 	private long initialTime;
 	private boolean displayLevel;
 	private int currentLevel;
-	
+
 	private static final long TIME_TO_DISPLAY_LVL = 4000;
 	private static final int LEVEL_DISPLAY_OFFSET_X = 430;
 	private static final int LEVEL_DISPLAY_OFFSET_Y = 150;
@@ -29,6 +29,8 @@ public abstract class LevelTemplate implements Screen {
 	private static final int BACKGROUND_HEIGHT = 1080;
 	private static final int BACKGROUND_SPEED = 400;
 	private float currentBgY;
+
+	private static final int OFFSET_DRAW_LIVES = 10;
 
 	public LevelTemplate(final LivingSpaceGame game, Spaceship player, int level) {
 		this.player = player;
@@ -38,7 +40,7 @@ public abstract class LevelTemplate implements Screen {
 		camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
 		aliens = new Array<Alien>();
 		initBackground();
-		
+
 		initialTime = TimeUtils.millis();
 		displayLevel = true;
 		currentLevel = level;
@@ -51,21 +53,22 @@ public abstract class LevelTemplate implements Screen {
 		drawBackground(delta);
 		showLevel();
 		drawUnits();
+		drawLives();
 		game.batch.end();
 
 		spawnAliens();
-        updateUnitsPosition(delta);
+		updateUnitsPosition(delta);
 
-        checkCollisions();
-        
+		checkCollisions();
+
 		processInput(delta);
 	}
-	
+
 	private void showLevel() {
-		if (displayLevel){
-			 game.font.draw(game.batch, "Level: " + currentLevel,
-					 LEVEL_DISPLAY_OFFSET_X, LEVEL_DISPLAY_OFFSET_Y);
-			
+		if (displayLevel) {
+			game.font.draw(game.batch, "Level: " + currentLevel,
+					LEVEL_DISPLAY_OFFSET_X, LEVEL_DISPLAY_OFFSET_Y);
+
 			long currentTime = TimeUtils.millis();
 			if (currentTime - initialTime > TIME_TO_DISPLAY_LVL) {
 				displayLevel = false;
@@ -74,10 +77,10 @@ public abstract class LevelTemplate implements Screen {
 	}
 
 	private void initBackground() {
-    	currentBgY = BACKGROUND_HEIGHT;
-    }
+		currentBgY = BACKGROUND_HEIGHT;
+	}
 
-    private void drawBackground(float delta) {
+	private void drawBackground(float delta) {
 		game.batch.draw(Assets.background, 0, currentBgY - BACKGROUND_HEIGHT);
 		game.batch.draw(Assets.background, 0, currentBgY);
 		currentBgY -= BACKGROUND_SPEED * delta;
@@ -86,7 +89,7 @@ public abstract class LevelTemplate implements Screen {
 		}
 	}
 
-    // Can be implemented in subclass via method overriding
+	// Can be implemented in subclass via method overriding
 	protected void spawnAliens() {
 
 	}
@@ -130,10 +133,12 @@ public abstract class LevelTemplate implements Screen {
 
 			Array<Missile> missiles = player.getMissiles();
 			Iterator<Missile> missileIter = missiles.iterator();
-			
+
 			Rectangle currentShip = player.getShipRegion();
 			if (currentAlien.overlaps(currentShip)) {
-				player.kill();
+				alienIter.remove();
+				player.minusOneLife();
+				continue;
 			}
 
 			while (missileIter.hasNext()) {
@@ -195,12 +200,23 @@ public abstract class LevelTemplate implements Screen {
 		}
 	}
 
-	@Override
-    public void show() {
-    
-    }
+	private void drawLives() {
+		int lives = player.getLives();
 
-    @Override
+		float yPos = game.HEIGHT - Assets.LIVES_HEIGHT - OFFSET_DRAW_LIVES;
+		for (int i = 0; i < lives; i++) {
+			game.batch.draw(Assets.life, i
+					* (Assets.LIVES_WIDTH + OFFSET_DRAW_LIVES)
+					+ OFFSET_DRAW_LIVES, yPos);
+		}
+	}
+
+	@Override
+	public void show() {
+
+	}
+
+	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
 
@@ -230,4 +246,3 @@ public abstract class LevelTemplate implements Screen {
 
 	}
 }
-
