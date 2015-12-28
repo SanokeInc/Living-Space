@@ -25,6 +25,11 @@ public class LivingSpaceGame extends Game {
         setLevelScreen(1);
     }
     
+    public void restart() {
+    	player = new Spaceship();
+    	setLevelScreen(1);
+    }
+    
     public void setLevelScreen(int level) {
     	switch (level) {
     		case 1:
@@ -40,6 +45,10 @@ public class LivingSpaceGame extends Game {
     			assert(false);
     			break;
     	}
+    }
+    
+    public void setDeathScreen() {
+    	this.setScreen(new DeathScreen(this));
     }
     
     // TODO: For changing current screen to upgrade/spaceship screen view.

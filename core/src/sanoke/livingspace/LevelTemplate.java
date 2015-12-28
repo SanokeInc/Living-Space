@@ -60,6 +60,7 @@ public abstract class LevelTemplate implements Screen {
 		updateUnitsPosition(delta);
 
 		checkCollisions();
+		checkAlive();
 
 		processInput(delta);
 	}
@@ -208,6 +209,12 @@ public abstract class LevelTemplate implements Screen {
 			game.batch.draw(Assets.life, i
 					* (Assets.LIVES_WIDTH + OFFSET_DRAW_LIVES)
 					+ OFFSET_DRAW_LIVES, yPos);
+		}
+	}
+	
+	private void checkAlive() {
+		if (!player.isAlive()) {
+			game.setDeathScreen();
 		}
 	}
 
