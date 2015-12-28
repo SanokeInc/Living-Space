@@ -19,6 +19,10 @@ public class Assets {
     public static Texture screenDeathQuit;
     public static Texture screenDeathRetry;
     
+    public static Texture screenUpgradeNormal;
+    
+    public static Texture upgradesHighlight;
+    
     private static Texture spaceshipTemplate;
     public static TextureRegion [] spaceshipFrames;
     public static final int NUM_FRAMES_SPACESHIP = 2;
@@ -46,6 +50,7 @@ public class Assets {
         life = new Texture(Gdx.files.internal("heart_placeholder.png"));
         
         loadDeathScreens();
+        loadUpgrades();
         loadSpaceship();
         loadAlienTemplates();
         loadAlienFrames();
@@ -59,9 +64,14 @@ public class Assets {
     }
     
     private static void loadDeathScreens() {
-    	screenDeathNormal = new Texture(Gdx.files.internal("Death.jpg"));
-    	screenDeathQuit = new Texture(Gdx.files.internal("Death_Quit.jpg"));
+        screenDeathNormal = new Texture(Gdx.files.internal("Death.jpg"));
+        screenDeathQuit = new Texture(Gdx.files.internal("Death_Quit.jpg"));
         screenDeathRetry = new Texture(Gdx.files.internal("Death_Retry.jpg"));
+    }
+    
+    private static void loadUpgrades() {
+        screenUpgradeNormal = new Texture(Gdx.files.internal("Upgrades.jpg"));
+        upgradesHighlight = new Texture(Gdx.files.internal("Upgrades_Highlight.jpg"));
     }
     
     private static void loadSpaceship() {

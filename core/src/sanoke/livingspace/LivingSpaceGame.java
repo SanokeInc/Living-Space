@@ -22,7 +22,8 @@ public class LivingSpaceGame extends Game {
         player = new Spaceship();
         //TODO main menu
         //this.setScreen(new MainMenuScreen(this, player));
-        setLevelScreen(1);
+        this.setScreen(new UpgradeScreen(this, player));
+        //setLevelScreen(1);
     }
     
     public void restart() {
