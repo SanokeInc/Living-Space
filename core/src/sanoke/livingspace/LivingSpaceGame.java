@@ -20,9 +20,10 @@ public class LivingSpaceGame extends Game {
         font = new BitmapFont(Gdx.files.internal("petitafont.fnt"));
         Assets.loadAssets();
         player = new Spaceship();
-        //TODO main menu
+        //TODO main menu 
         //this.setScreen(new MainMenuScreen(this, player));
-        this.setScreen(new UpgradeScreen(this, player));
+        //TODO REMOVE THIS IF I FORGET LOL 
+        setUpgradeScreen();
         //setLevelScreen(1);
     }
     
@@ -52,9 +53,8 @@ public class LivingSpaceGame extends Game {
     	this.setScreen(new DeathScreen(this));
     }
     
-    // TODO: For changing current screen to upgrade/spaceship screen view.
     public void setUpgradeScreen() {
-    	// this.setScreen(new ???(this, player));
+        this.setScreen(new UpgradeScreen(this, player));
     }
 
     @Override
