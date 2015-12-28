@@ -5,13 +5,10 @@ import com.badlogic.gdx.Screen;
 
 public class UpgradeScreen implements Screen {
     final LivingSpaceGame game;
-    private int status;
 
     Spaceship ship;
 
     private static final int NORMAL = 0;
-    private static final int MOUSE_OVER = 1;
-    private static final int MOUSE_OVER_QUIT = 2;
 
     private static final int COORD_X_SPEED_BOOST_TOP = 891;
     private static final int COORD_Y_SPEED_BOOST_TOP = 231;
@@ -30,7 +27,7 @@ public class UpgradeScreen implements Screen {
 
     public UpgradeScreen(final LivingSpaceGame game, Spaceship ship) {
         this.game = game;
-        status = NORMAL;
+        this.ship = ship;
     }
 
     @Override
@@ -48,7 +45,7 @@ public class UpgradeScreen implements Screen {
 
     private void processInput() {
         processMouseOver();
-        // processClick();
+        processClick();
     }
 
     private void processMouseOver() {
@@ -63,8 +60,6 @@ public class UpgradeScreen implements Screen {
         } else if (isWithinLivesUpgradeButton(xPos, yPos)) {
             game.batch.draw(Assets.upgradesHighlight, COORD_X_LIVES_BOOST_TOP,
                     game.HEIGHT - COORD_Y_LIVES_BOOST_BTM);
-        } else {
-            status = NORMAL;
         }
     }
 
@@ -95,21 +90,21 @@ public class UpgradeScreen implements Screen {
         }
     }
 
-    /*
-     * private void processClick() { if (Gdx.input.justTouched()) { float xPos =
-     * Gdx.input.getX(); float yPos = Gdx.input.getY(); if
-     * (isWithinTryAgainButton(xPos, yPos)) { game.restart(); } else if
-     * (isWithinQuitButton(xPos, yPos)) { Gdx.app.exit(); } else { status =
-     * NORMAL; } } }
-     */
+   
+    private void processClick() {
+        if (Gdx.input.justTouched()) {
+            float xPos = Gdx.input.getX();
+            float yPos = Gdx.input.getY();
+            if (isWithinSpeedUpgradeButton(xPos, yPos)) {
+                
+            } else if (isWithinMissileUpgradeButton(xPos, yPos)) {
+                
+            } else if (isWithinLivesUpgradeButton(xPos, yPos)) {
+                
+            }
+        }
+    }
 
-    /*
-     * 
-     * 
-     * private boolean isWithinQuitButton(float x, float y) { if (x >=
-     * COORD_X_QUIT_TOP && x <= COORD_X_QUIT_BTM && y >= COORD_Y_QUIT_TOP && y
-     * <= COORD_Y_QUIT_BTM) { return true; } else { return false; } }
-     */
     @Override
     public void show() {
         // TODO Auto-generated method stub
