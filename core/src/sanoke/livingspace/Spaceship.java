@@ -18,6 +18,12 @@ public class Spaceship {
 	private long firingCooldown;
 	private long lastFireTime;
 	
+	private int cash;
+	
+	private int upgradesBoughtSpeed;
+	private int upgradesBoughtMissileCooldown;
+	private int upgradesBoughtLives;
+	
 	private Array<Missile> missiles;
 	
 	private TextureRegion image;
@@ -30,6 +36,10 @@ public class Spaceship {
 	private static final float INIT_MISSILE_SPEED = 200;
 	private static final long INIT_COOLDOWN = 200;
 	private static final int INIT_LIVES = 3;
+	
+	private static final float UPGRADE_MULT_SPEED = 20;
+	private static final float UPGRADE_MULT_MISSILE_COOLDOWN = -50;
+	private static final float UPGRADE_MULT_LIVES = 1;
 	
 	public static final int SHIP_WIDTH = 35;
 	public static final int SHIP_HEIGHT = 50;
@@ -45,6 +55,10 @@ public class Spaceship {
 		lastFireTime = TimeUtils.millis();
 		missiles = new Array<Missile>();
 		currentFrameNumber = 0;
+		upgradesBoughtSpeed = 0;
+	    upgradesBoughtMissileCooldown = 0;
+	    upgradesBoughtLives = 0;
+	    cash = 0;
 		image = Assets.spaceshipFrames[currentFrameNumber];
 	}
 	
@@ -128,4 +142,40 @@ public class Spaceship {
 	public int getLives() {
 		return lives;
 	}
+	
+	public int getNumUpgradesSpeed() {
+        return upgradesBoughtSpeed;
+    }
+	
+	public int getNumUpgradesMissileCooldown() {
+        return upgradesBoughtMissileCooldown;
+    }
+	
+	public int getNumUpgradesLives() {
+        return upgradesBoughtLives;
+    }
+    public void upgradeSpeed() {
+        upgradesBoughtSpeed++;
+        movementSpeed = INIT_MOVEMENT_SPEED + UPGRADE_MULT_SPEED * upgradesBoughtSpeed; 
+    }
+    
+    public void upgradeMissiles() {
+        upgradesBoughtMissileCooldown++;
+        movementSpeed = INIT_COOLDOWN + UPGRADE_MULT_MISSILE_COOLDOWN * upgradesBoughtMissileCooldown;
+        
+    }
+    
+    public void upgradeLives() {
+        upgradesBoughtLives++;
+        movementSpeed = INIT_LIVES + UPGRADE_MULT_LIVES * upgradesBoughtLives;
+        
+    }
+
+    public int getCash() {
+        return cash;
+    }
+    
+    public void addCash(int cash) {
+        this.cash += cash;
+    }
 }

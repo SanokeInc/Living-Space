@@ -7,9 +7,24 @@ public class UpgradeScreen implements Screen {
     final LivingSpaceGame game;
 
     Spaceship ship;
-
-    private static final int NORMAL = 0;
-
+    
+    private static final int MAX_NUM_UPGRADES = 5;
+    
+    // cost for upgrades
+    private static final int[] UPGRADE_COST_SPEED = {10, 20, 30, 40, 50};
+    private static final int[] UPGRADE_COST_MISSILES = {10, 20, 30, 40, 50};
+    private static final int[] UPGRADE_COST_LIVES = {0, 20, 30, 40, 50};
+    
+    private static final float COORD_X_CASH = 202;
+    private static final float COORD_Y_CASH = 81;
+    private static final float COORD_X_COST_SPEED = 246;
+    private static final float COORD_Y_COST_SPEED = 508;
+    private static final float COORD_X_COST_MISSILES = 246;
+    private static final float COORD_Y_COST_MISSILES = 363;
+    private static final float COORD_X_COST_LIVES = 246;
+    private static final float COORD_Y_COST_LIVES = 205;
+    
+    // coordinates for buttons
     private static final int COORD_X_SPEED_BOOST_TOP = 891;
     private static final int COORD_Y_SPEED_BOOST_TOP = 231;
     private static final int COORD_X_SPEED_BOOST_BTM = 953;
@@ -34,9 +49,28 @@ public class UpgradeScreen implements Screen {
     public void render(float delta) {
         game.batch.begin();
         drawScreen();
+        drawCash();
         processInput();
         game.batch.end();
 
+    }
+
+    private void drawCash() {
+        game.font.draw(game.batch, "" + ship.getCash(), COORD_X_CASH,
+                COORD_Y_CASH);
+        game.font.draw(game.batch,
+                "" + UPGRADE_COST_LIVES[ship.getNumUpgradesLives()],
+                COORD_X_COST_LIVES, COORD_Y_COST_LIVES);
+        game.font.draw(
+                game.batch,
+                ""
+                        + UPGRADE_COST_MISSILES[ship
+                                .getNumUpgradesMissileCooldown()],
+                COORD_X_COST_MISSILES, COORD_Y_COST_MISSILES);
+        game.font.draw(game.batch,
+                "" + UPGRADE_COST_SPEED[ship.getNumUpgradesSpeed()],
+                COORD_X_COST_SPEED, COORD_Y_COST_SPEED);
+        
     }
 
     private void drawScreen() {
@@ -51,17 +85,22 @@ public class UpgradeScreen implements Screen {
     private void processMouseOver() {
         float xPos = Gdx.input.getX();
         float yPos = Gdx.input.getY();
-        if (isWithinSpeedUpgradeButton(xPos, yPos)) {
+        if (isWithinSpeedUpgradeButton(xPos, yPos)
+                && isSpeedUpgradable()) {
             game.batch.draw(Assets.upgradesHighlight, COORD_X_SPEED_BOOST_TOP,
                     game.HEIGHT - COORD_Y_SPEED_BOOST_BTM);
-        } else if (isWithinMissileUpgradeButton(xPos, yPos)) {
-            game.batch.draw(Assets.upgradesHighlight, COORD_X_MISSILES_BOOST_TOP,
-                    game.HEIGHT - COORD_Y_MISSILES_BOOST_BTM);
-        } else if (isWithinLivesUpgradeButton(xPos, yPos)) {
+        } else if (isWithinMissileUpgradeButton(xPos, yPos)
+                && isMissileUpgradable()) {
+            game.batch.draw(Assets.upgradesHighlight,
+                    COORD_X_MISSILES_BOOST_TOP, game.HEIGHT
+                            - COORD_Y_MISSILES_BOOST_BTM);
+        } else if (isWithinLivesUpgradeButton(xPos, yPos)
+                && isLivesUpgradable()) {
             game.batch.draw(Assets.upgradesHighlight, COORD_X_LIVES_BOOST_TOP,
                     game.HEIGHT - COORD_Y_LIVES_BOOST_BTM);
         }
     }
+
 
     private boolean isWithinSpeedUpgradeButton(float x, float y) {
         if (x >= COORD_X_SPEED_BOOST_TOP && x <= COORD_X_SPEED_BOOST_BTM
@@ -96,14 +135,55 @@ public class UpgradeScreen implements Screen {
             float xPos = Gdx.input.getX();
             float yPos = Gdx.input.getY();
             if (isWithinSpeedUpgradeButton(xPos, yPos)) {
-                
+                upgradeSpeed();
             } else if (isWithinMissileUpgradeButton(xPos, yPos)) {
-                
+                upgradeMissile();
             } else if (isWithinLivesUpgradeButton(xPos, yPos)) {
-                
+                upgradeLives();
             }
         }
     }
+
+    private void upgradeSpeed() {
+        if (isSpeedUpgradable()) {
+             ship.addCash(-1 * UPGRADE_COST_SPEED[ship.getNumUpgradesSpeed()]);
+             ship.upgradeSpeed();
+        }
+    }
+
+    private void upgradeMissile() {
+        if (isMissileUpgradable()) {
+            ship.addCash(-1 * UPGRADE_COST_MISSILES[ship.getNumUpgradesMissileCooldown()]);
+            ship.upgradeMissiles();
+       } 
+    }
+
+    private void upgradeLives() {
+        if (isLivesUpgradable()) {
+            ship.addCash(-1 * UPGRADE_COST_LIVES[ship.getNumUpgradesLives()]);
+            ship.upgradeLives();
+       }
+    }
+    
+    private boolean isSpeedUpgradable() {
+        int numUpgrades = ship.getNumUpgradesSpeed();
+        return  numUpgrades < MAX_NUM_UPGRADES
+                && ship.getCash() >= UPGRADE_COST_SPEED[numUpgrades];
+    }
+
+    private boolean isLivesUpgradable() {
+        int numUpgrades = ship.getNumUpgradesLives();
+        return  numUpgrades < MAX_NUM_UPGRADES
+                && ship.getCash() >= UPGRADE_COST_LIVES[numUpgrades];
+    }
+
+    private boolean isMissileUpgradable() {
+        int numUpgrades = ship.getNumUpgradesMissileCooldown();
+        return  numUpgrades < MAX_NUM_UPGRADES
+                && ship.getCash() >= UPGRADE_COST_MISSILES[numUpgrades];
+    }
+
+
 
     @Override
     public void show() {
