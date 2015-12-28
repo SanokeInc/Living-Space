@@ -2,19 +2,23 @@ package sanoke.livingspace;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class UpgradeScreen implements Screen {
     final LivingSpaceGame game;
 
     Spaceship ship;
     
-    // 5 upgrades max
     private static final int MAX_NUM_UPGRADES = 4;
     
     // cost for upgrades
-    private static final int[] UPGRADE_COST_SPEED = {10, 20, 30, 40, 50};
-    private static final int[] UPGRADE_COST_MISSILES = {10, 20, 30, 40, 50};
-    private static final int[] UPGRADE_COST_LIVES = {0, 20, 30, 40, 50};
+    private static final int[] UPGRADE_COST_SPEED = {10, 20, 30, 40};
+    private static final int[] UPGRADE_COST_MISSILES = {10, 20, 30, 40};
+    private static final int[] UPGRADE_COST_LIVES = {10, 20, 30, 40};
+    
+    private static final String[] UPGRADE_COST_STRING_SPEED = {"10", "20", "30", "40", "MAXED"};
+    private static final String[] UPGRADE_COST_STRING_MISSILES = {"10", "20", "30", "40", "MAXED"};
+    private static final String[] UPGRADE_COST_STRING_LIVES = {"10", "20", "30", "40", "MAXED"};
     
     private static final float COORD_X_CASH = 202;
     private static final float COORD_Y_CASH = 81;
@@ -24,6 +28,13 @@ public class UpgradeScreen implements Screen {
     private static final float COORD_Y_COST_MISSILES = 363;
     private static final float COORD_X_COST_LIVES = 246;
     private static final float COORD_Y_COST_LIVES = 205;
+    
+    private static final float COORD_X_UPGRADE_SPEED = 367;
+    private static final float COORD_Y_UPGRADE_SPEED = 301;
+    private static final float COORD_X_UPGRADE_MISSILES = 367;
+    private static final float COORD_Y_UPGRADE_MISSILES = 454;
+    private static final float COORD_X_UPGRADE_LIVES = 367;
+    private static final float COORD_Y_UPGRADE_LIVES = 612;
     
     // coordinates for buttons
     private static final int COORD_X_SPEED_BOOST_TOP = 891;
@@ -46,6 +57,9 @@ public class UpgradeScreen implements Screen {
     private static final int COORD_X_EXIT_BTM = 958;
     private static final int COORD_Y_EXIT_BTM = 764;
 
+    private static final int UPGRADE_BAR_WIDTH = 482;
+    private static final int UPGRADE_BAR_HEIGHT = 71;
+
     public UpgradeScreen(final LivingSpaceGame game, Spaceship ship) {
         this.game = game;
         this.ship = ship;
@@ -55,28 +69,40 @@ public class UpgradeScreen implements Screen {
     public void render(float delta) {
         game.batch.begin();
         drawScreen();
+        drawUpgrades();
         drawCash();
         processInput();
         game.batch.end();
 
     }
 
+    private void drawUpgrades() {
+        TextureRegion upgradeBar = getUpgradeBar(ship.getNumUpgradesSpeed());
+        game.batch.draw(upgradeBar, COORD_X_UPGRADE_SPEED, game.HEIGHT - COORD_Y_UPGRADE_SPEED);
+        upgradeBar = getUpgradeBar(ship.getNumUpgradesMissileCooldown());
+        game.batch.draw(upgradeBar, COORD_X_UPGRADE_MISSILES, game.HEIGHT - COORD_Y_UPGRADE_MISSILES);
+        upgradeBar = getUpgradeBar(ship.getNumUpgradesLives());
+        game.batch.draw(upgradeBar, COORD_X_UPGRADE_LIVES, game.HEIGHT - COORD_Y_UPGRADE_LIVES);
+        
+    }
+    
+    private TextureRegion getUpgradeBar(int numUpgrades) {
+        return new TextureRegion(Assets.upgradesBar, numUpgrades
+                * UPGRADE_BAR_WIDTH / MAX_NUM_UPGRADES, UPGRADE_BAR_HEIGHT);
+    }
     private void drawCash() {
         game.font.draw(game.batch, "" + ship.getCash(), COORD_X_CASH,
                 COORD_Y_CASH);
         game.font.draw(game.batch,
-                "" + UPGRADE_COST_LIVES[ship.getNumUpgradesLives()],
+                UPGRADE_COST_STRING_LIVES[ship.getNumUpgradesLives()],
                 COORD_X_COST_LIVES, COORD_Y_COST_LIVES);
-        game.font.draw(
-                game.batch,
-                ""
-                        + UPGRADE_COST_MISSILES[ship
-                                .getNumUpgradesMissileCooldown()],
-                COORD_X_COST_MISSILES, COORD_Y_COST_MISSILES);
+        game.font.draw(game.batch, UPGRADE_COST_STRING_MISSILES[ship
+                .getNumUpgradesMissileCooldown()], COORD_X_COST_MISSILES,
+                COORD_Y_COST_MISSILES);
         game.font.draw(game.batch,
-                "" + UPGRADE_COST_SPEED[ship.getNumUpgradesSpeed()],
+                UPGRADE_COST_STRING_SPEED[ship.getNumUpgradesSpeed()],
                 COORD_X_COST_SPEED, COORD_Y_COST_SPEED);
-        
+
     }
 
     private void drawScreen() {

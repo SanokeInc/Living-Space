@@ -23,6 +23,7 @@ public class Assets {
     
     public static Texture upgradesHighlight;
     public static Texture upgradesReturn;
+    public static Texture upgradesBar;
     
     private static Texture spaceshipTemplate;
     public static TextureRegion [] spaceshipFrames;
@@ -74,6 +75,7 @@ public class Assets {
         screenUpgradeNormal = new Texture(Gdx.files.internal("Upgrades.jpg"));
         upgradesHighlight = new Texture(Gdx.files.internal("Upgrades_Highlight.jpg"));
         upgradesReturn  = new Texture(Gdx.files.internal("Upgrades_Return.jpg"));
+        upgradesBar = new Texture(Gdx.files.internal("Upgrades_Bar.png"));
     }
     
     private static void loadSpaceship() {
