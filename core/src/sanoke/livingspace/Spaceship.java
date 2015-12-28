@@ -1,6 +1,6 @@
 package sanoke.livingspace;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -20,7 +20,10 @@ public class Spaceship {
 	
 	private Array<Missile> missiles;
 	
-	private static final Texture image = Assets.spaceship;
+	private TextureRegion image;
+	private int currentFrameNumber;
+	private static final int FRAME_SWITCH_DELAY = 3;
+	
 	private static final float INIT_POS_X = 450;
 	private static final float INIT_POS_Y = 80;
 	private static final float INIT_MOVEMENT_SPEED = 80;
@@ -28,9 +31,8 @@ public class Spaceship {
 	private static final long INIT_COOLDOWN = 200;
 	private static final int INIT_LIVES = 3;
 	
-	//TODO To adjust figures according to real size of image.
-	public static final int SHIP_WIDTH = 38;
-	public static final int SHIP_HEIGHT = 38;
+	public static final int SHIP_WIDTH = 35;
+	public static final int SHIP_HEIGHT = 50;
 	
 	public Spaceship() {
 		isAlive = true;
@@ -42,6 +44,8 @@ public class Spaceship {
 		firingCooldown = INIT_COOLDOWN;
 		lastFireTime = TimeUtils.millis();
 		missiles = new Array<Missile>();
+		currentFrameNumber = 0;
+		image = Assets.spaceshipFrames[currentFrameNumber];
 	}
 	
 	// Used when loading a new screen.
@@ -64,8 +68,12 @@ public class Spaceship {
 		return y;
 	}
 	
-	public Texture getImage() {
-		return image;
+	public TextureRegion getImage() {
+		TextureRegion imageToShow = image;
+		currentFrameNumber = (currentFrameNumber + 1) % (Assets.NUM_FRAMES_SPACESHIP * FRAME_SWITCH_DELAY); 
+		image = Assets.spaceshipFrames[currentFrameNumber / FRAME_SWITCH_DELAY];
+		
+		return imageToShow;
 	}
 	
 	public void moveLeft(float delta) {
@@ -87,7 +95,8 @@ public class Spaceship {
 	public void fire() {
 		if (!isCooldown() && isAlive()) {
 		 // TODO play missile sound here.
-			missiles.add(new Missile(x + SHIP_WIDTH / (float) 2, y + SHIP_HEIGHT, missileSpeed));
+			missiles.add(new Missile(x + (SHIP_WIDTH  - Missile.MISSILE_WIDTH) / (float) 2,
+					y + SHIP_HEIGHT, missileSpeed));
 			lastFireTime = TimeUtils.millis();
 		}
 	}

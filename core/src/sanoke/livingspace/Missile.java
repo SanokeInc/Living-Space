@@ -13,9 +13,8 @@ public class Missile {
 	
 	private static final Texture image = Assets.missile;
 	
-	//TODO To adjust figures according to real size of image.
-	public static final int MISSILE_WIDTH = 5;
-	public static final int MISSILE_HEIGHT = 8;
+	public static final int MISSILE_WIDTH = 15;
+	public static final int MISSILE_HEIGHT = 24;
 	
 	public Missile(float x, float y, float speed) {
 		this.x = x;
