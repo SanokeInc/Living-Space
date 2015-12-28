@@ -8,7 +8,8 @@ public class UpgradeScreen implements Screen {
 
     Spaceship ship;
     
-    private static final int MAX_NUM_UPGRADES = 5;
+    // 5 upgrades max
+    private static final int MAX_NUM_UPGRADES = 4;
     
     // cost for upgrades
     private static final int[] UPGRADE_COST_SPEED = {10, 20, 30, 40, 50};
@@ -39,6 +40,11 @@ public class UpgradeScreen implements Screen {
     private static final int COORD_Y_LIVES_BOOST_TOP = 542;
     private static final int COORD_X_LIVES_BOOST_BTM = 953;
     private static final int COORD_Y_LIVES_BOOST_BTM = 608;
+    
+    private static final int COORD_X_EXIT_TOP = 601;
+    private static final int COORD_Y_EXIT_TOP = 689;
+    private static final int COORD_X_EXIT_BTM = 958;
+    private static final int COORD_Y_EXIT_BTM = 764;
 
     public UpgradeScreen(final LivingSpaceGame game, Spaceship ship) {
         this.game = game;
@@ -98,6 +104,9 @@ public class UpgradeScreen implements Screen {
                 && isLivesUpgradable()) {
             game.batch.draw(Assets.upgradesHighlight, COORD_X_LIVES_BOOST_TOP,
                     game.HEIGHT - COORD_Y_LIVES_BOOST_BTM);
+        } else if (isWithinExitButton(xPos, yPos)) {
+            game.batch.draw(Assets.upgradesReturn, COORD_X_EXIT_TOP,
+                    game.HEIGHT - COORD_Y_EXIT_BTM);
         }
     }
 
@@ -128,6 +137,15 @@ public class UpgradeScreen implements Screen {
             return false;
         }
     }
+    
+    private boolean isWithinExitButton(float x, float y) {
+        if (x >= COORD_X_EXIT_TOP && x <= COORD_X_EXIT_BTM
+                && y >= COORD_Y_EXIT_TOP && y <= COORD_Y_EXIT_BTM) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
    
     private void processClick() {
@@ -140,6 +158,8 @@ public class UpgradeScreen implements Screen {
                 upgradeMissile();
             } else if (isWithinLivesUpgradeButton(xPos, yPos)) {
                 upgradeLives();
+            } else if (isWithinExitButton(xPos, yPos)) {
+                game.setLevelScreen(1);
             }
         }
     }

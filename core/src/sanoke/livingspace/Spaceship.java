@@ -38,8 +38,8 @@ public class Spaceship {
 	private static final int INIT_LIVES = 3;
 	
 	private static final float UPGRADE_MULT_SPEED = 20;
-	private static final float UPGRADE_MULT_MISSILE_COOLDOWN = -50;
-	private static final float UPGRADE_MULT_LIVES = 1;
+	private static final long UPGRADE_MULT_MISSILE_COOLDOWN = -50;
+	private static final int UPGRADE_MULT_LIVES = 1;
 	
 	public static final int SHIP_WIDTH = 35;
 	public static final int SHIP_HEIGHT = 50;
@@ -58,7 +58,7 @@ public class Spaceship {
 		upgradesBoughtSpeed = 0;
 	    upgradesBoughtMissileCooldown = 0;
 	    upgradesBoughtLives = 0;
-	    cash = 0;
+	    cash = 10000;
 		image = Assets.spaceshipFrames[currentFrameNumber];
 	}
 	
@@ -156,18 +156,18 @@ public class Spaceship {
     }
     public void upgradeSpeed() {
         upgradesBoughtSpeed++;
-        movementSpeed = INIT_MOVEMENT_SPEED + UPGRADE_MULT_SPEED * upgradesBoughtSpeed; 
+        movementSpeed = INIT_MOVEMENT_SPEED + UPGRADE_MULT_SPEED * upgradesBoughtSpeed;
     }
     
     public void upgradeMissiles() {
         upgradesBoughtMissileCooldown++;
-        movementSpeed = INIT_COOLDOWN + UPGRADE_MULT_MISSILE_COOLDOWN * upgradesBoughtMissileCooldown;
+        firingCooldown = INIT_COOLDOWN + UPGRADE_MULT_MISSILE_COOLDOWN * upgradesBoughtMissileCooldown;
         
     }
     
     public void upgradeLives() {
         upgradesBoughtLives++;
-        movementSpeed = INIT_LIVES + UPGRADE_MULT_LIVES * upgradesBoughtLives;
+        lives = INIT_LIVES + UPGRADE_MULT_LIVES * upgradesBoughtLives;
         
     }
 
