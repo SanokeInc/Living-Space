@@ -12,6 +12,7 @@ public class Spaceship {
 	
 	private boolean isAlive;
 	
+	private int lives;
 	private float movementSpeed;
 	private float missileSpeed;
 	private long firingCooldown;
@@ -25,6 +26,7 @@ public class Spaceship {
 	private static final float INIT_MOVEMENT_SPEED = 80;
 	private static final float INIT_MISSILE_SPEED = 200;
 	private static final long INIT_COOLDOWN = 200;
+	private static final int INIT_LIVES = 3;
 	
 	//TODO To adjust figures according to real size of image.
 	public static final int SHIP_WIDTH = 38;
@@ -32,6 +34,7 @@ public class Spaceship {
 	
 	public Spaceship() {
 		isAlive = true;
+		lives = INIT_LIVES;
 		x = INIT_POS_X;
 		y = INIT_POS_Y;
 		movementSpeed = INIT_MOVEMENT_SPEED;
@@ -101,11 +104,19 @@ public class Spaceship {
 		return false;
 	}
 	
-	public void kill() {
-		isAlive = false;
+	public void minusOneLife() {
+		lives--;
+		
+		if (lives <= 0) {
+			isAlive = false;
+		}
 	}
 	
 	public boolean isAlive() {
 		return isAlive;
+	}
+	
+	public int getLives() {
+		return lives;
 	}
 }

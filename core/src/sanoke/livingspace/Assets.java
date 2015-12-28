@@ -13,6 +13,11 @@ public class Assets {
     public static Texture missile;
     
     public static Texture warningSign;
+    
+    public static Texture life;
+    
+    public static final int LIVES_WIDTH = 25;
+    public static final int LIVES_HEIGHT = 22;
 
     private static Texture [] alienTypeTemplate;
     public static TextureRegion [][] alienTypeFrame; // [Alien Type][Alien Frame]
@@ -31,6 +36,7 @@ public class Assets {
         spaceship = new Texture(Gdx.files.internal("ship_placeholder.png"));
         missile = new Texture(Gdx.files.internal("missile_placeholder.png"));
         warningSign = new Texture(Gdx.files.internal("warning_placeholder.png"));
+        life = new Texture(Gdx.files.internal("heart_placeholder.png"));
         
         loadAlienTemplates();
         loadAlienFrames();
