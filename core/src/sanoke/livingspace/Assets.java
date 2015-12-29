@@ -15,6 +15,16 @@ public class Assets {
     
     public static Texture life;
     
+    public static Texture screenDeathNormal;
+    public static Texture screenDeathQuit;
+    public static Texture screenDeathRetry;
+    
+    public static Texture screenUpgradeNormal;
+    
+    public static Texture upgradesHighlight;
+    public static Texture upgradesReturn;
+    public static Texture upgradesBar;
+    
     private static Texture spaceshipTemplate;
     public static TextureRegion [] spaceshipFrames;
     public static final int NUM_FRAMES_SPACESHIP = 2;
@@ -41,6 +51,8 @@ public class Assets {
         warningSign = new Texture(Gdx.files.internal("warning_placeholder.png"));
         life = new Texture(Gdx.files.internal("heart_placeholder.png"));
         
+        loadDeathScreens();
+        loadUpgrades();
         loadSpaceship();
         loadAlienTemplates();
         loadAlienFrames();
@@ -50,6 +62,20 @@ public class Assets {
         music.setVolume(0.5f);
         
         missileSound = Gdx.audio.newSound(Gdx.files.internal("*.wav"));*/
+    
+    }
+    
+    private static void loadDeathScreens() {
+        screenDeathNormal = new Texture(Gdx.files.internal("Death.jpg"));
+        screenDeathQuit = new Texture(Gdx.files.internal("Death_Quit.jpg"));
+        screenDeathRetry = new Texture(Gdx.files.internal("Death_Retry.jpg"));
+    }
+    
+    private static void loadUpgrades() {
+        screenUpgradeNormal = new Texture(Gdx.files.internal("Upgrades.jpg"));
+        upgradesHighlight = new Texture(Gdx.files.internal("Upgrades_Highlight.jpg"));
+        upgradesReturn  = new Texture(Gdx.files.internal("Upgrades_Return.jpg"));
+        upgradesBar = new Texture(Gdx.files.internal("Upgrades_Bar.png"));
     }
     
     private static void loadSpaceship() {
