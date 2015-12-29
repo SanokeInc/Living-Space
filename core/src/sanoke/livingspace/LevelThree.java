@@ -9,13 +9,12 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class LevelThree extends LevelTemplate {
 	Array<Warning> warnings;
 	
-	// private int enemyCount;
+	private int enemyCount;
 	
 	private long lastSpawnTime;
 	
 	private static final int CURRENT_LEVEL = 3;
-	
-	// private static final int NUMBER_TO_WIN = 50;
+	private static final int NUMBER_TO_WIN = 200;
 	
 	private static final int NUM_TO_SPAWN = 4;
 	private static final int ALIEN_TYPE = 2;
@@ -31,12 +30,18 @@ public class LevelThree extends LevelTemplate {
 		super(game, player, CURRENT_LEVEL);
 
 		warnings = new Array<Warning>();
-		// enemyCount = 0;
+		enemyCount = 0;
 		lastSpawnTime = TimeUtils.millis();
 	}
 
 	@Override
 	protected void spawnAliens() {		
+		if (enemyCount > NUMBER_TO_WIN) {
+			aliens = new Array<Alien>();
+			passLevel();
+			return;
+		}
+		
 		long currentTime = TimeUtils.millis();
 		
 		// Control Warning Spawn
@@ -74,6 +79,9 @@ public class LevelThree extends LevelTemplate {
 				for (int i = 0; i < NUM_TO_SPAWN; i++) {
 					aliens.add(new Alien(x, y, ALIEN_TYPE, MOVE_FACTOR_X * factor_x[i],
 							MOVE_FACTOR_Y * factor_y[i]));
+					if (player.isAlive()) {
+						enemyCount++;
+					}
 				}
 			}
 			
