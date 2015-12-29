@@ -24,14 +24,14 @@ public class MainMenuScreen implements Screen {
         this.game = game;
         
         PLAY_BUTTON_P1_X = 469;
-        PLAY_BUTTON_P1_Y = 438;
+        PLAY_BUTTON_P1_Y = 498;
         PLAY_BUTTON_P2_X = 853;
-        PLAY_BUTTON_P2_Y = 497;
+        PLAY_BUTTON_P2_Y = 557;
         
         INSTRUCTION_BUTTON_P1_X = 469;
-        INSTRUCTION_BUTTON_P1_Y = 582;
+        INSTRUCTION_BUTTON_P1_Y = 642;
         INSTRUCTION_BUTTON_P2_X = 853;
-        INSTRUCTION_BUTTON_P2_Y = 637;
+        INSTRUCTION_BUTTON_P2_Y = 697;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
