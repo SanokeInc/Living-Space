@@ -19,7 +19,7 @@ public class LivingSpaceGame extends Game {
     public void create() {
         batch = new SpriteBatch();
         // default Arial
-        font = new BitmapFont(Gdx.files.internal("petitafont.fnt"));
+        font = new BitmapFont(Gdx.files.internal("courier.fnt"));
         Assets.loadAssets();
         player = new Spaceship();
         level = 1;
