@@ -185,7 +185,7 @@ public class UpgradeScreen implements Screen {
             } else if (isWithinLivesUpgradeButton(xPos, yPos)) {
                 upgradeLives();
             } else if (isWithinExitButton(xPos, yPos)) {
-                game.setLevelScreen(1);
+                game.setPregameScreen();
             }
         }
     }

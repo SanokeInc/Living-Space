@@ -21,9 +21,10 @@ public class LivingSpaceGame extends Game {
         Assets.loadAssets();
         player = new Spaceship();
         //TODO main menu 
+        setMainScreen();
         //this.setScreen(new MainMenuScreen(this, player));
         //TODO REMOVE THIS IF I FORGET LOL 
-        setUpgradeScreen();
+        //setUpgradeScreen();
         //setLevelScreen(1);
     }
     
@@ -47,6 +48,18 @@ public class LivingSpaceGame extends Game {
     			assert(false);
     			break;
     	}
+    }
+    
+    public void setMainScreen() {
+    	this.setScreen(new MainMenuScreen(this));
+    }
+    
+    public void setPregameScreen() {
+    	this.setScreen(new PregameScreen(this, player));
+    }
+    
+    public void setInstructionScreen() {
+    	this.setScreen(new InstructionScreen(this));
     }
     
     public void setDeathScreen() {
