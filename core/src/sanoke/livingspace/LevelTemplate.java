@@ -217,6 +217,11 @@ public abstract class LevelTemplate implements Screen {
 			game.setDeathScreen();
 		}
 	}
+	
+	public void passLevel() {
+		game.level += 1;
+		game.setPregameScreen(game.level);
+	}
 
 	@Override
 	public void show() {
