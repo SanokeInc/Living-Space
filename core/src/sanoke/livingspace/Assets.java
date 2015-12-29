@@ -15,6 +15,16 @@ public class Assets {
     
     public static Texture life;
     
+    public static Texture mainScreenDefault;
+    public static Texture mainScreenEnter;
+    public static Texture mainScreenInstructions;
+    public static Texture instructionScreenDefault;
+    public static Texture instructionScreenOK;
+    public static Texture pregameScreenDefault;
+    public static Texture pregameScreenUpgrades;
+    public static Texture pregameScreenPlay;
+    public static Texture pregameScreenQuit;
+    
     public static Texture screenDeathNormal;
     public static Texture screenDeathQuit;
     public static Texture screenDeathRetry;
@@ -51,6 +61,7 @@ public class Assets {
         warningSign = new Texture(Gdx.files.internal("warning_placeholder.png"));
         life = new Texture(Gdx.files.internal("heart_placeholder.png"));
         
+        loadMainAndPregameScreens();
         loadDeathScreens();
         loadUpgrades();
         loadSpaceship();
@@ -63,6 +74,18 @@ public class Assets {
         
         missileSound = Gdx.audio.newSound(Gdx.files.internal("*.wav"));*/
     
+    }
+    
+    private static void loadMainAndPregameScreens() {
+    	mainScreenDefault = new Texture(Gdx.files.internal("MainScreen.jpg"));
+        mainScreenEnter = new Texture(Gdx.files.internal("MainScreen_Play.jpg"));
+        mainScreenInstructions = new Texture(Gdx.files.internal("MainScreen_Instructions.jpg"));
+        instructionScreenDefault = new Texture(Gdx.files.internal("Instructions.jpg"));
+        instructionScreenOK = new Texture(Gdx.files.internal("Instructions_OK.jpg"));
+        pregameScreenDefault = new Texture(Gdx.files.internal("PreGame.jpg"));
+        pregameScreenUpgrades = new Texture(Gdx.files.internal("PreGame_Upgrades.jpg"));
+        pregameScreenPlay = new Texture(Gdx.files.internal("PreGame_Play.jpg"));
+        pregameScreenQuit = new Texture(Gdx.files.internal("PreGame_Leave.jpg"));
     }
     
     private static void loadDeathScreens() {

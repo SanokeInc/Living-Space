@@ -63,7 +63,7 @@ public class DeathScreen implements Screen {
 			if (isWithinTryAgainButton(xPos, yPos)) {
 				game.restart();
 			} else if (isWithinQuitButton(xPos, yPos)) {
-				Gdx.app.exit();
+				game.setPregameScreen();
 			} else {
 				status = NORMAL;
 			}
