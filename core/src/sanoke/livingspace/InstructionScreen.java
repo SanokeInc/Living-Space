@@ -16,9 +16,9 @@ public class InstructionScreen implements Screen {
         this.game = game;
         
         OK_BUTTON_P1_X = 326;
-        OK_BUTTON_P1_Y = 637;
+        OK_BUTTON_P1_Y = 697;
         OK_BUTTON_P2_X = 670;
-        OK_BUTTON_P2_Y = 692;
+        OK_BUTTON_P2_Y = 752;
     }
     
     // =============== METHODS FOR MAIN MENU SCREEN =============== //
