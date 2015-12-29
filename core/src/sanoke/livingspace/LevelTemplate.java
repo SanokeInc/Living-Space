@@ -95,7 +95,7 @@ public abstract class LevelTemplate implements Screen {
 
 	}
 
-	private void updateAliensPosition(float delta) {
+	protected void updateAliensPosition(float delta) {
 		Iterator<Alien> iter = aliens.iterator();
 
 		while (iter.hasNext()) {
