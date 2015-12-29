@@ -10,6 +10,8 @@ public class LivingSpaceGame extends Game {
     public BitmapFont font;
     
     private Spaceship player;
+    
+    public int level;
 	
     public final int HEIGHT = 800;
     public final int WIDTH = 1000;
@@ -20,17 +22,14 @@ public class LivingSpaceGame extends Game {
         font = new BitmapFont(Gdx.files.internal("petitafont.fnt"));
         Assets.loadAssets();
         player = new Spaceship();
-        //TODO main menu 
+        level = 1;
         setMainScreen();
-        //this.setScreen(new MainMenuScreen(this, player));
-        //TODO REMOVE THIS IF I FORGET LOL 
-        //setUpgradeScreen();
-        //setLevelScreen(1);
     }
     
     public void restart() {
+    	this.level = 1;
     	player = new Spaceship();
-    	setLevelScreen(1);
+    	setPregameScreen(this.level);
     }
     
     public void setLevelScreen(int level) {
@@ -54,8 +53,8 @@ public class LivingSpaceGame extends Game {
     	this.setScreen(new MainMenuScreen(this));
     }
     
-    public void setPregameScreen() {
-    	this.setScreen(new PregameScreen(this, player));
+    public void setPregameScreen(int level) {
+    	this.setScreen(new PregameScreen(this, player, level));
     }
     
     public void setInstructionScreen() {

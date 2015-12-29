@@ -32,7 +32,7 @@ public class LevelTwo extends LevelTemplate {
 	protected void spawnAliens() {
 		if (enemyCount > NUMBER_TO_WIN) {
 			aliens = new Array<Alien>();
-			game.setLevelScreen(3);
+			passLevel();
 			return;
 		}
 		

@@ -49,7 +49,7 @@ public class MainMenuScreen implements Screen {
     
     // FUNCTION: Sets game screen to Pregame Screen
     private void loadPreGame() {
-    	game.setPregameScreen();
+    	game.setPregameScreen(game.level);
     }
     
     private boolean isWithinInstructions(float x, float y) {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 
 public class PregameScreen implements Screen {
 	final LivingSpaceGame game;
+	private int level;
 	Spaceship ship;
 	
 	// Bottom-left & Top-right points x-y coordinates for Play button
@@ -25,9 +26,10 @@ public class PregameScreen implements Screen {
     private static int QUIT_BUTTON_P2_X;
     private static int QUIT_BUTTON_P2_Y;
 	
-	public PregameScreen(final LivingSpaceGame game, Spaceship player) {
+	public PregameScreen(final LivingSpaceGame game, Spaceship player, int initLevel) {
 		this.game = game;
 		this.ship = player;
+		this.level = initLevel;
 		
 		PLAY_BUTTON_P1_X = 704;
 	    PLAY_BUTTON_P1_Y = 0;
@@ -58,7 +60,7 @@ public class PregameScreen implements Screen {
     
     // FUNCTION: Sets game screen to Game Screen
     private void loadGame() {
-    	game.setLevelScreen(1);
+    	game.setLevelScreen(this.level);
     }
     
     private boolean isWithinUpgrades(float x, float y) {
