@@ -127,8 +127,12 @@ public abstract class LevelTemplate implements Screen {
 		}
 	}
 
-	private void checkCollisions() {
-		Iterator<Alien> alienIter = aliens.iterator();
+	protected void checkCollisions() {
+		checkCollisionsForAlienArray(aliens);
+	}
+	
+	protected void checkCollisionsForAlienArray(Array<Alien> givenArray) {
+		Iterator<Alien> alienIter = givenArray.iterator();
 		while (alienIter.hasNext()) {
 			Rectangle currentAlien = alienIter.next().getAlienRegion();
 

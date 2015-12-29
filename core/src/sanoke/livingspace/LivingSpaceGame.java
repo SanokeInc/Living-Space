@@ -21,7 +21,7 @@ public class LivingSpaceGame extends Game {
         // default Arial
         font = new BitmapFont(Gdx.files.internal("courier.fnt"));
         Assets.loadAssets();
-        player = new Spaceship();
+        player = new Spaceship();        
         level = 1;
         setMainScreen();
     }
