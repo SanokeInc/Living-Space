@@ -12,6 +12,10 @@ public class Spaceship {
 	
 	private boolean isAlive;
 	
+	private boolean isInvulnerable;
+	private long lastHitTime;
+	private static final long TIME_INVULNERABLE = 2500;
+	
 	private int lives;
 	private float movementSpeed;
 	private float missileSpeed;
@@ -68,6 +72,7 @@ public class Spaceship {
 		y = INIT_POS_Y;
 		lastFireTime = TimeUtils.millis();
 		missiles = new Array<Missile>();
+		isInvulnerable = false;
 	}
 	
 	public Rectangle getShipRegion() {
@@ -132,7 +137,11 @@ public class Spaceship {
 		
 		if (lives <= 0) {
 			isAlive = false;
+			return;
 		}
+		
+		isInvulnerable = true;
+		lastHitTime = TimeUtils.millis();
 	}
 	
 	public boolean isAlive() {
@@ -177,5 +186,16 @@ public class Spaceship {
     
     public void addCash(int cash) {
         this.cash += cash;
+    }
+    
+    public boolean isInvulnerable() {
+    	if (isInvulnerable) {
+    		long currentTime = TimeUtils.millis();
+    		if (currentTime - lastHitTime > TIME_INVULNERABLE) {
+    			isInvulnerable = false;
+    		}
+    	}
+    	
+    	return isInvulnerable;
     }
 }

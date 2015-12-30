@@ -17,6 +17,15 @@ public abstract class LevelTemplate implements Screen {
 	Spaceship player;
 
 	Array<Alien> aliens;
+	
+	private LifeLostAnimation heartBreak;
+	private int blinkCounter;
+	private static final int BLINK_NUM_FRAMES = 4;
+	private static final int BLINK_FRAME_SWITCH_DELAY = 3;
+	private static final float BLINK_ALPHA_INTERVAL = 0.25f; // do not change this value.
+	
+	private static final int LIFE_LOSS_DISPLAY_X = 340;
+	private static final int LIFE_LOSS_DISPLAY_Y = 200;
 
 	private long initialTime;
 	private boolean displayLevel;
@@ -40,6 +49,8 @@ public abstract class LevelTemplate implements Screen {
 		camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
 		aliens = new Array<Alien>();
 		initBackground();
+		heartBreak = new LifeLostAnimation();
+		blinkCounter = 0;
 
 		initialTime = TimeUtils.millis();
 		displayLevel = true;
@@ -54,6 +65,7 @@ public abstract class LevelTemplate implements Screen {
 		showLevel();
 		drawUnits();
 		drawLives();
+		animateLossLife();
 		game.batch.end();
 
 		spawnAliens();
@@ -63,6 +75,14 @@ public abstract class LevelTemplate implements Screen {
 		checkAlive();
 
 		processInput(delta);
+	}
+	
+	private void animateLossLife() {
+		if (player.isInvulnerable()) {
+			game.batch.draw(heartBreak.getImage(), LIFE_LOSS_DISPLAY_X, LIFE_LOSS_DISPLAY_Y);
+		} else {
+			heartBreak.resetAnimation();
+		}
 	}
 
 	private void showLevel() {
@@ -140,7 +160,7 @@ public abstract class LevelTemplate implements Screen {
 			Iterator<Missile> missileIter = missiles.iterator();
 
 			Rectangle currentShip = player.getShipRegion();
-			if (currentAlien.overlaps(currentShip)) {
+			if (currentAlien.overlaps(currentShip) && !player.isInvulnerable()) {
 				alienIter.remove();
 				player.minusOneLife();
 				continue;
@@ -188,8 +208,20 @@ public abstract class LevelTemplate implements Screen {
 
 	protected void drawSpaceship() {
 		if (player.isAlive()) {
-			game.batch.draw(player.getImage(), player.getX(), player.getY());
+			if (player.isInvulnerable()) {
+				game.batch.setColor(1.0f, 1.0f, 1.0f, generateBlinkingAlpha());
+				game.batch.draw(player.getImage(), player.getX(), player.getY());
+				game.batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+			} else {
+				game.batch.draw(player.getImage(), player.getX(), player.getY());
+			}	
 		}
+	}
+	
+	private float generateBlinkingAlpha() {
+		blinkCounter = (blinkCounter + 1) % (BLINK_NUM_FRAMES * BLINK_FRAME_SWITCH_DELAY);
+		
+		return BLINK_ALPHA_INTERVAL * ((blinkCounter / BLINK_FRAME_SWITCH_DELAY) + 1);
 	}
 
 	protected void drawMissiles() {

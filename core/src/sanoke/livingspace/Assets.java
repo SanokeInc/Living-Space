@@ -39,6 +39,11 @@ public class Assets {
     public static TextureRegion [] spaceshipFrames;
     public static final int NUM_FRAMES_SPACESHIP = 2;
     
+    private static Texture lifeLossTemplate;
+    public static TextureRegion [] lifeLossFrames;
+    public static final int NUM_FRAMES_LIFE_LOSS = 4;
+    public static final int FRAME_FACTOR_LIFE_LOSS = 2;
+    
     public static final int LIVES_WIDTH = 25;
     public static final int LIVES_HEIGHT = 22;
 
@@ -49,7 +54,7 @@ public class Assets {
     public static final int ALIEN_WIDTH = 36;
     public static final int ALIEN_HEIGHT = 42;
     public static final int NUM_FRAMES_ALIEN = 4;
-    private static final int FRAME_FACTOR = 2;
+    private static final int FRAME_FACTOR_ALIEN = 2;
     
     private static Music music;
     private static Sound missileSound;
@@ -67,6 +72,7 @@ public class Assets {
         loadSpaceship();
         loadAlienTemplates();
         loadAlienFrames();
+        loadLifeLoss();
    /*
         music = Gdx.audio.newMusic(Gdx.files.internal("*.mp3"));
         music.setLooping(true);
@@ -118,8 +124,8 @@ public class Assets {
         	alienTypeFrame[i] = new TextureRegion[NUM_FRAMES_ALIEN];
         	
         	for (int j = 0; j < NUM_FRAMES_ALIEN; j++) {
-            	int factorX = j % FRAME_FACTOR;
-            	int factorY = j / FRAME_FACTOR;
+            	int factorX = j % FRAME_FACTOR_ALIEN;
+            	int factorY = j / FRAME_FACTOR_ALIEN;
             	
             	alienTypeFrame[i][j] = new TextureRegion(alienTypeTemplate[i], ALIEN_WIDTH * factorX, ALIEN_HEIGHT * factorY,
             			ALIEN_WIDTH, ALIEN_HEIGHT);
@@ -135,6 +141,20 @@ public class Assets {
         alienTypeTemplate[2] = new Texture(Gdx.files.internal("Alien3_SpriteFrames.png"));
         alienTypeTemplate[3] = new Texture(Gdx.files.internal("Alien4_SpriteFrames.png"));
         alienTypeTemplate[4] = new Texture(Gdx.files.internal("Alien5_SpriteFrames.png"));
+	}
+	
+	private static void loadLifeLoss() {
+		lifeLossTemplate = new Texture(Gdx.files.internal("Heartbreak_SpriteFrames.png"));
+		lifeLossFrames = new TextureRegion[NUM_FRAMES_LIFE_LOSS];
+    	
+    	for (int i = 0; i < NUM_FRAMES_LIFE_LOSS; i++) {
+    		int factorX = i % FRAME_FACTOR_LIFE_LOSS;
+        	int factorY = i / FRAME_FACTOR_LIFE_LOSS;
+        	
+    		lifeLossFrames[i] = new TextureRegion(lifeLossTemplate, factorX * LifeLostAnimation.IMAGE_WIDTH, 
+    				factorY * LifeLostAnimation.IMAGE_HEIGHT, LifeLostAnimation.IMAGE_WIDTH,
+    				LifeLostAnimation.IMAGE_HEIGHT);
+    	}
 	}
 
     public static void playMusic() {

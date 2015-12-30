@@ -90,9 +90,7 @@ public class LevelThree extends LevelTemplate {
 	
 	@Override
 	protected void drawUnits() {	
-		drawSpaceship();
-		drawMissiles();
-		drawAliens();
+		super.drawUnits();
 		drawWarnings();
 	}
 	
