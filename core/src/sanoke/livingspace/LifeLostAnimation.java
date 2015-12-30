@@ -11,11 +11,10 @@ public class LifeLostAnimation {
 		public static final int IMAGE_WIDTH = 400;
 		public static final int IMAGE_HEIGHT = 400;
 		
-		public static final int INIT_FRAME_NUMBER = Assets.NUM_FRAMES_LIFE_LOSS - 1;
+		public static final int INIT_FRAME_NUMBER = 0;
 		
 		public LifeLostAnimation() {
-			currentFrameNumber = INIT_FRAME_NUMBER;
-			image = Assets.lifeLossFrames[currentFrameNumber];
+			resetAnimation();
 		}
 		
 		public TextureRegion getImage() {
@@ -28,5 +27,6 @@ public class LifeLostAnimation {
 		
 		public void resetAnimation() {
 			currentFrameNumber = INIT_FRAME_NUMBER;
+			image = Assets.lifeLossFrames[currentFrameNumber];
 		}
 }
