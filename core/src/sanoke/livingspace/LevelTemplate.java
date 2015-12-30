@@ -19,6 +19,9 @@ public abstract class LevelTemplate implements Screen {
 	Array<Alien> aliens;
 	Array<StarBucks> coins;
 	
+	private boolean isOver;
+	private boolean isOffScreen;
+	
 	private LifeLostAnimation heartBreak;
 	private int blinkCounter;
 	private static final int BLINK_NUM_FRAMES = 4;
@@ -32,6 +35,8 @@ public abstract class LevelTemplate implements Screen {
 	private boolean displayLevel;
 	private int currentLevel;
 
+	private static final long ZOOM_SPEED_MULTIPLIER = 5;
+	
 	private static final long TIME_TO_DISPLAY_LVL = 4000;
 	private static final int LEVEL_DISPLAY_OFFSET_X = 430;
 	private static final int LEVEL_DISPLAY_OFFSET_Y = 150;
@@ -50,6 +55,8 @@ public abstract class LevelTemplate implements Screen {
 		camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
 		aliens = new Array<Alien>();
 		coins = new Array<StarBucks>();
+		isOver = false;
+		isOffScreen = false;
 		initBackground();
 		heartBreak = new LifeLostAnimation();
 		blinkCounter = 0;
@@ -69,6 +76,7 @@ public abstract class LevelTemplate implements Screen {
 		drawLives();
 		drawCoins();
 		animateLossLife();
+		animateZoomOffScreen(delta);
 		game.batch.end();
 
 		spawnAliens();
@@ -78,7 +86,25 @@ public abstract class LevelTemplate implements Screen {
 		checkAlive();
 
 		processInput(delta);
+		
+		backToHub();
 	}
+
+    private void animateZoomOffScreen(float delta) {
+        if (isOver) {
+            player.moveForwardOffScreen(delta * ZOOM_SPEED_MULTIPLIER);
+            if (player.getY() >= game.HEIGHT) {
+                isOffScreen = true;
+            }
+        }
+    }
+
+    private void backToHub() {
+        if (isOver && isOffScreen) {
+		    game.level += 1;
+	        game.setPregameScreen(game.level);
+		}
+    }
 	
 	private void animateLossLife() {
 		if (player.isInvulnerable()) {
@@ -217,7 +243,9 @@ public abstract class LevelTemplate implements Screen {
     }
 
     private void processInput(float delta) {
-		processKeyBoardInputs(delta);
+		if (!isOver) {
+		    processKeyBoardInputs(delta);
+		}
 	}
 
 	private void processKeyBoardInputs(float delta) {
@@ -239,13 +267,15 @@ public abstract class LevelTemplate implements Screen {
 		if (Gdx.input.isKeyPressed(Keys.P)) {
 			game.pause();
 		}
-		/* ========== !ADDED ========== */
 	}
 
 	protected void drawUnits() {
 		drawSpaceship();
-		drawMissiles();
-		drawAliens();
+		if (!isOver) {
+		    drawMissiles();
+		    drawAliens();
+		}
+		
 	}
 
 	protected void drawSpaceship() {
@@ -303,8 +333,7 @@ public abstract class LevelTemplate implements Screen {
 	}
 	
 	public void passLevel() {
-		game.level += 1;
-		game.setPregameScreen(game.level);
+	    isOver = true;
 	}
 
 	@Override

@@ -198,4 +198,8 @@ public class Spaceship {
     	
     	return isInvulnerable;
     }
+    
+    public void moveForwardOffScreen(float delta) {
+        y = y + movementSpeed * delta;
+    }
 }
