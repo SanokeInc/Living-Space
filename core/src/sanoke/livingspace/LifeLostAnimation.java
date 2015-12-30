@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class LifeLostAnimation {		
 		private int currentFrameNumber;
-		private static final int FRAME_SWITCH_DELAY = 10;
+		private static final int FRAME_SWITCH_DELAY = 38;
 		
 		private TextureRegion image;
 		
