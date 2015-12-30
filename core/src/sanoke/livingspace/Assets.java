@@ -15,6 +15,8 @@ public class Assets {
     
     public static Texture life;
     
+    public static Texture coin;
+    
     public static Texture mainScreenDefault;
     public static Texture mainScreenEnter;
     public static Texture mainScreenInstructions;
@@ -25,11 +27,9 @@ public class Assets {
     public static Texture pregameScreenPlay;
     public static Texture pregameScreenQuit;
     
-    /* ========== ADDED ========== */
     public static Texture pauseScreenDefault;
     public static Texture pauseScreenResume;
     public static Texture pauseScreenQuit;
-    /* ========== !ADDED ========== */
     
     public static Texture screenDeathNormal;
     public static Texture screenDeathQuit;
@@ -67,16 +67,14 @@ public class Assets {
 
     public static void loadAssets() {
         background = new Texture(Gdx.files.internal("space.jpg"));
-        
+        coin = new Texture(Gdx.files.internal("coin.png"));
         missile = new Texture(Gdx.files.internal("Missile_F1.png"));
         warningSign = new Texture(Gdx.files.internal("warning_placeholder.png"));
         life = new Texture(Gdx.files.internal("heart_placeholder.png"));
         
         loadMainAndPregameScreens();
         loadDeathScreens();
-        /* ========== ADDED ========== */
     	loadPauseScreens();
-        /* ========== !ADDED ========== */
         loadUpgrades();
         loadSpaceship();
         loadAlienTemplates();
