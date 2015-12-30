@@ -48,6 +48,7 @@ public class PauseScreen implements Screen {
     
     // FUNCTION: Return to Game Screen
     private void loadGame() {
+    	game.setResume();
     	game.setScreen(this.state);
     }
     
