@@ -183,22 +183,21 @@ public abstract class LevelTemplate implements Screen {
 	}
 
 	private void processKeyBoardInputs(float delta) {
-		if (Gdx.input.isKeyPressed(Keys.A)) {
+		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 			player.moveLeft(delta);
 		}
-		if (Gdx.input.isKeyPressed(Keys.D)) {
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			player.moveRight(delta, game.WIDTH);
 		}
-		if (Gdx.input.isKeyPressed(Keys.W)) {
+		if (Gdx.input.isKeyPressed(Keys.UP)) {
 			player.moveForward(delta, game.HEIGHT);
 		}
-		if (Gdx.input.isKeyPressed(Keys.S)) {
+		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
 			player.moveBackward(delta);
 		}
-		if (Gdx.input.isKeyPressed(Keys.K)) {
+		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 			player.fire();
 		}
-		/* ========== ADDED ========== */
 		if (Gdx.input.isKeyPressed(Keys.P)) {
 			game.pause();
 		}

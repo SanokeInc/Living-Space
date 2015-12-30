@@ -11,6 +11,8 @@ public class LivingSpaceGame extends Game {
     
     private Spaceship player;
     
+    private boolean isPaused;
+    
     public int level;
 	
     public final int HEIGHT = 800;
@@ -23,6 +25,7 @@ public class LivingSpaceGame extends Game {
         Assets.loadAssets();
         player = new Spaceship();        
         level = 1;
+        isPaused = false;
         setMainScreen();
     }
     
@@ -76,6 +79,10 @@ public class LivingSpaceGame extends Game {
     public void setUpgradeScreen() {
         this.setScreen(new UpgradeScreen(this, player));
     }
+    
+    public void setResume() {
+    	isPaused = false;
+    }
 
     @Override
     public void render() {
@@ -85,7 +92,10 @@ public class LivingSpaceGame extends Game {
     /* ========== ADDED ========== */
     @Override
     public void pause() {
-    	this.setPauseScreen();
+    	if (!isPaused) {
+    		this.setPauseScreen();
+    		isPaused = true;
+    	}
     }
     /* ========== !ADDED ========== */
 
