@@ -59,6 +59,11 @@ public class LivingSpaceGame extends Game {
     public void setPregameScreen(int level) {
     	this.setScreen(new PregameScreen(this, player, level));
     }
+    /* ========== ADDED ========== */
+    public void setPauseScreen() {
+    	this.setScreen(new PauseScreen(this));
+    }
+    /* ========== !ADDED ========== */
     
     public void setInstructionScreen() {
     	this.setScreen(new InstructionScreen(this));
@@ -76,6 +81,13 @@ public class LivingSpaceGame extends Game {
     public void render() {
     		super.render();
     }
+    
+    /* ========== ADDED ========== */
+    @Override
+    public void pause() {
+    	this.setPauseScreen();
+    }
+    /* ========== !ADDED ========== */
 
     @Override
     public void dispose() {

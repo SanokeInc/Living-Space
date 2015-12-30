@@ -25,6 +25,12 @@ public class Assets {
     public static Texture pregameScreenPlay;
     public static Texture pregameScreenQuit;
     
+    /* ========== ADDED ========== */
+    public static Texture pauseScreenDefault;
+    public static Texture pauseScreenResume;
+    public static Texture pauseScreenQuit;
+    /* ========== !ADDED ========== */
+    
     public static Texture screenDeathNormal;
     public static Texture screenDeathQuit;
     public static Texture screenDeathRetry;
@@ -68,6 +74,9 @@ public class Assets {
         
         loadMainAndPregameScreens();
         loadDeathScreens();
+        /* ========== ADDED ========== */
+    	loadPauseScreens();
+        /* ========== !ADDED ========== */
         loadUpgrades();
         loadSpaceship();
         loadAlienTemplates();
@@ -156,6 +165,14 @@ public class Assets {
     				LifeLostAnimation.IMAGE_HEIGHT);
     	}
 	}
+	
+	/* ========== ADDED ========== */
+	private static void loadPauseScreens() {
+		pauseScreenDefault = new Texture(Gdx.files.internal("Paused.jpg"));
+		pauseScreenResume = new Texture(Gdx.files.internal("Paused_Resume.jpg"));
+		pauseScreenQuit = new Texture(Gdx.files.internal("Paused_Quit.jpg"));
+	}
+    /* ========== !ADDED ========== */
 
     public static void playMusic() {
         music.play();
