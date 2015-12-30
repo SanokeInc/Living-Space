@@ -8,7 +8,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.math.GridPoint2;
 
 public class LevelFour extends LevelTemplate {
-	// private int enemyCount;
+	private int enemyCount;
+	
 	Array<Warning> warnings;
 	Array<Alien> staticAliens;
 	
@@ -22,7 +23,7 @@ public class LevelFour extends LevelTemplate {
 	
 	private static final int CURRENT_LEVEL = 4;
 	
-	// private static final int NUMBER_TO_WIN = 50;
+	private static final int NUMBER_TO_WIN = 250;
 	
 	private static final int NUM_PLACES_TO_SPAWN = 4;
 	private static final int ALIEN_TYPE = 4;
@@ -44,7 +45,7 @@ public class LevelFour extends LevelTemplate {
 	public LevelFour(final LivingSpaceGame game, Spaceship player) {
 		super(game, player, CURRENT_LEVEL);
 
-		// enemyCount = 0;
+		enemyCount = 0;
 		
 		staticAliens = new Array<Alien>();
 		warnings = new Array<Warning>();
@@ -66,6 +67,12 @@ public class LevelFour extends LevelTemplate {
 
 	@Override
 	protected void spawnAliens() {		
+		if (enemyCount > NUMBER_TO_WIN) {
+			aliens = new Array<Alien>();
+			passLevel();
+			return;
+		}
+		
 		long currentTime = TimeUtils.millis();
 		
 		if (currentTime - lastSpawnLocationChangeTime > CHANGE_SPAWN_LOC_DELAY_TIME) {
@@ -111,6 +118,9 @@ public class LevelFour extends LevelTemplate {
 			int yPos = spawnLocations[i].y;
 			
 			aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, 0, INIT_MOVE_FACTOR_Y));
+			if (player.isAlive()) {
+				enemyCount++;
+			}
 		}
 	}
 	
