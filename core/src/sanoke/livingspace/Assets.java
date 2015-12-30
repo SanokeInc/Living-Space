@@ -134,7 +134,7 @@ public class Assets {
         	
         	for (int j = 0; j < NUM_FRAMES_ALIEN; j++) {
             	int factorX = j % FRAME_FACTOR_ALIEN;
-            	int factorY = j / FRAME_FACTOR_ALIEN;
+            	int factorY = (j / FRAME_FACTOR_ALIEN) ^ 1;
             	
             	alienTypeFrame[i][j] = new TextureRegion(alienTypeTemplate[i], ALIEN_WIDTH * factorX, ALIEN_HEIGHT * factorY,
             			ALIEN_WIDTH, ALIEN_HEIGHT);
