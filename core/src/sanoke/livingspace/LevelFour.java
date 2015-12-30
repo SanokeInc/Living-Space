@@ -1,11 +1,11 @@
 package sanoke.livingspace;
 
-import java.awt.Point;
 import java.util.Iterator;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.math.GridPoint2;
 
 public class LevelFour extends LevelTemplate {
 	// private int enemyCount;
@@ -18,7 +18,7 @@ public class LevelFour extends LevelTemplate {
 	private long lastSpawnLocationChangeTime;
 	private boolean isWarningSpawned;
 	
-	private Point [] spawnLocations;
+	private GridPoint2 [] spawnLocations;
 	
 	private static final int CURRENT_LEVEL = 4;
 	
@@ -48,7 +48,7 @@ public class LevelFour extends LevelTemplate {
 		
 		staticAliens = new Array<Alien>();
 		warnings = new Array<Warning>();
-		spawnLocations = new Point[NUM_PLACES_TO_SPAWN];
+		spawnLocations = new GridPoint2[NUM_PLACES_TO_SPAWN];
 		setSpawnLocations();
 		borderMobSpawnTime = lastSpawnLocationChangeTime = lastSpawnTime = TimeUtils.millis();
 	}
@@ -58,7 +58,7 @@ public class LevelFour extends LevelTemplate {
 			int randomX = (int) MathUtils.random(0, game.WIDTH - OFFSET_LOCATION);
 			int randomY = (int) MathUtils.random(0, game.HEIGHT - OFFSET_LOCATION);
 			
-			spawnLocations[i] = new Point(randomX, randomY);
+			spawnLocations[i] = new GridPoint2(randomX, randomY);
 			
 			isWarningSpawned = false;
 		}
