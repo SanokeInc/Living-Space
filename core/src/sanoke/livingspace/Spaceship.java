@@ -14,7 +14,7 @@ public class Spaceship {
 	
 	private boolean isInvulnerable;
 	private long lastHitTime;
-	private static final long TIME_INVULNERABLE = 600;
+	private static final long TIME_INVULNERABLE = 650;
 	
 	private int lives;
 	private float movementSpeed;
