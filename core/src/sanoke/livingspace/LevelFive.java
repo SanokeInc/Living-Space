@@ -43,6 +43,13 @@ public class LevelFive extends LevelTemplate {
 
 	@Override
 	protected void spawnAliens() {
+		/*if (enemyCount > NUMBER_TO_WIN) {
+			aliens = new Array<Alien>();
+			ufos = new Array<Alien>();
+			passLevel();
+			return;
+		}*/
+		
 		long currentTime = TimeUtils.millis();
 
 		if (currentTime - lastSpawnTime > SPAWN_INTERVAL) {

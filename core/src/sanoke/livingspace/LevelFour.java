@@ -69,6 +69,7 @@ public class LevelFour extends LevelTemplate {
 	protected void spawnAliens() {		
 		if (enemyCount > NUMBER_TO_WIN) {
 			aliens = new Array<Alien>();
+			staticAliens = new Array<Alien>();
 			passLevel();
 			return;
 		}
