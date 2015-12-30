@@ -198,6 +198,11 @@ public abstract class LevelTemplate implements Screen {
 		if (Gdx.input.isKeyPressed(Keys.K)) {
 			player.fire();
 		}
+		/* ========== ADDED ========== */
+		if (Gdx.input.isKeyPressed(Keys.P)) {
+			game.pause();
+		}
+		/* ========== !ADDED ========== */
 	}
 
 	protected void drawUnits() {
