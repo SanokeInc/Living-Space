@@ -8,7 +8,7 @@ public class LevelOne extends LevelTemplate {
 	private int enemyCount;
 	
 	private long lastSpawnTime;
-	private long afkSpawnTime;
+	private long borderMobSpawnTime;
 	
 	private static final int CURRENT_LEVEL = 1;
 	
@@ -18,8 +18,8 @@ public class LevelOne extends LevelTemplate {
 	private static final int ALIEN_TYPE = 0;
 	private static final long SPAWN_TIME = 2700;
 	
-	private static final long AFK_SPAWN_TIME = 500;
-	private static final int AFK_SPAWN_VARIATION_X = 100;
+	private static final long BORDER_MOB_SPAWN_TIME = 500;
+	private static final int BORDER_MOB_SPAWN_VARIATION_X = 100;
 	
 	private static final int SPAWN_VARIATION_X = 400;
 	private static final int SPAWN_VARIATION_Y = 100;
@@ -36,7 +36,7 @@ public class LevelOne extends LevelTemplate {
 		super(game, player, CURRENT_LEVEL);
 
 		enemyCount = 0;
-		afkSpawnTime = lastSpawnTime = TimeUtils.millis();
+		borderMobSpawnTime = lastSpawnTime = TimeUtils.millis();
 	}
 
 	@Override
@@ -56,9 +56,9 @@ public class LevelOne extends LevelTemplate {
 			spawnGroup(BOTTOM_LEFT);
 			spawnGroup(BOTTOM_RIGHT);
 		}
-		if (currentTime - afkSpawnTime > AFK_SPAWN_TIME) {
-			afkSpawnTime = currentTime;
-			killAFKPlayers();
+		if (currentTime - borderMobSpawnTime > BORDER_MOB_SPAWN_TIME) {
+			borderMobSpawnTime = currentTime;
+			spawnBorderMob();
 		}
 	}
 	
@@ -118,9 +118,9 @@ public class LevelOne extends LevelTemplate {
 		}
 	}
 	
-	private void killAFKPlayers() {
+	private void spawnBorderMob() {
 		int minSpawnX = 0;
-		int maxSpawnX = AFK_SPAWN_VARIATION_X;
+		int maxSpawnX = BORDER_MOB_SPAWN_VARIATION_X;
 		int movementX = 0;
 		int movementY = MOVE_FACTOR_Y;
 		
@@ -130,7 +130,7 @@ public class LevelOne extends LevelTemplate {
 		aliens.add(new Alien(randomStartX, startY, ALIEN_TYPE, movementX,
 				movementY));
 		
-		minSpawnX = game.WIDTH - AFK_SPAWN_VARIATION_X;
+		minSpawnX = game.WIDTH - BORDER_MOB_SPAWN_VARIATION_X;
 		maxSpawnX = game.WIDTH - 18;
 		randomStartX = MathUtils.random(minSpawnX, maxSpawnX);
 		

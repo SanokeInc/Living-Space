@@ -10,6 +10,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class LevelFour extends LevelTemplate {
 	// private int enemyCount;
 	Array<Warning> warnings;
+	Array<Alien> staticAliens;
+	
+	private long borderMobSpawnTime;
 	
 	private long lastSpawnTime;
 	private long lastSpawnLocationChangeTime;
@@ -24,7 +27,7 @@ public class LevelFour extends LevelTemplate {
 	private static final int NUM_PLACES_TO_SPAWN = 4;
 	private static final int ALIEN_TYPE = 4;
 	
-	private static final long SPAWN_INTERVAL = 500;
+	private static final long SPAWN_INTERVAL = 600;
 	private static final long CHANGE_SPAWN_LOC_DELAY_TIME = 6000;
 	private static final int OFFSET_LOCATION = 300;
 
@@ -33,16 +36,21 @@ public class LevelFour extends LevelTemplate {
 	
 	private static final int VARIANCE_FACTOR = 20;
 	private static final float CONVERSION_FACTOR = 1000;
+	
+	private static final long BORDER_MOB_SPAWN_TIME = 500;
+	private static final int BORDER_MOB_SPAWN_VARIATION = 100;
+	private static final int BORDER_MOB_TYPE = 0;
 
 	public LevelFour(final LivingSpaceGame game, Spaceship player) {
 		super(game, player, CURRENT_LEVEL);
 
 		// enemyCount = 0;
 		
+		staticAliens = new Array<Alien>();
 		warnings = new Array<Warning>();
 		spawnLocations = new Point[NUM_PLACES_TO_SPAWN];
 		setSpawnLocations();
-		lastSpawnLocationChangeTime = lastSpawnTime = TimeUtils.millis();
+		borderMobSpawnTime = lastSpawnLocationChangeTime = lastSpawnTime = TimeUtils.millis();
 	}
 	
 	private void setSpawnLocations() {
@@ -77,6 +85,11 @@ public class LevelFour extends LevelTemplate {
 				isWarningSpawned = true;
 			}
 		}
+		
+		if (currentTime - borderMobSpawnTime > BORDER_MOB_SPAWN_TIME) {
+			borderMobSpawnTime = currentTime;
+			spawnBorderMob();
+		}
 	}
 	
 	private void spawnWarnings(long currentTime) {
@@ -101,6 +114,27 @@ public class LevelFour extends LevelTemplate {
 		}
 	}
 	
+	private void spawnBorderMob() {
+		int minSpawnX = 0;
+		int maxSpawnX = BORDER_MOB_SPAWN_VARIATION;
+		int movementX = 0;
+		int movementY = INIT_MOVE_FACTOR_Y;
+		
+		int randomStartX = MathUtils.random(minSpawnX, maxSpawnX);
+			
+		staticAliens.add(new Alien(randomStartX, 0, BORDER_MOB_TYPE, movementX,
+				movementY));
+		
+		int minSpawnY = game.HEIGHT - BORDER_MOB_SPAWN_VARIATION;
+		int maxSpawnY = game.HEIGHT - Assets.ALIEN_HEIGHT;
+		int randomStartY = MathUtils.random(minSpawnY, maxSpawnY);
+		movementX = INIT_MOVE_FACTOR_Y;
+		movementY = 0;
+		
+		staticAliens.add(new Alien(0, randomStartY, BORDER_MOB_TYPE, movementX,
+				movementY));
+	}
+	
 	@Override
 	protected void updateAliensPosition(float delta) {
 		Iterator<Alien> iter = aliens.iterator();
@@ -118,14 +152,30 @@ public class LevelFour extends LevelTemplate {
 				iter.remove();
 			}
 		}
+		
+		Iterator<Alien> staticIter = staticAliens.iterator();
+		
+		while (staticIter.hasNext()) {
+			Alien staticAlien = staticIter.next();
+			staticAlien.move(delta, game.WIDTH, game.HEIGHT);
+			
+			if (staticAlien.isOutOfScreen()) {
+				staticIter.remove();
+			}
+		}
 	}
 	
 	@Override
 	protected void drawUnits() {	
-		drawSpaceship();
-		drawMissiles();
-		drawAliens();
+		super.drawUnits();
+		drawStaticAliens();
 		drawWarnings();
+	}
+	
+	protected void drawStaticAliens() {
+		for (Alien alien : staticAliens) {
+			game.batch.draw(alien.getImage(), alien.getX(), alien.getY());
+		}
 	}
 	
 	protected void drawWarnings() {
@@ -133,5 +183,10 @@ public class LevelFour extends LevelTemplate {
 			game.batch.draw(warning.getImage(), warning.getX(), warning.getY());
 		}
 	}
+	
+	@Override
+	protected void checkCollisions() {
+		super.checkCollisions();
+		checkCollisionsForAlienArray(staticAliens);
+	}
 }
-
