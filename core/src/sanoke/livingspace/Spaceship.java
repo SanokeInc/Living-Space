@@ -176,7 +176,7 @@ public class Spaceship {
     
     public void upgradeLives() {
         upgradesBoughtLives++;
-        lives = INIT_LIVES + UPGRADE_MULT_LIVES * upgradesBoughtLives;
+        lives += (UPGRADE_MULT_LIVES * upgradesBoughtLives);
         
     }
 
