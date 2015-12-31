@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class LevelFive extends LevelTemplate {
-	// private int enemyCount;
+	private int enemyCount;
 
 	Array<Alien> ufos;
 
@@ -15,7 +15,7 @@ public class LevelFive extends LevelTemplate {
 
 	private static final int CURRENT_LEVEL = 5;
 
-	// private static final int NUMBER_TO_WIN = 50;
+	private static final int NUMBER_TO_WIN = 50;
 
 	private static final int UFO_TYPE = 8;
 	private static final int ALIEN_TYPE = 5;
@@ -35,7 +35,7 @@ public class LevelFive extends LevelTemplate {
 	public LevelFive(final LivingSpaceGame game, Spaceship player) {
 		super(game, player, CURRENT_LEVEL);
 
-		// enemyCount = 0;
+		enemyCount = 0;
 
 		ufos = new Array<Alien>();
 		lastSpawnTime = TimeUtils.millis();
@@ -43,12 +43,9 @@ public class LevelFive extends LevelTemplate {
 
 	@Override
 	protected void spawnAliens() {
-		/*if (enemyCount > NUMBER_TO_WIN) {
-			aliens = new Array<Alien>();
-			ufos = new Array<Alien>();
-			passLevel();
-			return;
-		}*/
+		if (enemyCount > NUMBER_TO_WIN) {
+			game.setEndScreen();
+		}
 		
 		long currentTime = TimeUtils.millis();
 
@@ -119,6 +116,9 @@ public class LevelFive extends LevelTemplate {
 			}
 
 			aliens.add(new Alien(x, y, ALIEN_TYPE, moveX, moveY));
+			if (player.isAlive()) {
+				enemyCount++;
+			}
 		}
 	}
 

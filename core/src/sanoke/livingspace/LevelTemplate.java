@@ -89,9 +89,10 @@ public abstract class LevelTemplate implements Screen {
 		
 		backToHub();
 	}
-
+	
     private void animateZoomOffScreen(float delta) {
         if (isOver) {
+        	Assets.zoomOffSound.play();
             player.moveForwardOffScreen(delta * ZOOM_SPEED_MULTIPLIER);
             if (player.getY() >= game.HEIGHT) {
                 isOffScreen = true;
@@ -201,6 +202,7 @@ public abstract class LevelTemplate implements Screen {
         while (coinsIter.hasNext()) {
             Rectangle currentCoin = coinsIter.next().getCoinRegion();
             if (currentCoin.overlaps(currentShip)) {
+            	Assets.coinCollectSound.play();
                 player.addCash(StarBucks.getValue());
                 coinsIter.remove();
             }
@@ -264,7 +266,7 @@ public abstract class LevelTemplate implements Screen {
 			player.moveBackward(delta);
 		}
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-			Assets.missileFireSound.play();
+			Assets.missileFireSound.play(0.20f);
 			player.fire();
 		}
 		if (Gdx.input.isKeyPressed(Keys.P)) {

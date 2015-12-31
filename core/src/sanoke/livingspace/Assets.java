@@ -41,6 +41,12 @@ public class Assets {
     public static Texture upgradesReturn;
     public static Texture upgradesBar;
     
+    public static Texture [] endScreenFrames;
+    public static Texture [] endBackgroundFrames; 
+    public static Texture endScreenMenu;
+    public static Texture endScreenQuit;
+    public static final int NUM_FRAMES_ENDSCREEN = 4;
+    
     private static Texture spaceshipTemplate;
     public static TextureRegion [] spaceshipFrames;
     public static final int NUM_FRAMES_SPACESHIP = 2;
@@ -64,13 +70,14 @@ public class Assets {
     
     private static Music music;
     
-    /* ========== ADDED ========== */
     public static Sound missileFireSound;
     public static Sound playerCollideSound;
     public static Sound playerDieSound;
     public static Sound alienDieSound;
     public static Sound upgradeSound;
-    /* ========== !ADDED ========== */
+    public static Sound zoomOffSound;
+    public static Sound buttonClickSound;
+    public static Sound coinCollectSound;
 
     public static void loadAssets() {
         background = new Texture(Gdx.files.internal("space.jpg"));
@@ -84,19 +91,18 @@ public class Assets {
 
     	loadPauseScreens();
         loadUpgrades();
+        loadEndScreens();
         loadSpaceship();
         loadAlienTemplates();
         loadAlienFrames();
         loadLifeLoss();
-        /* ========== ADDED ========== */
         loadSounds();
-        /* ========== !ADDED ========== */
+   
    /*
         music = Gdx.audio.newMusic(Gdx.files.internal("*.mp3"));
         music.setLooping(true);
         music.setVolume(0.5f);
-        
-        missileSound = Gdx.audio.newSound(Gdx.files.internal("*.wav"));*/
+   */
     
     }
     
@@ -123,6 +129,27 @@ public class Assets {
         upgradesHighlight = new Texture(Gdx.files.internal("Upgrades_Highlight.jpg"));
         upgradesReturn  = new Texture(Gdx.files.internal("Upgrades_Return.jpg"));
         upgradesBar = new Texture(Gdx.files.internal("Upgrades_Bar.png"));
+    }
+    
+    private static void loadEndScreens() {
+    	Texture frame1 = new Texture(Gdx.files.internal("Game_Finished.jpg"));
+    	Texture frame2 = new Texture(Gdx.files.internal("Game_Finished_2.jpg"));
+    	Texture frame3 = new Texture(Gdx.files.internal("Game_Finished_3.jpg"));
+    	Texture frame4 = new Texture(Gdx.files.internal("Game_Finished_4.jpg"));
+    	
+    	Texture end1 = new Texture(Gdx.files.internal("space2.jpg"));
+    	Texture end2 = new Texture(Gdx.files.internal("space3.jpg"));
+    	Texture end3 = new Texture(Gdx.files.internal("space4.jpg"));
+    	Texture end4 = new Texture(Gdx.files.internal("space5.jpg"));
+    	
+    	Texture[] arr = {frame1, frame2, frame3, frame4};
+    	endScreenFrames = arr;
+    	
+    	Texture [] arr2 = {end1, end2, end3, end4};
+    	endBackgroundFrames = arr2;
+    	
+    	endScreenMenu = new Texture(Gdx.files.internal("Game_Finished_Menu.jpg"));
+    	endScreenQuit = new Texture(Gdx.files.internal("Game_Finished_Quit.jpg"));
     }
     
     private static void loadSpaceship() {
@@ -185,15 +212,16 @@ public class Assets {
 		pauseScreenQuit = new Texture(Gdx.files.internal("Paused_Quit.jpg"));
 	}
 
-	/* ========== ADDED ========== */
 	public static void loadSounds() {
 		missileFireSound = Gdx.audio.newSound(Gdx.files.internal("Fire.mp3"));
 	    playerCollideSound = Gdx.audio.newSound(Gdx.files.internal("Player_Collide.mp3"));
 	    playerDieSound = Gdx.audio.newSound(Gdx.files.internal("Player_Die.mp3"));
 	    alienDieSound = Gdx.audio.newSound(Gdx.files.internal("Alien_Die.mp3"));
 	    upgradeSound = Gdx.audio.newSound(Gdx.files.internal("Upgrade_Sound.mp3"));
+	    zoomOffSound = Gdx.audio.newSound(Gdx.files.internal("Zoom_Off.mp3"));
+	    buttonClickSound = Gdx.audio.newSound(Gdx.files.internal("Button_Click.mp3"));
+	    coinCollectSound = Gdx.audio.newSound(Gdx.files.internal("Coin_Collect.mp3"));
 	}
-	/* ========== !ADDED ========== */
 	
     public static void playMusic() {
         music.play();

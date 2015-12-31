@@ -56,6 +56,7 @@ public class InstructionScreen implements Screen {
             float xPos = Gdx.input.getX();
             float yPos = Gdx.input.getY();
             if (isWithinOK(xPos, yPos)) {
+            	Assets.buttonClickSound.play();
                 loadMainScreen();
             } else {
             	
