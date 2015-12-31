@@ -5,7 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 
 public class EndScreen implements Screen {
-    final LivingSpaceGame game;
+    private LivingSpaceGame game;
+    
+    private float timer;
     
     private int currentFrameNumber;
 	private static final int FRAME_SWITCH_DELAY = 38;
@@ -26,7 +28,8 @@ public class EndScreen implements Screen {
 
     public EndScreen(final LivingSpaceGame game) {
         this.game = game;
-        this.image = Assets.endScreenFrames[0];
+        this.image = Assets.endBackgroundFrames[0];
+        this.timer = 0.0f;
         this.currentFrameNumber = 0;
         
         MENU_BUTTON_P1_X = 614;
@@ -42,7 +45,7 @@ public class EndScreen implements Screen {
     
     // =============== METHODS FOR END SCREEN =============== //
     private void setupEndScreen(float delta) {
-    	game.batch.draw(this.getImage(), 0, 0);
+    	game.batch.draw(this.getImage(delta), 0, 0);
     }
     
     private boolean isWithinMenu(float x, float y) {
@@ -52,7 +55,7 @@ public class EndScreen implements Screen {
     
     // FUNCTION: Sets game screen to Pregame Screen
     private void loadMenu() {
-    	game.setScreen(new MainMenuScreen(new LivingSpaceGame()));
+    	game.setMainScreen(true);
     }
     
     private boolean isWithinQuit(float x, float y) {
@@ -93,12 +96,26 @@ public class EndScreen implements Screen {
         }
     }
 
-    public Texture getImage() {
-		Texture imageToShow = image;
-		currentFrameNumber = (currentFrameNumber + 1) % (4 * FRAME_SWITCH_DELAY); 
-		image = Assets.endScreenFrames[currentFrameNumber / FRAME_SWITCH_DELAY];
-		
-		return imageToShow;
+    public Texture getImage(float delta) {
+    	timer += delta;
+    	if (timer < 1.99f) {
+    		Texture imageToShow = image;
+    		currentFrameNumber = (currentFrameNumber + 1) % (4 * 30); 
+    		image = Assets.endBackgroundFrames[currentFrameNumber / 30];
+    		return imageToShow;
+    	}
+    	else if (timer == 1.99f) {
+    		Texture imageToShow = Assets.endScreenFrames[0];
+    		currentFrameNumber = 0;
+    		image = Assets.endScreenFrames[currentFrameNumber / FRAME_SWITCH_DELAY];
+    		return imageToShow;
+    	}
+    	else {
+    		Texture imageToShow = image;
+    		currentFrameNumber = (currentFrameNumber + 1) % (4 * FRAME_SWITCH_DELAY);
+    		image = Assets.endScreenFrames[currentFrameNumber / FRAME_SWITCH_DELAY];
+    		return imageToShow;
+    	}
 	}
     // =============== !METHODS FOR END SCREEN =============== //
     
@@ -110,7 +127,6 @@ public class EndScreen implements Screen {
     
     @Override
     public void render(float delta) {
-        // TODO Auto-generated method stub
     	game.batch.begin();
     	setupEndScreen(delta);
     	processInput();

@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class MainMenuScreen implements Screen {
-    final LivingSpaceGame game;
+    private LivingSpaceGame game;
     
     // Bottom-left & Top-right points x-y coordinates for Play button
     private static int PLAY_BUTTON_P1_X;

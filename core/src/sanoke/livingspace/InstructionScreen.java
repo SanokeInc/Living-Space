@@ -33,7 +33,7 @@ public class InstructionScreen implements Screen {
     
     // FUNCTION: Sets game screen to Main Screen
     private void loadMainScreen() {
-    	game.setMainScreen();
+    	game.setMainScreen(false);
     }
 
     private void processInput() {
