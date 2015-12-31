@@ -217,6 +217,7 @@ public abstract class LevelTemplate implements Screen {
 
 			Rectangle currentShip = player.getShipRegion();
 			if (currentAlien.overlaps(currentShip) && !player.isInvulnerable()) {
+				Assets.playerCollideSound.play(); // ADDED
 				alienIter.remove();
 				player.minusOneLife();
 				continue;
@@ -227,6 +228,7 @@ public abstract class LevelTemplate implements Screen {
 						.getMissileRegion();
 				if (currentAlien.overlaps(currentMissile)) {
 				    spawnCash(currentAlien.getX(), currentAlien.getY());
+					Assets.alienDieSound.play(); // ADDED
 				    alienIter.remove();
 					missileIter.remove();
 					break;
@@ -262,6 +264,7 @@ public abstract class LevelTemplate implements Screen {
 			player.moveBackward(delta);
 		}
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+			Assets.missileFireSound.play();
 			player.fire();
 		}
 		if (Gdx.input.isKeyPressed(Keys.P)) {
@@ -328,6 +331,8 @@ public abstract class LevelTemplate implements Screen {
 	
 	private void checkAlive() {
 		if (!player.isAlive()) {
+			Assets.playerCollideSound.stop(); // ADDED
+			Assets.playerDieSound.play(); // ADDED
 			game.setDeathScreen();
 		}
 	}
