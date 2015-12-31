@@ -26,7 +26,7 @@ public class LivingSpaceGame extends Game {
         player = new Spaceship();        
         level = 1;
         isPaused = false;
-        setMainScreen();
+        setMainScreen(false);
     }
     
     public void restart() {
@@ -58,8 +58,13 @@ public class LivingSpaceGame extends Game {
     	}
     }
     
-    public void setMainScreen() {
-    	this.setScreen(new MainMenuScreen(this));
+    public void setMainScreen(boolean isNewGame) {
+    	if (!isNewGame) this.setScreen(new MainMenuScreen(this));
+    	else {
+    		player = new Spaceship();        
+            level = 1;
+            this.setScreen(new MainMenuScreen(this));
+    	}
     }
     
     public void setPregameScreen(int level) {

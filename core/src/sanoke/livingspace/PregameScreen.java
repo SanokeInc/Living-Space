@@ -80,7 +80,7 @@ public class PregameScreen implements Screen {
     
     // FUNCTION: Sets game screen to Instructions Screen
     private void loadMainScreen() {
-    	game.setMainScreen();
+    	game.setMainScreen(false);
     }
 
     private void processInput() {

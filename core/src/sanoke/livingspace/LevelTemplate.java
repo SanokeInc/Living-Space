@@ -20,6 +20,8 @@ public abstract class LevelTemplate implements Screen {
 	Array<StarBucks> coins;
 	
 	private boolean isOver;
+	protected float timer;
+	protected boolean isEnd;
 	private boolean isOffScreen;
 	
 	private LifeLostAnimation heartBreak;
@@ -56,6 +58,8 @@ public abstract class LevelTemplate implements Screen {
 		aliens = new Array<Alien>();
 		coins = new Array<StarBucks>();
 		isOver = false;
+		isEnd = false;
+		timer = 0.0f;
 		isOffScreen = false;
 		initBackground();
 		heartBreak = new LifeLostAnimation();
@@ -69,6 +73,7 @@ public abstract class LevelTemplate implements Screen {
 
 	@Override
 	public void render(float delta) {
+		timer += delta;
 		game.batch.begin();
 		drawBackground(delta);
 		showLevel();
@@ -88,10 +93,11 @@ public abstract class LevelTemplate implements Screen {
 		processInput(delta);
 		
 		backToHub();
+		fadeScreen();
 	}
 	
     private void animateZoomOffScreen(float delta) {
-        if (isOver) {
+        if (isOver || isEnd) {
         	Assets.zoomOffSound.play();
             player.moveForwardOffScreen(delta * ZOOM_SPEED_MULTIPLIER);
             if (player.getY() >= game.HEIGHT) {
@@ -106,7 +112,11 @@ public abstract class LevelTemplate implements Screen {
 	        game.setPregameScreen(game.level);
 		}
     }
-	
+    
+    private void fadeScreen() {
+    	if (isEnd && isOffScreen) game.setEndScreen();
+    }
+    
 	private void animateLossLife() {
 		if (player.isInvulnerable()) {
 			game.batch.draw(heartBreak.getImage(), LIFE_LOSS_DISPLAY_X, LIFE_LOSS_DISPLAY_Y);

@@ -44,7 +44,10 @@ public class LevelFive extends LevelTemplate {
 	@Override
 	protected void spawnAliens() {
 		if (enemyCount > NUMBER_TO_WIN) {
-			game.setEndScreen();
+			//game.setEndScreen();
+			isEnd = true;
+			aliens = new Array<Alien>();
+			return ;
 		}
 		
 		long currentTime = TimeUtils.millis();
