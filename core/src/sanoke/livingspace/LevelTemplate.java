@@ -227,9 +227,8 @@ public abstract class LevelTemplate implements Screen {
 				Rectangle currentMissile = missileIter.next()
 						.getMissileRegion();
 				if (currentAlien.overlaps(currentMissile)) {
-					Assets.alienDieSound.play(); // ADDED
-					alienIter.remove();
 				    spawnCash(currentAlien.getX(), currentAlien.getY());
+					Assets.alienDieSound.play(); // ADDED
 				    alienIter.remove();
 					missileIter.remove();
 					break;
