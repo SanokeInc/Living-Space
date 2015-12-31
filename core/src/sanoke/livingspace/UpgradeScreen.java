@@ -192,13 +192,17 @@ public class UpgradeScreen implements Screen {
 
     private void upgradeSpeed() {
         if (isSpeedUpgradable()) {
-             ship.addCash(-1 * UPGRADE_COST_SPEED[ship.getNumUpgradesSpeed()]);
-             ship.upgradeSpeed();
+        	Assets.upgradeSound.stop(); // ADDED
+        	Assets.upgradeSound.play(); // ADDED
+            ship.addCash(-1 * UPGRADE_COST_SPEED[ship.getNumUpgradesSpeed()]);
+            ship.upgradeSpeed();
         }
     }
 
     private void upgradeMissile() {
         if (isMissileUpgradable()) {
+        	Assets.upgradeSound.stop(); // ADDED
+        	Assets.upgradeSound.play(); // ADDED
             ship.addCash(-1 * UPGRADE_COST_MISSILES[ship.getNumUpgradesMissileCooldown()]);
             ship.upgradeMissiles();
        } 
@@ -206,6 +210,8 @@ public class UpgradeScreen implements Screen {
 
     private void upgradeLives() {
         if (isLivesUpgradable()) {
+        	Assets.upgradeSound.stop(); // ADDED
+        	Assets.upgradeSound.play(); // ADDED
             ship.addCash(-1 * UPGRADE_COST_LIVES[ship.getNumUpgradesLives()]);
             ship.upgradeLives();
        }

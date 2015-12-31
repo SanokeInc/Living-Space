@@ -25,11 +25,9 @@ public class Assets {
     public static Texture pregameScreenPlay;
     public static Texture pregameScreenQuit;
     
-    /* ========== ADDED ========== */
     public static Texture pauseScreenDefault;
     public static Texture pauseScreenResume;
     public static Texture pauseScreenQuit;
-    /* ========== !ADDED ========== */
     
     public static Texture screenDeathNormal;
     public static Texture screenDeathQuit;
@@ -63,7 +61,14 @@ public class Assets {
     private static final int FRAME_FACTOR_ALIEN = 2;
     
     private static Music music;
-    private static Sound missileSound;
+    
+    /* ========== ADDED ========== */
+    public static Sound missileFireSound;
+    public static Sound playerCollideSound;
+    public static Sound playerDieSound;
+    public static Sound alienDieSound;
+    public static Sound upgradeSound;
+    /* ========== !ADDED ========== */
 
     public static void loadAssets() {
         background = new Texture(Gdx.files.internal("space.jpg"));
@@ -74,14 +79,16 @@ public class Assets {
         
         loadMainAndPregameScreens();
         loadDeathScreens();
-        /* ========== ADDED ========== */
+
     	loadPauseScreens();
-        /* ========== !ADDED ========== */
         loadUpgrades();
         loadSpaceship();
         loadAlienTemplates();
         loadAlienFrames();
         loadLifeLoss();
+        /* ========== ADDED ========== */
+        loadSounds();
+        /* ========== !ADDED ========== */
    /*
         music = Gdx.audio.newMusic(Gdx.files.internal("*.mp3"));
         music.setLooping(true);
@@ -166,19 +173,27 @@ public class Assets {
     	}
 	}
 	
-	/* ========== ADDED ========== */
 	private static void loadPauseScreens() {
 		pauseScreenDefault = new Texture(Gdx.files.internal("Paused.jpg"));
 		pauseScreenResume = new Texture(Gdx.files.internal("Paused_Resume.jpg"));
 		pauseScreenQuit = new Texture(Gdx.files.internal("Paused_Quit.jpg"));
 	}
-    /* ========== !ADDED ========== */
 
+	/* ========== ADDED ========== */
+	public static void loadSounds() {
+		missileFireSound = Gdx.audio.newSound(Gdx.files.internal("Fire.mp3"));
+	    playerCollideSound = Gdx.audio.newSound(Gdx.files.internal("Player_Collide.mp3"));
+	    playerDieSound = Gdx.audio.newSound(Gdx.files.internal("Player_Die.mp3"));
+	    alienDieSound = Gdx.audio.newSound(Gdx.files.internal("Alien_Die.mp3"));
+	    upgradeSound = Gdx.audio.newSound(Gdx.files.internal("Upgrade_Sound.mp3"));
+	}
+	/* ========== !ADDED ========== */
+	
     public static void playMusic() {
         music.play();
     }
 
     public static void playMissileSound() {
-    	missileSound.play();
+    	//missileSound.play();
     }
 }
