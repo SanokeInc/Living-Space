@@ -17,6 +17,10 @@ public abstract class LevelTemplate implements Screen {
 	Spaceship player;
 
 	Array<Alien> aliens;
+	Array<StarBucks> coins;
+	
+	private boolean isOver;
+	private boolean isOffScreen;
 	
 	private LifeLostAnimation heartBreak;
 	private int blinkCounter;
@@ -31,10 +35,12 @@ public abstract class LevelTemplate implements Screen {
 	private boolean displayLevel;
 	private int currentLevel;
 
+	private static final long ZOOM_SPEED_MULTIPLIER = 5;
+	
 	private static final long TIME_TO_DISPLAY_LVL = 4000;
 	private static final int LEVEL_DISPLAY_OFFSET_X = 430;
 	private static final int LEVEL_DISPLAY_OFFSET_Y = 150;
-
+	
 	private static final int BACKGROUND_HEIGHT = 1080;
 	private static final int BACKGROUND_SPEED = 400;
 	private float currentBgY;
@@ -48,6 +54,9 @@ public abstract class LevelTemplate implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
 		aliens = new Array<Alien>();
+		coins = new Array<StarBucks>();
+		isOver = false;
+		isOffScreen = false;
 		initBackground();
 		heartBreak = new LifeLostAnimation();
 		blinkCounter = 0;
@@ -65,7 +74,9 @@ public abstract class LevelTemplate implements Screen {
 		showLevel();
 		drawUnits();
 		drawLives();
+		drawCoins();
 		animateLossLife();
+		animateZoomOffScreen(delta);
 		game.batch.end();
 
 		spawnAliens();
@@ -75,7 +86,25 @@ public abstract class LevelTemplate implements Screen {
 		checkAlive();
 
 		processInput(delta);
+		
+		backToHub();
 	}
+
+    private void animateZoomOffScreen(float delta) {
+        if (isOver) {
+            player.moveForwardOffScreen(delta * ZOOM_SPEED_MULTIPLIER);
+            if (player.getY() >= game.HEIGHT) {
+                isOffScreen = true;
+            }
+        }
+    }
+
+    private void backToHub() {
+        if (isOver && isOffScreen) {
+		    game.level += 1;
+	        game.setPregameScreen(game.level);
+		}
+    }
 	
 	private void animateLossLife() {
 		if (player.isInvulnerable()) {
@@ -127,10 +156,24 @@ public abstract class LevelTemplate implements Screen {
 			}
 		}
 	}
+	
+	protected void updateCoinsPosition(float delta) {
+        Iterator<StarBucks> iter = coins.iterator();
 
+        while (iter.hasNext()) {
+            StarBucks coin = iter.next();
+            coin.move(delta, game.WIDTH, game.HEIGHT);
+
+            if (coin.isOutOfScreen()) {
+                iter.remove();
+            }
+        }
+    }
+	
 	private void updateUnitsPosition(float delta) {
 		updateMissilesPosition(delta);
 		updateAliensPosition(delta);
+		updateCoinsPosition(delta);
 	}
 
 	private void updateMissilesPosition(float delta) {
@@ -148,10 +191,23 @@ public abstract class LevelTemplate implements Screen {
 	}
 
 	protected void checkCollisions() {
-		checkCollisionsForAlienArray(aliens);
+	    checkCollisionsForAlienArray(aliens);
+	    checkCollisionsForCoinsArray();
 	}
 	
-	protected void checkCollisionsForAlienArray(Array<Alien> givenArray) {
+	private void checkCollisionsForCoinsArray() {
+        Iterator<StarBucks> coinsIter = coins.iterator();
+        Rectangle currentShip = player.getShipRegion();
+        while (coinsIter.hasNext()) {
+            Rectangle currentCoin = coinsIter.next().getCoinRegion();
+            if (currentCoin.overlaps(currentShip)) {
+                player.addCash(StarBucks.getValue());
+                coinsIter.remove();
+            }
+        }
+    }
+
+    protected void checkCollisionsForAlienArray(Array<Alien> givenArray) {
 		Iterator<Alien> alienIter = givenArray.iterator();
 		while (alienIter.hasNext()) {
 			Rectangle currentAlien = alienIter.next().getAlienRegion();
@@ -173,15 +229,26 @@ public abstract class LevelTemplate implements Screen {
 				if (currentAlien.overlaps(currentMissile)) {
 					Assets.alienDieSound.play(); // ADDED
 					alienIter.remove();
+				    spawnCash(currentAlien.getX(), currentAlien.getY());
+				    alienIter.remove();
 					missileIter.remove();
 					break;
 				}
 			}
 		}
 	}
+	
+	private void spawnCash(float x, float y) {
+        if (StarBucks.isSpawn()) {
+            coins.add(new StarBucks(x, y));
+        }
+        
+    }
 
-	private void processInput(float delta) {
-		processKeyBoardInputs(delta);
+    private void processInput(float delta) {
+		if (!isOver) {
+		    processKeyBoardInputs(delta);
+		}
 	}
 
 	private void processKeyBoardInputs(float delta) {
@@ -204,13 +271,15 @@ public abstract class LevelTemplate implements Screen {
 		if (Gdx.input.isKeyPressed(Keys.P)) {
 			game.pause();
 		}
-		/* ========== !ADDED ========== */
 	}
 
 	protected void drawUnits() {
 		drawSpaceship();
-		drawMissiles();
-		drawAliens();
+		if (!isOver) {
+		    drawMissiles();
+		    drawAliens();
+		}
+		
 	}
 
 	protected void drawSpaceship() {
@@ -243,7 +312,13 @@ public abstract class LevelTemplate implements Screen {
 			game.batch.draw(alien.getImage(), alien.getX(), alien.getY());
 		}
 	}
-
+	
+	protected void drawCoins() {
+        for (StarBucks coin : coins) {
+            game.batch.draw(coin.getImage(), coin.getX(), coin.getY());
+        }
+    }
+	
 	private void drawLives() {
 		int lives = player.getLives();
 
@@ -264,8 +339,7 @@ public abstract class LevelTemplate implements Screen {
 	}
 	
 	public void passLevel() {
-		game.level += 1;
-		game.setPregameScreen(game.level);
+	    isOver = true;
 	}
 
 	@Override
