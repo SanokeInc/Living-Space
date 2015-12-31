@@ -84,8 +84,10 @@ public class MainMenuScreen implements Screen {
             float xPos = Gdx.input.getX();
             float yPos = Gdx.input.getY();
             if (isWithinPlay(xPos, yPos)) {
+            	Assets.buttonClickSound.play();
                 loadPreGame();
             } else if (isWithinInstructions(xPos, yPos)) {
+            	Assets.buttonClickSound.play();
                 loadInstructions();
             } else {
             	

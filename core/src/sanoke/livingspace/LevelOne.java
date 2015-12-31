@@ -21,7 +21,7 @@ public class LevelOne extends LevelTemplate {
 	private static final long BORDER_MOB_SPAWN_TIME = 500;
 	private static final int BORDER_MOB_SPAWN_VARIATION_X = 100;
 	
-	private static final int SPAWN_VARIATION_X = 400;
+	private static final int SPAWN_VARIATION_X = 200;
 	private static final int SPAWN_VARIATION_Y = 100;
 	private static final int MOVE_FACTOR_X = 50;
 	private static final int MOVE_FACTOR_Y = 130;

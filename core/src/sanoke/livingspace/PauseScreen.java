@@ -79,8 +79,10 @@ public class PauseScreen implements Screen {
             float xPos = Gdx.input.getX();
             float yPos = Gdx.input.getY();
             if (isWithinResume(xPos, yPos)) {
+            	Assets.buttonClickSound.play();
                 loadGame();
             } else if (isWithinQuit(xPos, yPos)) {
+            	Assets.buttonClickSound.play();
             	Gdx.app.exit();
             } else {
             	

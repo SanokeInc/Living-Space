@@ -65,11 +65,14 @@ public class LivingSpaceGame extends Game {
     public void setPregameScreen(int level) {
     	this.setScreen(new PregameScreen(this, player, level));
     }
-    /* ========== ADDED ========== */
+
     public void setPauseScreen() {
     	this.setScreen(new PauseScreen(this));
     }
-    /* ========== !ADDED ========== */
+    
+    public void setEndScreen() {
+    	this.setScreen(new EndScreen(this));
+    }
     
     public void setInstructionScreen() {
     	this.setScreen(new InstructionScreen(this));

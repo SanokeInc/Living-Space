@@ -107,10 +107,13 @@ public class PregameScreen implements Screen {
             float xPos = Gdx.input.getX();
             float yPos = Gdx.input.getY();
             if (isWithinPlay(xPos, yPos)) {
+            	Assets.buttonClickSound.play();
                 loadGame();
             } else if (isWithinUpgrades(xPos, yPos)) {
+            	Assets.buttonClickSound.play();
                 loadUpgrades();
             } else if (isWithinQuit(xPos, yPos)) {
+            	Assets.buttonClickSound.play();
             	loadMainScreen();
             } else {
             	
