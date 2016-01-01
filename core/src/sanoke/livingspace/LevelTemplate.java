@@ -68,7 +68,6 @@ public abstract class LevelTemplate implements Screen {
 		initialTime = TimeUtils.millis();
 		displayLevel = true;
 		currentLevel = level;
-		// Assets.playMusic();
 	}
 
 	@Override
@@ -280,7 +279,6 @@ public abstract class LevelTemplate implements Screen {
 			player.moveBackward(delta);
 		}
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-			Assets.missileFireSound.play(0.20f);
 			player.fire();
 		}
 		if (Gdx.input.isKeyPressed(Keys.P)) {
