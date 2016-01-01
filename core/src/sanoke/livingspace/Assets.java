@@ -68,7 +68,8 @@ public class Assets {
     public static final int NUM_FRAMES_ALIEN = 4;
     private static final int FRAME_FACTOR_ALIEN = 2;
     
-    private static Music music;
+    public static Music music;
+    public static Music endMusic;
     
     public static Sound missileFireSound;
     public static Sound playerCollideSound;
@@ -97,13 +98,7 @@ public class Assets {
         loadAlienFrames();
         loadLifeLoss();
         loadSounds();
-   
-   /*
-        music = Gdx.audio.newMusic(Gdx.files.internal("*.mp3"));
-        music.setLooping(true);
-        music.setVolume(0.5f);
-   */
-    
+        loadMusics();
     }
     
     private static void loadMainAndPregameScreens() {
@@ -223,11 +218,16 @@ public class Assets {
 	    coinCollectSound = Gdx.audio.newSound(Gdx.files.internal("Coin_Collect.mp3"));
 	}
 	
+	public static void loadMusics() {
+		music = Gdx.audio.newMusic(Gdx.files.internal("Main.mp3"));
+        music.setLooping(true);
+        music.setVolume(1.0f);
+		endMusic = Gdx.audio.newMusic(Gdx.files.internal("Ending.mp3"));
+        endMusic.setLooping(true);
+        endMusic.setVolume(1.0f);
+	}
+	
     public static void playMusic() {
         music.play();
-    }
-
-    public static void playMissileSound() {
-    	//missileSound.play();
     }
 }
