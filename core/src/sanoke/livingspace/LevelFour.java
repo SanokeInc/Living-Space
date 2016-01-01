@@ -17,7 +17,7 @@ public class LevelFour extends LevelTemplate {
 	
 	private long lastSpawnTime;
 	private long lastSpawnLocationChangeTime;
-	private boolean isWarningSpawned;
+	private int warningCounter;
 	
 	private GridPoint2 [] spawnLocations;
 	
@@ -25,12 +25,13 @@ public class LevelFour extends LevelTemplate {
 	
 	private static final int NUMBER_TO_WIN = 250;
 	
-	private static final int NUM_PLACES_TO_SPAWN = 4;
+	private static final int NUM_PLACES_TO_SPAWN = 3;
 	private static final int ALIEN_TYPE = 4;
 	
+	private static final long PARAM_WARNING_COUNTER_SPAWN = 2;
 	private static final long SPAWN_INTERVAL = 600;
 	private static final long CHANGE_SPAWN_LOC_DELAY_TIME = 6000;
-	private static final int OFFSET_LOCATION = 300;
+	private static final int OFFSET_LOCATION = 50;
 
 	private static final int INIT_MOVE_FACTOR_Y = 150;
 	private static final int GENERAL_MOVE_FACTOR = 180;
@@ -40,7 +41,6 @@ public class LevelFour extends LevelTemplate {
 	
 	private static final long BORDER_MOB_SPAWN_TIME = 500;
 	private static final int BORDER_MOB_SPAWN_VARIATION = 100;
-	private static final int BORDER_MOB_TYPE = 0;
 
 	public LevelFour(final LivingSpaceGame game, Spaceship player) {
 		super(game, player, CURRENT_LEVEL);
@@ -55,14 +55,27 @@ public class LevelFour extends LevelTemplate {
 	}
 	
 	private void setSpawnLocations() {
-		for (int i = 0; i < NUM_PLACES_TO_SPAWN; i++) {
-			int randomX = (int) MathUtils.random(0, game.WIDTH - OFFSET_LOCATION);
-			int randomY = (int) MathUtils.random(0, game.HEIGHT - OFFSET_LOCATION);
-			
-			spawnLocations[i] = new GridPoint2(randomX, randomY);
-			
-			isWarningSpawned = false;
-		}
+		float playerX = player.getX();
+		float playerY = player.getY();
+		int locCount = 0;
+		
+		// Top - left
+		int spawnX = (int) playerX - OFFSET_LOCATION;
+		int spawnY = (int) playerY + OFFSET_LOCATION;
+		spawnLocations[locCount] = new GridPoint2(spawnX, spawnY);
+		locCount++;
+		
+		// Top - right
+		spawnX = (int) playerX + OFFSET_LOCATION;
+		spawnLocations[locCount] = new GridPoint2(spawnX, spawnY);
+		locCount++;
+		
+		// Bottom
+		spawnX = (int) playerX;
+		spawnY = (int) playerY - OFFSET_LOCATION;
+		spawnLocations[locCount] = new GridPoint2(spawnX, spawnY);
+	
+		warningCounter = 0;
 	}
 
 	@Override
@@ -85,13 +98,16 @@ public class LevelFour extends LevelTemplate {
 		if (currentTime - lastSpawnTime > SPAWN_INTERVAL) {
 			lastSpawnTime = currentTime;
 			
-			if (isWarningSpawned) {
+			if (warningCounter == PARAM_WARNING_COUNTER_SPAWN) {
 				killAllWarnings();
 				spawnAll(currentTime);
-			} else {
+			} else if (warningCounter > PARAM_WARNING_COUNTER_SPAWN) {
+				spawnAll(currentTime);
+			} else if (warningCounter == 0){
 				spawnWarnings(currentTime);
-				isWarningSpawned = true;
 			}
+			
+			warningCounter++;
 		}
 		
 		if (currentTime - borderMobSpawnTime > BORDER_MOB_SPAWN_TIME) {
@@ -133,16 +149,15 @@ public class LevelFour extends LevelTemplate {
 		
 		int randomStartX = MathUtils.random(minSpawnX, maxSpawnX);
 			
-		staticAliens.add(new Alien(randomStartX, 0, BORDER_MOB_TYPE, movementX,
+		staticAliens.add(new Alien(randomStartX, 0, ALIEN_TYPE, movementX,
 				movementY));
 		
-		int minSpawnY = game.HEIGHT - BORDER_MOB_SPAWN_VARIATION;
-		int maxSpawnY = game.HEIGHT - Assets.ALIEN_HEIGHT;
-		int randomStartY = MathUtils.random(minSpawnY, maxSpawnY);
-		movementX = INIT_MOVE_FACTOR_Y;
-		movementY = 0;
+		minSpawnX = game.WIDTH - BORDER_MOB_SPAWN_VARIATION - Assets.ALIEN_WIDTH;
+		maxSpawnX = game.WIDTH - Assets.ALIEN_WIDTH;
 		
-		staticAliens.add(new Alien(0, randomStartY, BORDER_MOB_TYPE, movementX,
+		randomStartX = MathUtils.random(minSpawnX, maxSpawnX);
+		
+		staticAliens.add(new Alien(randomStartX, 0, ALIEN_TYPE, movementX,
 				movementY));
 	}
 	

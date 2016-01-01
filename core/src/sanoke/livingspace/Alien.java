@@ -25,6 +25,8 @@ public class Alien {
 	private int ALIEN_WIDTH;
 	private int ALIEN_HEIGHT;
 	
+	private static final int BUFFER_SCREEN = 300;
+	
 	public Alien(float x, float y, int type, float moveX, float moveY) {
 		this.x = x;
 		this.y = y;
@@ -78,8 +80,16 @@ public class Alien {
 	public void move(float delta, int gameWidth, int gameHeight) {
 		x = x + movementX * delta;
 		y = y + movementY * delta;
-		if (x < 0 || x > gameWidth || y < 0 || y > gameHeight) {
+		if (isOutOfBounds(gameWidth, gameHeight)) {
 			onScreen = false;
+		}
+	}
+	
+	private boolean isOutOfBounds(int gameWidth, int gameHeight) {
+		if (x < -BUFFER_SCREEN || x > gameWidth + BUFFER_SCREEN || y < -BUFFER_SCREEN || y > gameHeight + BUFFER_SCREEN) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
