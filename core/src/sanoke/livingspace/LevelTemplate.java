@@ -108,13 +108,17 @@ public abstract class LevelTemplate implements Screen {
 
     private void backToHub() {
         if (isOver && isOffScreen) {
+        	Assets.music.play();
 		    game.level += 1;
 	        game.setPregameScreen(game.level);
 		}
     }
     
     private void fadeScreen() {
-    	if (isEnd && isOffScreen) game.setEndScreen();
+    	if (isEnd && isOffScreen) {
+    		Assets.music.stop();
+    		game.setEndScreen();
+    	}
     }
     
 	private void animateLossLife() {

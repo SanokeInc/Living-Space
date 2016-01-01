@@ -27,15 +27,18 @@ public class LivingSpaceGame extends Game {
         level = 1;
         isPaused = false;
         setMainScreen(false);
+        Assets.music.play();
     }
     
     public void restart() {
+    	Assets.music.play();
     	this.level = 1;
     	player = new Spaceship();
     	setPregameScreen(this.level);
     }
     
     public void setLevelScreen(int level) {
+    	Assets.music.stop();
     	switch (level) {
     		case 1:
     			this.setScreen(new LevelOne(this, player));

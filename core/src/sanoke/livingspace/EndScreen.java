@@ -41,6 +41,8 @@ public class EndScreen implements Screen {
         QUIT_BUTTON_P1_Y = 669;
         QUIT_BUTTON_P2_X = 888;
         QUIT_BUTTON_P2_Y = 743;
+        
+        Assets.endMusic.play();
     }
     
     // =============== METHODS FOR END SCREEN =============== //
@@ -55,6 +57,8 @@ public class EndScreen implements Screen {
     
     // FUNCTION: Sets game screen to Pregame Screen
     private void loadMenu() {
+    	Assets.endMusic.stop();
+    	Assets.music.play();
     	game.setMainScreen(true);
     }
     
