@@ -28,8 +28,8 @@ public class LevelFive extends LevelTemplate {
 	@Override
 	protected void spawnAliens() {
 		if (enemyCount > NUMBER_TO_WIN) {
-			isEnd = true;
 			aliens = new Array<Alien>();
+			passLevel();
 			return ;
 		}
 		
