@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 public class PauseScreen implements Screen {
 	final LivingSpaceGame game;
 	Screen state;
+	private int resumeCode;
 	
 	// Bottom-left & Top-right points x-y coordinates for Resume button
     private static int RESUME_BUTTON_P1_X;
@@ -20,8 +21,9 @@ public class PauseScreen implements Screen {
     private static int QUIT_BUTTON_P2_X;
     private static int QUIT_BUTTON_P2_Y;
 	
-	public PauseScreen(final LivingSpaceGame game) {
+	public PauseScreen(final LivingSpaceGame game, int returnCode) {
 		this.game = game;
+		this.resumeCode = returnCode;
 		this.state = game.getScreen();
 		
 		RESUME_BUTTON_P1_X = 275;
@@ -48,7 +50,7 @@ public class PauseScreen implements Screen {
     
     // FUNCTION: Return to Game Screen
     private void loadGame() {
-    	game.setResume();
+    	game.setResume(this.resumeCode);
     	game.setScreen(this.state);
     }
     
