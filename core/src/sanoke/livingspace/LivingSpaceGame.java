@@ -62,6 +62,9 @@ public class LivingSpaceGame extends Game {
     		case 6:
     			this.setScreen(new LevelSix(this, player));
     			break;
+    		case 7:
+    			this.setScreen(new LevelSeven(this, player));
+    			break;
     		default:
     			assert(false);
     			break;
