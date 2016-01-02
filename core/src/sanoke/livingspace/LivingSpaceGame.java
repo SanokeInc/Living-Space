@@ -18,6 +18,8 @@ public class LivingSpaceGame extends Game {
     public final int HEIGHT = 800;
     public final int WIDTH = 1000;
     
+    public int gameCode; // 1 = main screen/instruction/hub; 2 = end screen; 3 = game levels/death screen
+    
     public void create() {
         batch = new SpriteBatch();
         // default Arial
@@ -26,6 +28,7 @@ public class LivingSpaceGame extends Game {
         player = new Spaceship();        
         level = 1;
         isPaused = false;
+        gameCode = 1;
         setMainScreen(false);
         Assets.music.play();
     }
@@ -39,6 +42,7 @@ public class LivingSpaceGame extends Game {
     
     public void setLevelScreen(int level) {
     	Assets.music.stop();
+    	gameCode = 3;
     	switch (level) {
     		case 1:
     			this.setScreen(new LevelOne(this, player));
@@ -62,6 +66,7 @@ public class LivingSpaceGame extends Game {
     }
     
     public void setMainScreen(boolean isNewGame) {
+    	gameCode = 1;
     	if (!isNewGame) this.setScreen(new MainMenuScreen(this));
     	else {
     		player = new Spaceship();        
@@ -71,30 +76,37 @@ public class LivingSpaceGame extends Game {
     }
     
     public void setPregameScreen(int level) {
+    	gameCode = 1;
     	this.setScreen(new PregameScreen(this, player, level));
     }
 
     public void setPauseScreen() {
-    	this.setScreen(new PauseScreen(this));
+    	this.setScreen(new PauseScreen(this, gameCode));
     }
     
     public void setEndScreen() {
+    	gameCode = 2;
     	this.setScreen(new EndScreen(this));
     }
     
     public void setInstructionScreen() {
+    	gameCode = 1;
     	this.setScreen(new InstructionScreen(this));
     }
     
     public void setDeathScreen() {
+    	gameCode = 3;
     	this.setScreen(new DeathScreen(this));
     }
     
     public void setUpgradeScreen() {
+    	gameCode = 1;
         this.setScreen(new UpgradeScreen(this, player));
     }
     
-    public void setResume() {
+    public void setResume(int type) {
+    	if (type == 1) Assets.music.play(); // if resume to main menu or to the hub
+    	else if (type == 2) Assets.endMusic.play(); // if resume to end screen
     	isPaused = false;
     }
 
@@ -107,6 +119,8 @@ public class LivingSpaceGame extends Game {
     @Override
     public void pause() {
     	if (!isPaused) {
+    		if (this.gameCode == 1) Assets.music.pause(); // if paused from main menu or from the hub
+    		else if (this.gameCode == 2) Assets.endMusic.pause(); // if paused from end screen
     		this.setPauseScreen();
     		isPaused = true;
     	}
