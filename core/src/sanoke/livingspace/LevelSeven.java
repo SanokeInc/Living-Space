@@ -12,14 +12,14 @@ public class LevelSeven extends LevelTemplate {
 
 	private static final int CURRENT_LEVEL = 7;
 	
-	private static final int NUMBER_TO_WIN = 350;
+	private static final int NUMBER_TO_WIN = 330;
 	
 	private static final long BORDER_MOB_SPAWN_TIME = 500;
 	private static final int BORDER_MOB_SPAWN_VARIATION_Y = 250;
 	
 	private static final int ALIEN_TYPE = 6;
-	private static final long SPAWN_INTERVAL = 450;
-	private static final int NUM_ALIEN_SPAWN = 2;
+	private static final long SPAWN_INTERVAL = 480;
+	private static final int NUM_ALIEN_SPAWN = 3;
 	private static final int ALIEN_MOVE_SPEED = 350;
 	private static final int ALIEN_SPAWN_VARIATION = 150;
 	
@@ -74,7 +74,15 @@ public class LevelSeven extends LevelTemplate {
 	private void spawnAll() {
 		for (int i = 0; i < NUM_ALIEN_SPAWN; i++) {
 			float moveX = generateRandomMovement();
-			float moveY = generateRandomMovement();
+			float moveY;
+			
+			boolean isBranchChosen = MathUtils.randomBoolean();
+			
+			if (isBranchChosen) {
+				moveY = (1 - Math.abs(moveX / ALIEN_MOVE_SPEED)) * ALIEN_MOVE_SPEED;
+			} else {
+				moveY = (Math.abs(moveX / ALIEN_MOVE_SPEED) - 1) * ALIEN_MOVE_SPEED;
+			}
 			
 			float randomX = MathUtils.random(centerX - ALIEN_SPAWN_VARIATION, centerX + ALIEN_SPAWN_VARIATION);
 			float randomY = MathUtils.random(centerY - ALIEN_SPAWN_VARIATION, centerY + ALIEN_SPAWN_VARIATION);

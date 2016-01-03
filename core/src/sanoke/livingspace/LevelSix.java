@@ -28,8 +28,8 @@ public class LevelSix extends LevelTemplate {
 	private static final int NUM_ALIEN_SPAWN = 6;
 	private static final int ANGLE_FACTOR = NUM_ALIEN_SPAWN / 2;
 
-	private static final int UFO_MOVE_SPEED = 250;
-	private static final int ALIEN_MOVE_SPEED = 220;
+	private static final int UFO_MOVE_SPEED = 230;
+	private static final int ALIEN_MOVE_SPEED = 200;
 	private static final float ALIEN_SPAWN_VARIANCE = 0.39f;
 
 	public LevelSix(final LivingSpaceGame game, Spaceship player) {
