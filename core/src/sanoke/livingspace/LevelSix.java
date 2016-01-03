@@ -15,7 +15,7 @@ public class LevelSix extends LevelTemplate {
 
 	private static final int CURRENT_LEVEL = 6;
 
-	private static final int NUMBER_TO_WIN = 500;
+	private static final int NUMBER_TO_WIN = 350;
 
 	private static final int UFO_TYPE = 8;
 	private static final int ALIEN_TYPE = 5;
@@ -25,8 +25,8 @@ public class LevelSix extends LevelTemplate {
 	private static final long TIME_RELEASE_ALIEN_MIN = 500;
 	private static final long TIME_RELEASE_ALIEN_MAX = 3000;
 
-	private static final int NUM_ALIEN_SPAWN = 8;
-	private static final int ANGLE_FACTOR = 4;
+	private static final int NUM_ALIEN_SPAWN = 6;
+	private static final int ANGLE_FACTOR = 3;
 
 	private static final int UFO_MOVE_SPEED = 250;
 	private static final int ALIEN_MOVE_SPEED = 220;
@@ -44,9 +44,9 @@ public class LevelSix extends LevelTemplate {
 	@Override
 	protected void spawnAliens() {
 		if (enemyCount > NUMBER_TO_WIN) {
-			isEnd = true;
 			aliens = new Array<Alien>();
 			ufos = new Array<Alien>();
+			passLevel();
 			return;
 		}
 
