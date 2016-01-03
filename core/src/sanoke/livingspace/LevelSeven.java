@@ -44,7 +44,6 @@ public class LevelSeven extends LevelTemplate {
 	@Override
 	protected void spawnAliens() {
 		if (enemyCount > NUMBER_TO_WIN) {
-			//isEnd = true;
 			aliens = new Array<Alien>();
 			passLevel();
 			return;
@@ -68,7 +67,7 @@ public class LevelSeven extends LevelTemplate {
 		float precision = (float) Math.pow(10, RANDOM_PRECISION_DECIMAL_PLACES);
 		float randomNumber = (float) MathUtils.random(PARAM_RANDOM_MIN, PARAM_RANDOM_MAX * precision) / 
 				precision - 1;
-		if (Math.abs(randomNumber) > 1) System.out.println("Error: " + randomNumber);
+		
 		return randomNumber * ALIEN_MOVE_SPEED;
 	}
 
