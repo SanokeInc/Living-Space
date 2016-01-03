@@ -18,7 +18,8 @@ public class LevelEight extends LevelTemplate {
 	
 	private boolean isIncremented;
 	private boolean isSpawned;
-	private boolean toRefresh;
+	private boolean showWarning;
+	private boolean showAliens;
 	
 	private static final int CURRENT_LEVEL = 8;
 	
@@ -39,7 +40,8 @@ public class LevelEight extends LevelTemplate {
 		warningCounter = 0;
 		warningLocations = new GridPoint2[9]; // initialise 9 random safety area coordinates
 		
-		isIncremented = isSpawned = toRefresh = false;
+		isIncremented = isSpawned = showAliens = false;
+		showWarning = true;
 		
 		spawnLocations = new GridPoint2[NUM_PLACES_TO_SPAWN];
 		
@@ -48,7 +50,7 @@ public class LevelEight extends LevelTemplate {
 		
 		lastWarningTime = TimeUtils.nanoTime();
 		spawnWarnings(lastWarningTime);
-		lastSpawnTime = lastWarningTime - WARNING_DURATION;
+		lastSpawnTime = lastWarningTime + WARNING_DURATION * 1000000;
 	}
 	
 	private void setSpawnLocations() {
@@ -63,8 +65,8 @@ public class LevelEight extends LevelTemplate {
 	
 	private void setWarningLocations() {
 		for (int i = 0; i < 9; i++) {
-			int spawnX = MathUtils.random(SAFE_AREA_X_OFFSET, 1000 - SAFE_AREA_X_OFFSET);
-			int spawnY = MathUtils.random(SAFE_AREA_Y_OFFSET, 800 - SAFE_AREA_Y_OFFSET);
+			int spawnX = MathUtils.random(1, 19) * (Assets.ALIEN_WIDTH + 14);
+			int spawnY = MathUtils.random(1, 15) * (Assets.ALIEN_HEIGHT + 8);
 			warningLocations[i] = new GridPoint2(spawnX, spawnY);
 		}
 	}
@@ -80,19 +82,27 @@ public class LevelEight extends LevelTemplate {
 		long currentTime = TimeUtils.nanoTime();
 		
 		// if time to show safety area
-		if (!toRefresh && currentTime - lastSpawnTime > (SPAWN_DURATION * 1000000)) {
-			lastSpawnTime = currentTime;
-			isSpawned = false;
-			aliens = new Array<Alien>();
-			spawnWarnings(currentTime);
+		if (showAliens) {
+			if (currentTime - lastSpawnTime > (SPAWN_DURATION * 1000000)) {
+				showAliens = false;
+				showWarning = true;
+				lastSpawnTime = currentTime + (WARNING_DURATION * 1000000);
+				isSpawned = false;
+				aliens = new Array<Alien>();
+				spawnWarnings(currentTime);
+			}
 		}
 		
 		// if time to spawn aliens
-		if (!toRefresh && currentTime - lastWarningTime > (WARNING_DURATION * 1000000)) {
-			lastWarningTime = currentTime;
-			killAllWarnings();
-			isIncremented = false;
-			spawnAll(currentTime);
+		if (showWarning) {
+			if (currentTime - lastWarningTime > (WARNING_DURATION * 1000000)) {
+				showWarning = false;
+				showAliens = true;
+				lastWarningTime = currentTime + (SPAWN_DURATION * 1000000);
+				killAllWarnings();
+				isIncremented = false;
+				spawnAll(currentTime);
+			}
 		}
 	}
 	
