@@ -26,7 +26,7 @@ public class LevelSix extends LevelTemplate {
 	private static final long TIME_RELEASE_ALIEN_MAX = 3000;
 
 	private static final int NUM_ALIEN_SPAWN = 6;
-	private static final int ANGLE_FACTOR = 3;
+	private static final int ANGLE_FACTOR = NUM_ALIEN_SPAWN / 2;
 
 	private static final int UFO_MOVE_SPEED = 250;
 	private static final int ALIEN_MOVE_SPEED = 220;
