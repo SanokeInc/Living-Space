@@ -16,18 +16,18 @@ public class LevelEight extends LevelTemplate {
 	private GridPoint2 [] spawnLocations;
 	private GridPoint2 [] warningLocations;
 	
-	private boolean isIncremented;
+	private boolean isWarningShown;
 	private boolean isSpawned;
-	private boolean showWarning;
-	private boolean showAliens;
+	private boolean isShowingAliens;
 	
 	private static final int CURRENT_LEVEL = 8;
 	
 	private static final int NUM_PLACES_TO_SPAWN = 320; // 320 coordinates to fill up whole screen
 	private static final int ALIEN_TYPE = 4;
 	
-	private static final long WARNING_DURATION = 5000;
-	private static final long SPAWN_DURATION = 3000;
+	private static final long SECONDS_TO_NANO = 1000000000;
+	private static final long WARNING_DURATION = 5 * SECONDS_TO_NANO;
+	private static final long SPAWN_DURATION = 3 * SECONDS_TO_NANO;
 	
 	// Offsets from warning coordinates for the safe area
 	private static final int SAFE_AREA_X_OFFSET = 60;
@@ -40,8 +40,7 @@ public class LevelEight extends LevelTemplate {
 		warningCounter = 0;
 		warningLocations = new GridPoint2[9]; // initialise 9 random safety area coordinates
 		
-		isIncremented = isSpawned = showAliens = false;
-		showWarning = true;
+		isWarningShown = isSpawned = isShowingAliens = false;
 		
 		spawnLocations = new GridPoint2[NUM_PLACES_TO_SPAWN];
 		
@@ -50,7 +49,7 @@ public class LevelEight extends LevelTemplate {
 		
 		lastWarningTime = TimeUtils.nanoTime();
 		spawnWarnings(lastWarningTime);
-		lastSpawnTime = lastWarningTime + WARNING_DURATION * 1000000;
+		lastSpawnTime = lastWarningTime + WARNING_DURATION;
 	}
 	
 	private void setSpawnLocations() {
@@ -81,38 +80,34 @@ public class LevelEight extends LevelTemplate {
 		
 		long currentTime = TimeUtils.nanoTime();
 		
-		// if time to show safety area
-		if (showAliens) {
-			if (currentTime - lastSpawnTime > (SPAWN_DURATION * 1000000)) {
-				showAliens = false;
-				showWarning = true;
-				lastSpawnTime = currentTime + (WARNING_DURATION * 1000000);
+		if (isShowingAliens) {
+			// Check if it is time to show safety area
+			if (currentTime - lastSpawnTime > SPAWN_DURATION) {
+				isShowingAliens = false;
+				lastSpawnTime = currentTime + WARNING_DURATION;
 				isSpawned = false;
 				aliens = new Array<Alien>();
 				spawnWarnings(currentTime);
 			}
-		}
-		
-		// if time to spawn aliens
-		if (showWarning) {
-			if (currentTime - lastWarningTime > (WARNING_DURATION * 1000000)) {
-				showWarning = false;
-				showAliens = true;
-				lastWarningTime = currentTime + (SPAWN_DURATION * 1000000);
+		} else {
+			// Check if it is time to spawn aliens
+			if (currentTime - lastWarningTime > WARNING_DURATION) {
+				isShowingAliens = true;
+				lastWarningTime = currentTime + SPAWN_DURATION;
 				killAllWarnings();
-				isIncremented = false;
+				isWarningShown = false;
 				spawnAll(currentTime);
 			}
 		}
 	}
 	
 	private void spawnWarnings(long currentTime) {
-		if (!isIncremented) {
+		if (!isWarningShown) {
 			warnings.add(new Warning(warningLocations[warningCounter].x,
 								 	 warningLocations[warningCounter].y, currentTime));
 			warningCounter += 1;
+			isWarningShown = true;
 		}
-		isIncremented = true;
 	}
 	
 	private void killAllWarnings() {
@@ -128,30 +123,25 @@ public class LevelEight extends LevelTemplate {
 				if (!isWithinSafety(xPos, yPos)) {
 					aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, 0, 0));
 				}
-			
-				if (player.isAlive()) {}
 			}
+			isSpawned = true;
 		}
-		isSpawned = true;
 	}
 	
 	private boolean isWithinSafety(int x, int y) {
 		if (x >= (warningLocations[warningCounter - 1].x - SAFE_AREA_X_OFFSET) &&
 			x <= (warningLocations[warningCounter - 1].x + SAFE_AREA_X_OFFSET) &&
 			y >= (warningLocations[warningCounter - 1].y - SAFE_AREA_Y_OFFSET) &&
-			y <= (warningLocations[warningCounter - 1].y + SAFE_AREA_Y_OFFSET)) return true;
-		else return false;
+			y <= (warningLocations[warningCounter - 1].y + SAFE_AREA_Y_OFFSET)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	@Override
 	protected void updateAliensPosition(float delta) {
-		/*
-		float timeElapsed = TimeUtils.millis() - lastSpawnTime;
-
-		if (timeElapsed > SPAWN_DURATION) {
-			aliens = new Array<Alien>();
-		}
-		*/
+		// No need to update: Override for efficiency
 	}
 	
 	@Override
