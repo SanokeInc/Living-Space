@@ -2,7 +2,6 @@ package sanoke.livingspace;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class LevelSeven extends LevelTemplate {
 	private int enemyCount;
@@ -12,14 +11,14 @@ public class LevelSeven extends LevelTemplate {
 
 	private static final int CURRENT_LEVEL = 7;
 	
-	private static final int NUMBER_TO_WIN = 350;
+	private static final int NUMBER_TO_WIN = 330;
 	
 	private static final long BORDER_MOB_SPAWN_TIME = 500;
 	private static final int BORDER_MOB_SPAWN_VARIATION_Y = 250;
 	
 	private static final int ALIEN_TYPE = 6;
-	private static final long SPAWN_INTERVAL = 450;
-	private static final int NUM_ALIEN_SPAWN = 2;
+	private static final long SPAWN_INTERVAL = 480;
+	private static final int NUM_ALIEN_SPAWN = 3;
 	private static final int ALIEN_MOVE_SPEED = 350;
 	private static final int ALIEN_SPAWN_VARIATION = 150;
 	
@@ -35,7 +34,7 @@ public class LevelSeven extends LevelTemplate {
 
 		enemyCount = 0;
 
-		borderMobSpawnTime = lastSpawnTime = TimeUtils.millis();
+		borderMobSpawnTime = lastSpawnTime = game.timeReference.millis();
 		
 		centerX = (game.WIDTH - Assets.ALIEN_WIDTH) / 2;
 		centerY = (game.HEIGHT - Assets.ALIEN_HEIGHT) / 2;
@@ -44,13 +43,12 @@ public class LevelSeven extends LevelTemplate {
 	@Override
 	protected void spawnAliens() {
 		if (enemyCount > NUMBER_TO_WIN) {
-			//isEnd = true;
 			aliens = new Array<Alien>();
 			passLevel();
 			return;
 		}
 
-		long currentTime = TimeUtils.millis();
+		long currentTime = game.timeReference.millis();
 
 		if (currentTime - lastSpawnTime > SPAWN_INTERVAL) {
 			lastSpawnTime = currentTime;
@@ -68,19 +66,27 @@ public class LevelSeven extends LevelTemplate {
 		float precision = (float) Math.pow(10, RANDOM_PRECISION_DECIMAL_PLACES);
 		float randomNumber = (float) MathUtils.random(PARAM_RANDOM_MIN, PARAM_RANDOM_MAX * precision) / 
 				precision - 1;
-		if (Math.abs(randomNumber) > 1) System.out.println("Error: " + randomNumber);
+		
 		return randomNumber * ALIEN_MOVE_SPEED;
 	}
 
 	private void spawnAll() {
 		for (int i = 0; i < NUM_ALIEN_SPAWN; i++) {
 			float moveX = generateRandomMovement();
-			float moveY = generateRandomMovement();
+			float moveY;
+			
+			boolean isBranchChosen = MathUtils.randomBoolean();
+			
+			if (isBranchChosen) {
+				moveY = (1 - Math.abs(moveX / ALIEN_MOVE_SPEED)) * ALIEN_MOVE_SPEED;
+			} else {
+				moveY = (Math.abs(moveX / ALIEN_MOVE_SPEED) - 1) * ALIEN_MOVE_SPEED;
+			}
 			
 			float randomX = MathUtils.random(centerX - ALIEN_SPAWN_VARIATION, centerX + ALIEN_SPAWN_VARIATION);
 			float randomY = MathUtils.random(centerY - ALIEN_SPAWN_VARIATION, centerY + ALIEN_SPAWN_VARIATION);
 
-			aliens.add(new Alien(randomX, randomY, ALIEN_TYPE, moveX, moveY));
+			aliens.add(new Alien(randomX, randomY, ALIEN_TYPE, moveX, moveY, 0)); // spawn time not used
 			if (player.isAlive()) {
 				enemyCount++;
 			}
@@ -97,6 +103,6 @@ public class LevelSeven extends LevelTemplate {
 		int startX = 0;
 			
 		aliens.add(new Alien(startX, randomStartY, ALIEN_TYPE, movementX,
-				movementY));
+				movementY, 0)); // spawn time not used
 	}
 }

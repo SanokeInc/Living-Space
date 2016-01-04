@@ -2,7 +2,6 @@ package sanoke.livingspace;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class Alien {
 	// position of alien
@@ -27,7 +26,7 @@ public class Alien {
 	
 	private static final int BUFFER_SCREEN = 300;
 	
-	public Alien(float x, float y, int type, float moveX, float moveY) {
+	public Alien(float x, float y, int type, float moveX, float moveY, long timeSpawned) {
 		this.x = x;
 		this.y = y;
 		this.type = type;
@@ -35,7 +34,7 @@ public class Alien {
 		movementY = moveY;
 		initType(this.type);
 		onScreen = true;
-		timeSpawned = TimeUtils.millis();
+		this.timeSpawned = timeSpawned;
 	}
 	
 	private void initType(int alienType) {

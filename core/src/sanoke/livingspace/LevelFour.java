@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.math.GridPoint2;
 
 public class LevelFour extends LevelTemplate {
@@ -51,7 +50,7 @@ public class LevelFour extends LevelTemplate {
 		warnings = new Array<Warning>();
 		spawnLocations = new GridPoint2[NUM_PLACES_TO_SPAWN];
 		setSpawnLocations();
-		borderMobSpawnTime = lastSpawnLocationChangeTime = lastSpawnTime = TimeUtils.millis();
+		borderMobSpawnTime = lastSpawnLocationChangeTime = lastSpawnTime = game.timeReference.millis();
 	}
 	
 	private void setSpawnLocations() {
@@ -87,7 +86,7 @@ public class LevelFour extends LevelTemplate {
 			return;
 		}
 		
-		long currentTime = TimeUtils.millis();
+		long currentTime = game.timeReference.millis();
 		
 		if (currentTime - lastSpawnLocationChangeTime > CHANGE_SPAWN_LOC_DELAY_TIME) {
 			lastSpawnLocationChangeTime = currentTime;
@@ -133,14 +132,16 @@ public class LevelFour extends LevelTemplate {
 		for (int i = 0; i < NUM_PLACES_TO_SPAWN; i++) {
 			int xPos = spawnLocations[i].x;
 			int yPos = spawnLocations[i].y;
+			long spawnTime = game.timeReference.millis();
 			
-			aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, 0, INIT_MOVE_FACTOR_Y));
+			aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, 0, INIT_MOVE_FACTOR_Y, spawnTime));
 			if (player.isAlive()) {
 				enemyCount++;
 			}
 		}
 	}
 	
+	// spawn time not used here.
 	private void spawnBorderMob() {
 		int minSpawnX = 0;
 		int maxSpawnX = BORDER_MOB_SPAWN_VARIATION;
@@ -150,7 +151,7 @@ public class LevelFour extends LevelTemplate {
 		int randomStartX = MathUtils.random(minSpawnX, maxSpawnX);
 			
 		staticAliens.add(new Alien(randomStartX, 0, ALIEN_TYPE, movementX,
-				movementY));
+				movementY, 0));
 		
 		minSpawnX = game.WIDTH - BORDER_MOB_SPAWN_VARIATION - Assets.ALIEN_WIDTH;
 		maxSpawnX = game.WIDTH - Assets.ALIEN_WIDTH;
@@ -158,7 +159,7 @@ public class LevelFour extends LevelTemplate {
 		randomStartX = MathUtils.random(minSpawnX, maxSpawnX);
 		
 		staticAliens.add(new Alien(randomStartX, 0, ALIEN_TYPE, movementX,
-				movementY));
+				movementY, 0));
 	}
 	
 	@Override
@@ -167,7 +168,7 @@ public class LevelFour extends LevelTemplate {
 
 		while (iter.hasNext()) {
 			Alien alien = iter.next();
-			float timeElapsed = TimeUtils.millis() - alien.getTimeSpawned();
+			float timeElapsed = game.timeReference.millis() - alien.getTimeSpawned();
 			
 			alien.setMoveX(MathUtils.sin(timeElapsed / CONVERSION_FACTOR) * GENERAL_MOVE_FACTOR + VARIANCE_FACTOR);
 			alien.setMoveY(MathUtils.cos(timeElapsed / CONVERSION_FACTOR) * GENERAL_MOVE_FACTOR);

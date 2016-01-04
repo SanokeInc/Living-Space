@@ -25,6 +25,7 @@ public class PauseScreen implements Screen {
 		this.game = game;
 		this.resumeCode = returnCode;
 		this.state = game.getScreen();
+		game.timeReference.pause();
 		
 		RESUME_BUTTON_P1_X = 275;
 	    RESUME_BUTTON_P1_Y = 424;
@@ -50,6 +51,7 @@ public class PauseScreen implements Screen {
     
     // FUNCTION: Return to Game Screen
     private void loadGame() {
+    	game.timeReference.resume();
     	game.setResume(this.resumeCode);
     	game.setScreen(this.state);
     }
