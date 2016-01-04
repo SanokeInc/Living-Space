@@ -63,7 +63,7 @@ public class Assets {
 
     private static Texture [] alienTypeTemplate;
     public static TextureRegion [][] alienTypeFrame; // [Alien Type][Alien Frame]
-    private static final int NUM_TYPE_ALIENS = 9;
+    private static final int NUM_TYPE_ALIENS = 13;
     
     public static final int ALIEN_WIDTH = 36;
     public static final int ALIEN_HEIGHT = 42;
@@ -187,7 +187,11 @@ public class Assets {
         alienTypeTemplate[5] = new Texture(Gdx.files.internal("Alien6_SpriteFrames.png"));
         alienTypeTemplate[6] = new Texture(Gdx.files.internal("Alien7_SpriteFrames.png"));
         alienTypeTemplate[7] = new Texture(Gdx.files.internal("Alien8_SpriteFrames.png"));
-        alienTypeTemplate[8] = new Texture(Gdx.files.internal("UFO_SpriteFrames.png"));
+        alienTypeTemplate[8] = new Texture(Gdx.files.internal("Alien9_SpriteFrames.png"));
+        alienTypeTemplate[9] = new Texture(Gdx.files.internal("Alien10_SpriteFrames.png"));
+        alienTypeTemplate[10] = new Texture(Gdx.files.internal("Alien11_SpriteFrames.png"));
+        alienTypeTemplate[11] = new Texture(Gdx.files.internal("Alien12_SpriteFrames.png"));
+        alienTypeTemplate[12] = new Texture(Gdx.files.internal("UFO_SpriteFrames.png"));
 	}
 	
 	private static void loadLifeLoss() {
