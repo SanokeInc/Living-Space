@@ -63,7 +63,7 @@ public class Spaceship {
 		currentFrameNumber = 0;
 		upgradesBoughtSpeed = 0;
 	    upgradesBoughtMissileCooldown = 0;
-	    cash = 1000;
+	    cash = 0;
 		image = Assets.spaceshipFrames[currentFrameNumber];
 	}
 	

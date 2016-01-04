@@ -12,7 +12,7 @@ public class StarBucks {
     private boolean onScreen;
     
     private static final int COIN_MIN_VALUE = 1;
-    private static final int COIN_MAX_VALUE = 5;
+    private static final int COIN_MAX_VALUE = 7;
     
     private static final int CASH_SPAWN_RATE = 3;
     
