@@ -25,7 +25,6 @@ public class Spaceship {
 	
 	private int upgradesBoughtSpeed;
 	private int upgradesBoughtMissileCooldown;
-	private int upgradesBoughtLives;
 	
 	private Array<Missile> missiles;
 	
@@ -39,12 +38,13 @@ public class Spaceship {
 	private static final float INIT_POS_Y = 80;
 	private static final float INIT_MOVEMENT_SPEED = 80;
 	private static final float INIT_MISSILE_SPEED = 200;
-	private static final long INIT_COOLDOWN = 200;
+	private static final long INIT_COOLDOWN = 500;
 	private static final int INIT_LIVES = 3;
 	
 	private static final float UPGRADE_MULT_SPEED = 20;
-	private static final long UPGRADE_MULT_MISSILE_COOLDOWN = -50;
+	private static final long UPGRADE_MULT_MISSILE_COOLDOWN = -75;
 	private static final int UPGRADE_MULT_LIVES = 1;
+	private static final int MIN_NUM_EXTRA_LIVES = 0;
 	
 	public static final int SHIP_WIDTH = 35;
 	public static final int SHIP_HEIGHT = 50;
@@ -63,8 +63,7 @@ public class Spaceship {
 		currentFrameNumber = 0;
 		upgradesBoughtSpeed = 0;
 	    upgradesBoughtMissileCooldown = 0;
-	    upgradesBoughtLives = 0;
-	    cash = 0;
+	    cash = 1000;
 		image = Assets.spaceshipFrames[currentFrameNumber];
 	}
 	
@@ -154,6 +153,10 @@ public class Spaceship {
 		return lives;
 	}
 	
+	public int getNumExtraLives() {
+        return Math.max(lives - INIT_LIVES, MIN_NUM_EXTRA_LIVES);
+    }
+	
 	public int getNumUpgradesSpeed() {
         return upgradesBoughtSpeed;
     }
@@ -161,10 +164,7 @@ public class Spaceship {
 	public int getNumUpgradesMissileCooldown() {
         return upgradesBoughtMissileCooldown;
     }
-	
-	public int getNumUpgradesLives() {
-        return upgradesBoughtLives;
-    }
+
     public void upgradeSpeed() {
         upgradesBoughtSpeed++;
         movementSpeed = INIT_MOVEMENT_SPEED + UPGRADE_MULT_SPEED * upgradesBoughtSpeed;
@@ -177,7 +177,6 @@ public class Spaceship {
     }
     
     public void upgradeLives() {
-        upgradesBoughtLives++;
         lives += UPGRADE_MULT_LIVES;
         
     }
@@ -204,4 +203,6 @@ public class Spaceship {
     public void moveForwardOffScreen(float delta) {
         y = y + movementSpeed * delta;
     }
+    
+    
 }
