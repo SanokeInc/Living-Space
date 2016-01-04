@@ -72,8 +72,8 @@ public class LevelEight extends LevelTemplate {
 	@Override
 	protected void spawnAliens() {		
 		if (warningCounter > 8) {
-			isEnd = true;
 			aliens = new Array<Alien>();
+			passLevel();
 			return;
 		}
 		
