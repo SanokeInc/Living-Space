@@ -34,7 +34,7 @@ public class LevelNine extends LevelTemplate {
 	protected void spawnAliens() {
 		if (enemyCount > NUMBER_TO_WIN) {
 			aliens = new Array<Alien>();
-			isEnd = true;
+			passLevel();
 			return;
 		}
 
