@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class LevelSix extends LevelTemplate {
 	private int enemyCount;
@@ -38,7 +37,7 @@ public class LevelSix extends LevelTemplate {
 		enemyCount = 0;
 
 		ufos = new Array<Alien>();
-		lastSpawnTime = TimeUtils.millis();
+		lastSpawnTime = game.timeReference.millis();
 	}
 
 	@Override
@@ -50,7 +49,7 @@ public class LevelSix extends LevelTemplate {
 			return;
 		}
 
-		long currentTime = TimeUtils.millis();
+		long currentTime = game.timeReference.millis();
 
 		if (currentTime - lastSpawnTime > SPAWN_INTERVAL) {
 			lastSpawnTime = currentTime;
@@ -65,14 +64,15 @@ public class LevelSix extends LevelTemplate {
 		// Spawn Left
 		float randomX = 0;
 		float randomY = MathUtils.random(0, game.HEIGHT - Assets.ALIEN_HEIGHT);
+		long timeSpawned = game.timeReference.millis();
 
-		ufos.add(new Alien(randomX, randomY, UFO_TYPE, UFO_MOVE_SPEED, 0));
+		ufos.add(new Alien(randomX, randomY, UFO_TYPE, UFO_MOVE_SPEED, 0, timeSpawned));
 
 		// Spawn Right
 		randomX = game.WIDTH - Assets.ALIEN_WIDTH;
 		randomY = MathUtils.random(0, game.HEIGHT - Assets.ALIEN_HEIGHT);
 
-		ufos.add(new Alien(randomX, randomY, UFO_TYPE, -UFO_MOVE_SPEED, 0));
+		ufos.add(new Alien(randomX, randomY, UFO_TYPE, -UFO_MOVE_SPEED, 0, timeSpawned));
 	}
 
 	private void checkSpawnAliens() {
@@ -80,7 +80,7 @@ public class LevelSix extends LevelTemplate {
 
 		while (iter.hasNext()) {
 			Alien ufo = iter.next();
-			float timeElapsed = TimeUtils.millis() - ufo.getTimeSpawned();
+			float timeElapsed = game.timeReference.millis() - ufo.getTimeSpawned();
 
 			if (timeElapsed > MathUtils.random(TIME_RELEASE_ALIEN_MIN,
 					TIME_RELEASE_ALIEN_MAX)) {
@@ -106,7 +106,7 @@ public class LevelSix extends LevelTemplate {
 					+ spawnVariance)
 					* ALIEN_MOVE_SPEED;
 
-			aliens.add(new Alien(x, y, ALIEN_TYPE, moveX, moveY));
+			aliens.add(new Alien(x, y, ALIEN_TYPE, moveX, moveY, 0)); // time spawned not used.
 			if (player.isAlive()) {
 				enemyCount++;
 			}

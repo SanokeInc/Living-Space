@@ -2,7 +2,6 @@ package sanoke.livingspace;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class LevelSeven extends LevelTemplate {
 	private int enemyCount;
@@ -35,7 +34,7 @@ public class LevelSeven extends LevelTemplate {
 
 		enemyCount = 0;
 
-		borderMobSpawnTime = lastSpawnTime = TimeUtils.millis();
+		borderMobSpawnTime = lastSpawnTime = game.timeReference.millis();
 		
 		centerX = (game.WIDTH - Assets.ALIEN_WIDTH) / 2;
 		centerY = (game.HEIGHT - Assets.ALIEN_HEIGHT) / 2;
@@ -49,7 +48,7 @@ public class LevelSeven extends LevelTemplate {
 			return;
 		}
 
-		long currentTime = TimeUtils.millis();
+		long currentTime = game.timeReference.millis();
 
 		if (currentTime - lastSpawnTime > SPAWN_INTERVAL) {
 			lastSpawnTime = currentTime;
@@ -87,7 +86,7 @@ public class LevelSeven extends LevelTemplate {
 			float randomX = MathUtils.random(centerX - ALIEN_SPAWN_VARIATION, centerX + ALIEN_SPAWN_VARIATION);
 			float randomY = MathUtils.random(centerY - ALIEN_SPAWN_VARIATION, centerY + ALIEN_SPAWN_VARIATION);
 
-			aliens.add(new Alien(randomX, randomY, ALIEN_TYPE, moveX, moveY));
+			aliens.add(new Alien(randomX, randomY, ALIEN_TYPE, moveX, moveY, 0)); // spawn time not used
 			if (player.isAlive()) {
 				enemyCount++;
 			}
@@ -104,6 +103,6 @@ public class LevelSeven extends LevelTemplate {
 		int startX = 0;
 			
 		aliens.add(new Alien(startX, randomStartY, ALIEN_TYPE, movementX,
-				movementY));
+				movementY, 0)); // spawn time not used
 	}
 }

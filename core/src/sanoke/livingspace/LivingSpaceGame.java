@@ -14,6 +14,8 @@ public class LivingSpaceGame extends Game {
     private boolean isPaused;
     
     public int level;
+    
+    public PauseableTime timeReference; 
 	
     public final int HEIGHT = 800;
     public final int WIDTH = 1000;
@@ -25,7 +27,8 @@ public class LivingSpaceGame extends Game {
         // default Arial
         font = new BitmapFont(Gdx.files.internal("courier.fnt"));
         Assets.loadAssets();
-        player = new Spaceship();        
+        timeReference = new PauseableTime();
+        player = new Spaceship(timeReference);        
         level = 1;
         isPaused = false;
         gameCode = 1;
@@ -36,13 +39,14 @@ public class LivingSpaceGame extends Game {
     public void restart() {
     	Assets.music.play();
     	this.level = 1;
-    	player = new Spaceship();
+    	player = new Spaceship(timeReference);
     	setPregameScreen(this.level);
     }
     
     public void setLevelScreen(int level) {
     	Assets.music.stop();
     	gameCode = 3;
+    	timeReference.refresh();
     	switch (level) {
     		case 1:
     			this.setScreen(new LevelOne(this, player));
@@ -78,7 +82,7 @@ public class LivingSpaceGame extends Game {
     	gameCode = 1;
     	if (!isNewGame) this.setScreen(new MainMenuScreen(this));
     	else {
-    		player = new Spaceship();        
+    		player = new Spaceship(timeReference);        
             level = 1;
             this.setScreen(new MainMenuScreen(this));
     	}

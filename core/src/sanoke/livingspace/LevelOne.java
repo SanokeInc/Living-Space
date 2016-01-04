@@ -2,7 +2,6 @@ package sanoke.livingspace;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class LevelOne extends LevelTemplate {
 	private int enemyCount;
@@ -36,7 +35,7 @@ public class LevelOne extends LevelTemplate {
 		super(game, player, CURRENT_LEVEL);
 
 		enemyCount = 0;
-		borderMobSpawnTime = lastSpawnTime = TimeUtils.millis();
+		borderMobSpawnTime = lastSpawnTime = game.timeReference.millis();
 	}
 
 	@Override
@@ -47,7 +46,7 @@ public class LevelOne extends LevelTemplate {
 			return;
 		}
 		
-		long currentTime = TimeUtils.millis();
+		long currentTime = game.timeReference.millis();
 		if (currentTime - lastSpawnTime > SPAWN_TIME) {
 			lastSpawnTime = currentTime;
 			
@@ -111,13 +110,14 @@ public class LevelOne extends LevelTemplate {
 			int randomStartY = MathUtils.random(minSpawnY, maxSpawnY);
 			
 			aliens.add(new Alien(randomStartX, randomStartY, ALIEN_TYPE, movementX,
-					movementY));
+					movementY, 0)); // time spawned not used.
 			if (player.isAlive()) {
 				enemyCount++;
 			}
 		}
 	}
 	
+	// Time spawned not used.
 	private void spawnBorderMob() {
 		int minSpawnX = 0;
 		int maxSpawnX = BORDER_MOB_SPAWN_VARIATION_X;
@@ -128,13 +128,13 @@ public class LevelOne extends LevelTemplate {
 		int startY = 0;
 			
 		aliens.add(new Alien(randomStartX, startY, ALIEN_TYPE, movementX,
-				movementY));
+				movementY, 0));
 		
 		minSpawnX = game.WIDTH - BORDER_MOB_SPAWN_VARIATION_X;
 		maxSpawnX = game.WIDTH - 18;
 		randomStartX = MathUtils.random(minSpawnX, maxSpawnX);
 		
 		aliens.add(new Alien(randomStartX, startY, ALIEN_TYPE, movementX,
-				movementY));
+				movementY, 0));
 	}
 }

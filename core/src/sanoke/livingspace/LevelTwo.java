@@ -2,7 +2,6 @@ package sanoke.livingspace;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class LevelTwo extends LevelTemplate {
 	private int enemyCount;
@@ -25,7 +24,7 @@ public class LevelTwo extends LevelTemplate {
 		super(game, player, CURRENT_LEVEL);	
 		
 		enemyCount = 0;
-		lastSpawnTime = TimeUtils.millis();
+		lastSpawnTime = game.timeReference.millis();
 	}
 
 	@Override
@@ -36,7 +35,7 @@ public class LevelTwo extends LevelTemplate {
 			return;
 		}
 		
-		long currentTime = TimeUtils.millis();
+		long currentTime = game.timeReference.millis();
 		if (currentTime - lastSpawnTime > SPAWN_TIME) {
 			lastSpawnTime = currentTime;
 			int randomStartX = MathUtils.random(MIN_SPAWN_X, MAX_SPAWN_X);
@@ -52,7 +51,7 @@ public class LevelTwo extends LevelTemplate {
 								/ (float) (NUM_TO_SPAWN - 1) * i));
 
 				aliens.add(new Alien(randomStartX, randomStartY, ALIEN_TYPE, movementX,
-						movementY));
+						movementY, 0)); // spawn time not used
 				if (player.isAlive()) {
 					enemyCount++;
 				}

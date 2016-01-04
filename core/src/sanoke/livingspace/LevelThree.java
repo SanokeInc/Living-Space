@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class LevelThree extends LevelTemplate {
 	Array<Warning> warnings;
@@ -31,7 +30,7 @@ public class LevelThree extends LevelTemplate {
 
 		warnings = new Array<Warning>();
 		enemyCount = 0;
-		lastSpawnTime = TimeUtils.millis();
+		lastSpawnTime = game.timeReference.millis();
 	}
 
 	@Override
@@ -42,7 +41,7 @@ public class LevelThree extends LevelTemplate {
 			return;
 		}
 		
-		long currentTime = TimeUtils.millis();
+		long currentTime = game.timeReference.millis();
 		
 		// Control Warning Spawn
 		if (currentTime - lastSpawnTime > SPAWN_WARNING_TIME) {
@@ -78,7 +77,7 @@ public class LevelThree extends LevelTemplate {
 				
 				for (int i = 0; i < NUM_TO_SPAWN; i++) {
 					aliens.add(new Alien(x, y, ALIEN_TYPE, MOVE_FACTOR_X * factor_x[i],
-							MOVE_FACTOR_Y * factor_y[i]));
+							MOVE_FACTOR_Y * factor_y[i], 0)); // spawn time not used
 					if (player.isAlive()) {
 						enemyCount++;
 					}

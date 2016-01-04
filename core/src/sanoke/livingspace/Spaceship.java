@@ -3,7 +3,6 @@ package sanoke.livingspace;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class Spaceship {
 	// position of spaceship
@@ -30,6 +29,8 @@ public class Spaceship {
 	
 	private Array<Missile> missiles;
 	
+	private PauseableTime timeReference;
+	
 	private TextureRegion image;
 	private int currentFrameNumber;
 	private static final int FRAME_SWITCH_DELAY = 3;
@@ -48,7 +49,7 @@ public class Spaceship {
 	public static final int SHIP_WIDTH = 35;
 	public static final int SHIP_HEIGHT = 50;
 	
-	public Spaceship() {
+	public Spaceship(PauseableTime timeReference) {
 		isAlive = true;
 		lives = INIT_LIVES;
 		x = INIT_POS_X;
@@ -56,7 +57,8 @@ public class Spaceship {
 		movementSpeed = INIT_MOVEMENT_SPEED;
 		missileSpeed = INIT_MISSILE_SPEED;
 		firingCooldown = INIT_COOLDOWN;
-		lastFireTime = TimeUtils.millis();
+		this.timeReference = timeReference;
+		lastFireTime = timeReference.millis();
 		missiles = new Array<Missile>();
 		currentFrameNumber = 0;
 		upgradesBoughtSpeed = 0;
@@ -70,7 +72,7 @@ public class Spaceship {
 	public void refreshShip() {
 		x = INIT_POS_X;
 		y = INIT_POS_Y;
-		lastFireTime = TimeUtils.millis();
+		lastFireTime = timeReference.millis();
 		missiles = new Array<Missile>();
 		isInvulnerable = false;
 	}
@@ -116,7 +118,7 @@ public class Spaceship {
 			Assets.missileFireSound.play(0.20f);
 			missiles.add(new Missile(x + (SHIP_WIDTH  - Missile.MISSILE_WIDTH) / (float) 2,
 					y + SHIP_HEIGHT, missileSpeed));
-			lastFireTime = TimeUtils.millis();
+			lastFireTime = timeReference.millis();
 		}
 	}
 	
@@ -125,7 +127,7 @@ public class Spaceship {
 	}
 	
 	private boolean isCooldown() {
-		long currTime = TimeUtils.millis();
+		long currTime = timeReference.millis();
 		if (currTime - lastFireTime < firingCooldown) {
 			return true;
 		}
@@ -141,7 +143,7 @@ public class Spaceship {
 		}
 		
 		isInvulnerable = true;
-		lastHitTime = TimeUtils.millis();
+		lastHitTime = timeReference.millis();
 	}
 	
 	public boolean isAlive() {
@@ -190,7 +192,7 @@ public class Spaceship {
     
     public boolean isInvulnerable() {
     	if (isInvulnerable) {
-    		long currentTime = TimeUtils.millis();
+    		long currentTime = timeReference.millis();
     		if (currentTime - lastHitTime > TIME_INVULNERABLE) {
     			isInvulnerable = false;
     		}
