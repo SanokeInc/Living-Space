@@ -16,7 +16,7 @@ public class LevelSix extends LevelTemplate {
 
 	private static final int NUMBER_TO_WIN = 350;
 
-	private static final int UFO_TYPE = 8;
+	private static final int UFO_TYPE = 12;
 	private static final int ALIEN_TYPE = 5;
 
 	private static final long SPAWN_INTERVAL = 650;
