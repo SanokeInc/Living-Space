@@ -14,13 +14,13 @@ public class LevelNine extends LevelTemplate {
 	
 	private static final int ALIEN_TYPE = 1;
 
-	private static final long SPAWN_INTERVAL = 2200;
+	private static final long SPAWN_INTERVAL = 2500;
 
 	private static final int NUM_ALIEN_SPAWN = 8;
 	private static final int ANGLE_FACTOR = NUM_ALIEN_SPAWN / 2;
 
-	private static final int ALIEN_MOVE_SPEED = 50; 
-	private static final int ALIEN_SPAWN_OFFSET = 300; 
+	private static final int ALIEN_MOVE_SPEED = 130;
+	private static final int ALIEN_SPAWN_OFFSET = 400;
 
 	public LevelNine(final LivingSpaceGame game, Spaceship player) {
 		super(game, player, CURRENT_LEVEL);
