@@ -1,7 +1,6 @@
 package sanoke.livingspace;
 
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 
@@ -47,7 +46,7 @@ public class LevelEight extends LevelTemplate {
 		setSpawnLocations();
 		setWarningLocations();
 		
-		lastWarningTime = TimeUtils.nanoTime();
+		lastWarningTime = game.timeReference.nanoTime();
 		spawnWarnings(lastWarningTime);
 		lastSpawnTime = lastWarningTime + WARNING_DURATION;
 	}
@@ -78,7 +77,7 @@ public class LevelEight extends LevelTemplate {
 			return;
 		}
 		
-		long currentTime = TimeUtils.nanoTime();
+		long currentTime = game.timeReference.nanoTime();
 		
 		if (isShowingAliens) {
 			// Check if it is time to show safety area
@@ -121,7 +120,8 @@ public class LevelEight extends LevelTemplate {
 				int yPos = spawnLocations[i].y;
 			
 				if (!isWithinSafety(xPos, yPos)) {
-					aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, 0, 0));
+					// Note: spawn time of alien is not used, thus last param set to 0.
+					aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, 0, 0, 0));
 				}
 			}
 			isSpawned = true;

@@ -2,7 +2,6 @@ package sanoke.livingspace;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class LevelFive extends LevelTemplate {
 	private int enemyCount;
@@ -22,7 +21,7 @@ public class LevelFive extends LevelTemplate {
 
 		enemyCount = 0;
 
-		lastSpawnTime = TimeUtils.millis();
+		lastSpawnTime = game.timeReference.millis();
 	}
 
 	@Override
@@ -33,7 +32,7 @@ public class LevelFive extends LevelTemplate {
 			return ;
 		}
 		
-		long currentTime = TimeUtils.millis();
+		long currentTime = game.timeReference.millis();
 
 		if (currentTime - lastSpawnTime > SPAWN_INTERVAL) {
 			lastSpawnTime = currentTime;
@@ -42,12 +41,15 @@ public class LevelFive extends LevelTemplate {
 		}
 	}
 
+	/**
+	 * Note: As spawn time of alien is not used, last param of Alien constructor set to 0.
+	 */
 	private void spawnUFO() {
 		// Spawn Left
 		int xPos = 0;
 		int yPos = MathUtils.random(0, game.HEIGHT - Assets.ALIEN_HEIGHT);
 
-		aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, ALIEN_MOVE_SPEED, 0));
+		aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, ALIEN_MOVE_SPEED, 0, 0));
 		if (player.isAlive()) {
 			enemyCount++;
 		}
@@ -56,7 +58,7 @@ public class LevelFive extends LevelTemplate {
 		xPos = game.WIDTH - Assets.ALIEN_WIDTH;
 		yPos = MathUtils.random(0, game.HEIGHT - Assets.ALIEN_HEIGHT);
 
-		aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, -ALIEN_MOVE_SPEED, 0));
+		aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, -ALIEN_MOVE_SPEED, 0, 0));
 		if (player.isAlive()) {
 			enemyCount++;
 		}

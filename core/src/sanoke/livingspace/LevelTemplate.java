@@ -8,7 +8,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public abstract class LevelTemplate implements Screen {
 	final LivingSpaceGame game;
@@ -65,7 +64,7 @@ public abstract class LevelTemplate implements Screen {
 		heartBreak = new LifeLostAnimation();
 		blinkCounter = 0;
 
-		initialTime = TimeUtils.millis();
+		initialTime = game.timeReference.millis();
 		displayLevel = true;
 		currentLevel = level;
 	}
@@ -133,7 +132,7 @@ public abstract class LevelTemplate implements Screen {
 			game.font.draw(game.batch, "Level: " + currentLevel,
 					LEVEL_DISPLAY_OFFSET_X, LEVEL_DISPLAY_OFFSET_Y);
 
-			long currentTime = TimeUtils.millis();
+			long currentTime = game.timeReference.millis();
 			if (currentTime - initialTime > TIME_TO_DISPLAY_LVL) {
 				displayLevel = false;
 			}
