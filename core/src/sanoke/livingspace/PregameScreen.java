@@ -84,7 +84,7 @@ public class PregameScreen implements Screen {
     }
 
     private void processInput() {
-        processMouseOver();
+    	processMouseOver();
         processClick();
     }
     
@@ -107,13 +107,13 @@ public class PregameScreen implements Screen {
             float xPos = Gdx.input.getX();
             float yPos = Gdx.input.getY();
             if (isWithinPlay(xPos, yPos)) {
-            	Assets.buttonClickSound.play();
+            	if (game.isSoundOn) Assets.buttonClickSound.play();
                 loadGame();
             } else if (isWithinUpgrades(xPos, yPos)) {
-            	Assets.buttonClickSound.play();
+            	if (game.isSoundOn) Assets.buttonClickSound.play();
                 loadUpgrades();
             } else if (isWithinQuit(xPos, yPos)) {
-            	Assets.buttonClickSound.play();
+            	if (game.isSoundOn) Assets.buttonClickSound.play();
             	loadMainScreen();
             } else {
             	

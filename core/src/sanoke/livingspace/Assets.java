@@ -8,6 +8,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
     public static Texture background;
+    
+    public static Texture soundOn;
+    public static Texture soundOff;
+    public static Texture soundOnHighlight;
+    public static Texture soundOffHighlight;
 
     public static Texture missile;
     
@@ -91,6 +96,10 @@ public class Assets {
 
     public static void loadAssets() {
         background = new Texture(Gdx.files.internal("space.jpg"));
+        soundOn = new Texture(Gdx.files.internal("Sound_ON.png"));
+        soundOff = new Texture(Gdx.files.internal("Sound_OFF.png"));
+        soundOnHighlight = new Texture(Gdx.files.internal("Sound_ON_Highlight.png"));
+        soundOffHighlight = new Texture(Gdx.files.internal("Sound_OFF_Highlight.png"));
         coin = new Texture(Gdx.files.internal("coin.png"));
         missile = new Texture(Gdx.files.internal("Missile_F1.png"));
         warningSign = new Texture(Gdx.files.internal("warning_placeholder.png"));

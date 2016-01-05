@@ -11,6 +11,7 @@ public class Spaceship {
 	
 	private boolean isEasy;
 	private boolean isAlive;
+	private boolean isSoundOn;
 	
 	private boolean isInvulnerable;
 	private long lastHitTime;
@@ -50,9 +51,24 @@ public class Spaceship {
 	public static final int SHIP_WIDTH = 35;
 	public static final int SHIP_HEIGHT = 50;
 	
+	/** 
+	 * For collision detections
+	 */
+	// Ship Body
+	private static final int SHIP_ORIGIN_BODY_OFFSET_X = 9;
+	private static final int SHIP_ORIGIN_BODY_OFFSET_Y = 1;
+	private static final int SHIP_BODY_SIZE_X = 16; // 25 - 9
+	private static final int SHIP_BODY_SIZE_Y = 48; // 49 - 1
+	// Ship Wings
+	private static final int SHIP_ORIGIN_WINGS_OFFSET_X = 0;
+	private static final int SHIP_ORIGIN_WINGS_OFFSET_Y = 16;
+	private static final int SHIP_WINGS_SIZE_X = 35; // 35 - 0
+	private static final int SHIP_WINGS_SIZE_Y = 16; // 32 - 16
+	
 	public Spaceship(PauseableTime timeReference) {
 	    isEasy = false;
 		isAlive = true;
+		isSoundOn = true;
 		lives = INIT_LIVES;
 		x = INIT_POS_X;
 		y = INIT_POS_Y;
@@ -78,8 +94,29 @@ public class Spaceship {
 		isInvulnerable = false;
 	}
 	
-	public Rectangle getShipRegion() {
-		return new Rectangle(x, y, SHIP_WIDTH, SHIP_HEIGHT);
+	public boolean isCollidingWith(Rectangle object) {
+		Rectangle bodyRegion = getBodyRegion();
+		Rectangle wingsRegion = getWingsRegion();
+		
+		if (object.overlaps(bodyRegion) || object.overlaps(wingsRegion)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private Rectangle getBodyRegion() {
+		float xPos = x + SHIP_ORIGIN_BODY_OFFSET_X;
+		float yPos = y + SHIP_ORIGIN_BODY_OFFSET_Y;
+		
+		return new Rectangle(xPos, yPos, SHIP_BODY_SIZE_X, SHIP_BODY_SIZE_Y);
+	}
+	
+	private Rectangle getWingsRegion() {
+		float xPos = x + SHIP_ORIGIN_WINGS_OFFSET_X;
+		float yPos = y + SHIP_ORIGIN_WINGS_OFFSET_Y;
+		
+		return new Rectangle(xPos, yPos, SHIP_WINGS_SIZE_X, SHIP_WINGS_SIZE_Y);
 	}
 	
 	public float getX() {
@@ -88,6 +125,10 @@ public class Spaceship {
 	
 	public float getY() {
 		return y;
+	}
+	
+	public void setSound(boolean toPlay) {
+		isSoundOn = toPlay;
 	}
 	
 	public TextureRegion getImage() {
@@ -116,7 +157,7 @@ public class Spaceship {
 	
 	public void fire() {
 		if (!isCooldown() && isAlive()) {
-			Assets.missileFireSound.play(0.20f);
+			if (isSoundOn) Assets.missileFireSound.play(0.20f);
 			missiles.add(new Missile(x + (SHIP_WIDTH  - Missile.MISSILE_WIDTH) / (float) 2,
 					y + SHIP_HEIGHT, missileSpeed));
 			lastFireTime = timeReference.millis();
@@ -143,7 +184,8 @@ public class Spaceship {
 			isAlive = false;
 			return;
 		}
-		Assets.playerCollideSound.play();
+		
+		if (isSoundOn) Assets.playerCollideSound.play();
 		
 		isInvulnerable = true;
 		lastHitTime = timeReference.millis();

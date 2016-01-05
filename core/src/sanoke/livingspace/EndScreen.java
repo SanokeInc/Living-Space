@@ -42,7 +42,7 @@ public class EndScreen implements Screen {
 		QUIT_BUTTON_P2_X = 888;
 		QUIT_BUTTON_P2_Y = 743;
 
-		Assets.endMusic.play();
+		if (game.isSoundOn) Assets.endMusic.play();
 	}
 
 	// =============== METHODS FOR END SCREEN =============== //
@@ -59,7 +59,7 @@ public class EndScreen implements Screen {
 	// FUNCTION: Sets game screen to Pregame Screen
 	private void loadMenu() {
 		Assets.endMusic.stop();
-		Assets.music.play();
+		if (game.isSoundOn) Assets.music.play();
 		game.setMainScreen(true);
 	}
 
@@ -91,10 +91,10 @@ public class EndScreen implements Screen {
 			float xPos = Gdx.input.getX();
 			float yPos = Gdx.input.getY();
 			if (isWithinMenu(xPos, yPos)) {
-				Assets.buttonClickSound.play();
+				if (game.isSoundOn) Assets.buttonClickSound.play();
 				loadMenu();
 			} else if (isWithinQuit(xPos, yPos)) {
-				Assets.buttonClickSound.play();
+				if (game.isSoundOn) Assets.buttonClickSound.play();
 				Gdx.app.exit();
 			} else {
 

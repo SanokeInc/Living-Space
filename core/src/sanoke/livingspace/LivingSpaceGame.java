@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class LivingSpaceGame extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
+    public boolean isSoundOn;
     
     private Spaceship player;
     
@@ -26,6 +27,7 @@ public class LivingSpaceGame extends Game {
         batch = new SpriteBatch();
         // default Arial
         font = new BitmapFont(Gdx.files.internal("courier.fnt"));
+        isSoundOn = true;
         Assets.loadAssets();
         timeReference = new PauseableTime();
         player = new Spaceship(timeReference);        
@@ -33,13 +35,16 @@ public class LivingSpaceGame extends Game {
         isPaused = false;
         gameCode = 1;
         setMainScreen(false);
-        Assets.music.play();
+        if (isSoundOn) Assets.music.play();
+        else Assets.music.stop();
     }
     
     public void restart() {
-    	Assets.music.play();
+    	if (isSoundOn) Assets.music.play();
+    	else Assets.music.stop();
     	this.level = 1;
     	player = new Spaceship(timeReference);
+    	player.setSound(isSoundOn);
     	setPregameScreen(this.level);
     }
     
@@ -94,7 +99,8 @@ public class LivingSpaceGame extends Game {
     	gameCode = 1;
     	if (!isNewGame) this.setScreen(new MainMenuScreen(this, player));
     	else {
-    		player = new Spaceship(timeReference);        
+    		player = new Spaceship(timeReference);
+    		player.setSound(isSoundOn);
             level = 1;
             this.setScreen(new MainMenuScreen(this, player));
     	}
@@ -106,7 +112,7 @@ public class LivingSpaceGame extends Game {
     }
 
     public void setPauseScreen() {
-    	this.setScreen(new PauseScreen(this, gameCode));
+    	this.setScreen(new PauseScreen(this, gameCode, player));
     }
     
     public void setEndScreen() {
@@ -130,8 +136,14 @@ public class LivingSpaceGame extends Game {
     }
     
     public void setResume(int type) {
-    	if (type == 1) Assets.music.play(); // if resume to main menu or to the hub
-    	else if (type == 2) Assets.endMusic.play(); // if resume to end screen
+    	if (type == 1) {
+    		if (isSoundOn) Assets.music.play(); // if resume to main menu or to the hub
+    		else Assets.music.stop();
+    	}
+    	else if (type == 2) {
+    		if (isSoundOn) Assets.endMusic.play(); // if resume to end screen
+    		else Assets.endMusic.stop();
+    	}
     	isPaused = false;
     }
 
@@ -144,8 +156,14 @@ public class LivingSpaceGame extends Game {
     @Override
     public void pause() {
     	if (!isPaused) {
-    		if (this.gameCode == 1) Assets.music.pause(); // if paused from main menu or from the hub
-    		else if (this.gameCode == 2) Assets.endMusic.pause(); // if paused from end screen
+    		if (this.gameCode == 1) {
+    			if (isSoundOn) Assets.music.pause(); // if paused from main menu or from the hub
+    			else Assets.music.stop();
+    		}
+    		else if (this.gameCode == 2) {
+    			if (isSoundOn) Assets.endMusic.pause(); // if paused from end screen
+    			else Assets.endMusic.stop();
+    		}
     		this.setPauseScreen();
     		isPaused = true;
     	}

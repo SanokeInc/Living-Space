@@ -96,7 +96,7 @@ public abstract class LevelTemplate implements Screen {
 	
     private void animateZoomOffScreen(float delta) {
         if (isOver || isEnd) {
-        	Assets.zoomOffSound.play();
+        	if (game.isSoundOn) Assets.zoomOffSound.play();
             player.moveForwardOffScreen(delta * ZOOM_SPEED_MULTIPLIER);
             if (player.getY() >= game.HEIGHT) {
                 isOffScreen = true;
@@ -106,7 +106,7 @@ public abstract class LevelTemplate implements Screen {
 
     private void backToHub() {
         if (isOver && isOffScreen) {
-        	Assets.music.play();
+        	if (game.isSoundOn) Assets.music.play();
 		    game.level += 1;
 	        game.setPregameScreen(game.level);
 		}
@@ -210,11 +210,12 @@ public abstract class LevelTemplate implements Screen {
 	
 	private void checkCollisionsForCoinsArray() {
         Iterator<StarBucks> coinsIter = coins.iterator();
-        Rectangle currentShip = player.getShipRegion();
+        
         while (coinsIter.hasNext()) {
             StarBucks coin = coinsIter.next();
-            if (!coin.isCollected() && coin.getCoinRegion().overlaps(currentShip)) {
-            	Assets.coinCollectSound.play();
+
+            if (!coin.isCollected() && player.isCollidingWith(coin.getCoinRegion())) {
+            	if (game.isSoundOn) Assets.coinCollectSound.play();
             	coin.collect();
             	player.addCash(coin.getValue());
             }
@@ -229,8 +230,7 @@ public abstract class LevelTemplate implements Screen {
 			Array<Missile> missiles = player.getMissiles();
 			Iterator<Missile> missileIter = missiles.iterator();
 
-			Rectangle currentShip = player.getShipRegion();
-			if (currentAlien.overlaps(currentShip) && !player.isInvulnerable()) {
+			if (player.isCollidingWith(currentAlien) && !player.isInvulnerable()) {
 				alienIter.remove();
 				player.minusOneLife();
 				continue;
@@ -241,7 +241,7 @@ public abstract class LevelTemplate implements Screen {
 						.getMissileRegion();
 				if (currentAlien.overlaps(currentMissile)) {
 				    spawnCash(currentAlien.getX(), currentAlien.getY());
-					Assets.alienDieSound.play();
+					if (game.isSoundOn) Assets.alienDieSound.play();
 				    alienIter.remove();
 					missileIter.remove();
 					break;
@@ -349,7 +349,7 @@ public abstract class LevelTemplate implements Screen {
 	private void checkAlive() {
 		if (!player.isAlive()) {
 			Assets.playerCollideSound.stop();
-			Assets.playerDieSound.play();
+			if (game.isSoundOn) Assets.playerDieSound.play();
 			game.setDeathScreen();
 		}
 	}
