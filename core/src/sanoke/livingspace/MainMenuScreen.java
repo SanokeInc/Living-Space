@@ -16,11 +16,11 @@ public class MainMenuScreen implements Screen {
     private static final int PLAY_BUTTON_P2_X = 857;
     private static final int PLAY_BUTTON_P2_Y = 556;
     
-    // revert all sound offsets by 100 when done
+    // Bottom-left & Top-right points x-y coordinates for Sound button
     private static final int SOUND_BUTTON_P1_X = 50;
-    private static final int SOUND_BUTTON_P1_Y = 50;
+    private static final int SOUND_BUTTON_P1_Y = 100;
     private static final int SOUND_BUTTON_P2_X = 125;
-    private static final int SOUND_BUTTON_P2_Y = 125;
+    private static final int SOUND_BUTTON_P2_Y = 175;
 
     private static final int EASYMODE_BUTTON_P1_X = 466;
     private static final int EASYMODE_BUTTON_P1_Y = 597;
@@ -55,8 +55,8 @@ public class MainMenuScreen implements Screen {
 
     private void setupMainScreen() {
     	game.batch.draw(Assets.mainScreenDefault, 0, 0);
-    	if (game.isSoundOn) game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
-    	else game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+    	if (game.isSoundOn) game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_Y);
+    	else game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_Y);
     }
 
     private void drawEasySelected() {
@@ -78,7 +78,7 @@ public class MainMenuScreen implements Screen {
     
     private boolean isWithinSoundSetting(float x, float y) {
     	return ((x >= SOUND_BUTTON_P1_X && x <= SOUND_BUTTON_P2_X) &&
-                (y >= SOUND_BUTTON_P1_Y && y <= SOUND_BUTTON_P2_Y)) ? true : false;
+    			(y >= 2 * SOUND_BUTTON_P1_Y - SOUND_BUTTON_P2_Y && y <= SOUND_BUTTON_P1_Y)) ? true : false;
     }
     
     // Sets game screen to Pregame Screen
@@ -107,20 +107,18 @@ public class MainMenuScreen implements Screen {
         float yPos = Gdx.input.getY();
         if (isWithinPlay(xPos, yPos)) {
             game.batch.draw(Assets.mainScreenEnter, 0, 0);
-            if (game.isSoundOn) game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
-        	else game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
         } else if (isWithinEasyMode(xPos, yPos) && !isEasyMode) {
             game.batch.draw(Assets.mainScreenEasy, 0, 0);
-            if (game.isSoundOn) game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
-        	else game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
         } else if (isWithinInstructions(xPos, yPos)) {
             game.batch.draw(Assets.mainScreenInstructions, 0, 0);
-            if (game.isSoundOn) game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
-        	else game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
         } else if (isWithinSoundSetting(xPos, yPos)) {
-        	if (game.isSoundOn) game.batch.draw(Assets.soundOnHighlight, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
-        	else game.batch.draw(Assets.soundOffHighlight, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+        	if (game.isSoundOn) game.batch.draw(Assets.soundOnHighlight, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_Y);
+        	else game.batch.draw(Assets.soundOffHighlight, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_Y);
+        	return;
         }
+        
+        if (game.isSoundOn) game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_Y);
+    	else game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_Y);
     }
     
     private void processClick() {
@@ -141,14 +139,14 @@ public class MainMenuScreen implements Screen {
             		game.isSoundOn = false;
             		Assets.music.stop();
             		player.setSound(game.isSoundOn);
-            		game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+            		game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_Y);
             	}
             	else {
             		game.isSoundOn = true;
             		Assets.buttonClickSound.play();
             		Assets.music.play();
             		player.setSound(game.isSoundOn);
-            		game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+            		game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_Y);
             	}
             }
         }
