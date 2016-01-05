@@ -25,6 +25,8 @@ public class Assets {
     public static Texture coin;
     
     public static Texture mainScreenDefault;
+    public static Texture mainScreenEasy;
+    public static Texture mainScreenEasySelect;
     public static Texture mainScreenEnter;
     public static Texture mainScreenInstructions;
     public static Texture instructionScreenDefault;
@@ -115,7 +117,9 @@ public class Assets {
     
     private static void loadMainAndPregameScreens() {
     	mainScreenDefault = new Texture(Gdx.files.internal("MainScreen.jpg"));
-        mainScreenEnter = new Texture(Gdx.files.internal("MainScreen_Play.jpg"));
+    	mainScreenEnter = new Texture(Gdx.files.internal("MainScreen_Play.jpg"));
+    	mainScreenEasy = new Texture(Gdx.files.internal("MainScreen_Easy.jpg"));
+    	mainScreenEasySelect = new Texture(Gdx.files.internal("MainScreen_EasySelected.jpg"));
         mainScreenInstructions = new Texture(Gdx.files.internal("MainScreen_Instructions.jpg"));
         instructionScreenDefault = new Texture(Gdx.files.internal("Instructions.jpg"));
         instructionScreenOK = new Texture(Gdx.files.internal("Instructions_OK.jpg"));

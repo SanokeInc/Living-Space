@@ -6,49 +6,73 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class MainMenuScreen implements Screen {
     private LivingSpaceGame game;
+    Spaceship player;
+    
+    private boolean isEasyMode;
     
     // Bottom-left & Top-right points x-y coordinates for Play button
-    private static int PLAY_BUTTON_P1_X;
-    private static int PLAY_BUTTON_P1_Y;
-    private static int PLAY_BUTTON_P2_X;
-    private static int PLAY_BUTTON_P2_Y;
+    private static final int PLAY_BUTTON_P1_X = 466;
+    private static final int PLAY_BUTTON_P1_Y = 498;
+    private static final int PLAY_BUTTON_P2_X = 857;
+    private static final int PLAY_BUTTON_P2_Y = 556;
+
+    private static final int EASYMODE_BUTTON_P1_X = 466;
+    private static final int EASYMODE_BUTTON_P1_Y = 597;
+    private static final int EASYMODE_BUTTON_P2_X = 857;
+    private static final int EASYMODE_BUTTON_P2_Y = 660;
     
     // Bottom-left & Top-right points x-y coordinates for Instructions button
-    private static int INSTRUCTION_BUTTON_P1_X;
-    private static int INSTRUCTION_BUTTON_P1_Y;
-    private static int INSTRUCTION_BUTTON_P2_X;
-    private static int INSTRUCTION_BUTTON_P2_Y;
+    private static final int INSTRUCTION_BUTTON_P1_X = 466;
+    private static final int INSTRUCTION_BUTTON_P1_Y = 695;
+    private static final int INSTRUCTION_BUTTON_P2_X = 857;
+    private static final int INSTRUCTION_BUTTON_P2_Y = 751;
+    
+    
 
     OrthographicCamera camera;
-    public MainMenuScreen(final LivingSpaceGame game) {
+    public MainMenuScreen(final LivingSpaceGame game, Spaceship player) {
         this.game = game;
-        
-        PLAY_BUTTON_P1_X = 469;
-        PLAY_BUTTON_P1_Y = 498;
-        PLAY_BUTTON_P2_X = 853;
-        PLAY_BUTTON_P2_Y = 557;
-        
-        INSTRUCTION_BUTTON_P1_X = 469;
-        INSTRUCTION_BUTTON_P1_Y = 642;
-        INSTRUCTION_BUTTON_P2_X = 853;
-        INSTRUCTION_BUTTON_P2_Y = 697;
-
+        this.player = player;
+        isEasyMode = false;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
     }
     
-    // =============== METHODS FOR MAIN MENU SCREEN =============== //
+    @Override
+    public void render(float delta) {
+    	game.batch.begin();
+    	setupMainScreen();
+    	processInput();
+    	drawEasySelected();
+    	game.batch.end();
+    }
+
     private void setupMainScreen() {
     	game.batch.draw(Assets.mainScreenDefault, 0, 0);
     }
-    
-    private boolean isWithinPlay(float x, float y) {
-    	return ((x >= PLAY_BUTTON_P1_X && x <= PLAY_BUTTON_P2_X) &&
-    			(y >= PLAY_BUTTON_P1_Y && y <= PLAY_BUTTON_P2_Y)) ? true : false;
+
+    private void drawEasySelected() {
+        if (isEasyMode) {
+            game.batch.draw(Assets.mainScreenEasySelect, EASYMODE_BUTTON_P1_X,
+                    game.HEIGHT - EASYMODE_BUTTON_P2_Y);
+        }
     }
     
-    // FUNCTION: Sets game screen to Pregame Screen
+    private boolean isWithinPlay(float x, float y) {
+        return ((x >= PLAY_BUTTON_P1_X && x <= PLAY_BUTTON_P2_X) &&
+                (y >= PLAY_BUTTON_P1_Y && y <= PLAY_BUTTON_P2_Y)) ? true : false;
+    }
+    
+    private boolean isWithinEasyMode(float x, float y) {
+        return ((x >= EASYMODE_BUTTON_P1_X && x <= EASYMODE_BUTTON_P2_X) &&
+                (y >= EASYMODE_BUTTON_P1_Y && y <= EASYMODE_BUTTON_P2_Y)) ? true : false;
+    }
+    
+    // Sets game screen to Pregame Screen
     private void loadPreGame() {
+        if (isEasyMode) {
+            player.setEasyMode();
+        }
     	game.setPregameScreen(game.level);
     }
     
@@ -57,7 +81,7 @@ public class MainMenuScreen implements Screen {
     			(y >= INSTRUCTION_BUTTON_P1_Y && y <= INSTRUCTION_BUTTON_P2_Y)) ? true : false;
     }
     
-    // FUNCTION: Sets game screen to Instructions Screen
+    // Sets game screen to Instructions Screen
     private void loadInstructions() {
     	game.setInstructionScreen();
     }
@@ -72,10 +96,10 @@ public class MainMenuScreen implements Screen {
         float yPos = Gdx.input.getY();
         if (isWithinPlay(xPos, yPos)) {
             game.batch.draw(Assets.mainScreenEnter, 0, 0);
+        } else if (isWithinEasyMode(xPos, yPos) && !isEasyMode) {
+            game.batch.draw(Assets.mainScreenEasy, 0, 0);
         } else if (isWithinInstructions(xPos, yPos)) {
             game.batch.draw(Assets.mainScreenInstructions, 0, 0);
-        } else {
-        	game.batch.draw(Assets.mainScreenDefault, 0, 0);
         }
     }
     
@@ -89,13 +113,12 @@ public class MainMenuScreen implements Screen {
             } else if (isWithinInstructions(xPos, yPos)) {
             	Assets.buttonClickSound.play();
                 loadInstructions();
-            } else {
-            	
+            } else if (isWithinEasyMode(xPos, yPos)) {
+                Assets.buttonClickSound.play();
+            	isEasyMode = !isEasyMode;
             }
         }
     }
-
-    // =============== !METHODS FOR MAIN MENU SCREEN =============== //
     
     @Override
     public void show() {
@@ -103,15 +126,6 @@ public class MainMenuScreen implements Screen {
 
     }
     
-    @Override
-    public void render(float delta) {
-        // TODO Auto-generated method stub
-    	game.batch.begin();
-    	setupMainScreen();
-    	processInput();
-    	game.batch.end();
-    }
-
     @Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub

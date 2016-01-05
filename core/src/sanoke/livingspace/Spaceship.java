@@ -9,6 +9,7 @@ public class Spaceship {
 	private float x;
 	private float y;
 	
+	private boolean isEasy;
 	private boolean isAlive;
 	
 	private boolean isInvulnerable;
@@ -50,6 +51,7 @@ public class Spaceship {
 	public static final int SHIP_HEIGHT = 50;
 	
 	public Spaceship(PauseableTime timeReference) {
+	    isEasy = false;
 		isAlive = true;
 		lives = INIT_LIVES;
 		x = INIT_POS_X;
@@ -134,8 +136,9 @@ public class Spaceship {
 	}
 	
 	public void minusOneLife() {
-		lives--;
-		
+		if (!isEasy) {
+		    lives--;
+		}
 		if (lives <= 0) {
 			isAlive = false;
 			return;
@@ -202,6 +205,10 @@ public class Spaceship {
     
     public void moveForwardOffScreen(float delta) {
         y = y + movementSpeed * delta;
+    }
+    
+    public void setEasyMode() {
+        isEasy = true;
     }
     
     
