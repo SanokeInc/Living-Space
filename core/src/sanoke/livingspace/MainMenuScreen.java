@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class MainMenuScreen implements Screen {
     private LivingSpaceGame game;
+    Spaceship player;
     
     private boolean isEasyMode;
     
@@ -18,7 +19,7 @@ public class MainMenuScreen implements Screen {
     private static final int EASYMODE_BUTTON_P1_X = 466;
     private static final int EASYMODE_BUTTON_P1_Y = 597;
     private static final int EASYMODE_BUTTON_P2_X = 857;
-    private static final int EASYMODE_BUTTON_P2_Y = 653;
+    private static final int EASYMODE_BUTTON_P2_Y = 660;
     
     // Bottom-left & Top-right points x-y coordinates for Instructions button
     private static final int INSTRUCTION_BUTTON_P1_X = 466;
@@ -31,16 +32,30 @@ public class MainMenuScreen implements Screen {
     OrthographicCamera camera;
     public MainMenuScreen(final LivingSpaceGame game, Spaceship player) {
         this.game = game;
+        this.player = player;
         isEasyMode = false;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, game.HEIGHT, game.WIDTH);
     }
     
+    @Override
+    public void render(float delta) {
+    	game.batch.begin();
+    	setupMainScreen();
+    	processInput();
+    	drawEasySelected();
+    	game.batch.end();
+    }
+
     private void setupMainScreen() {
     	game.batch.draw(Assets.mainScreenDefault, 0, 0);
-    	if (isEasyMode) {
-    	    game.batch.draw(Assets.mainScreenEasy, EASYMODE_BUTTON_P1_X, game.HEIGHT - EASYMODE_BUTTON_P1_Y);
-    	}
+    }
+
+    private void drawEasySelected() {
+        if (isEasyMode) {
+            game.batch.draw(Assets.mainScreenEasySelect, EASYMODE_BUTTON_P1_X,
+                    game.HEIGHT - EASYMODE_BUTTON_P2_Y);
+        }
     }
     
     private boolean isWithinPlay(float x, float y) {
@@ -55,6 +70,9 @@ public class MainMenuScreen implements Screen {
     
     // Sets game screen to Pregame Screen
     private void loadPreGame() {
+        if (isEasyMode) {
+            player.setEasyMode();
+        }
     	game.setPregameScreen(game.level);
     }
     
@@ -78,7 +96,7 @@ public class MainMenuScreen implements Screen {
         float yPos = Gdx.input.getY();
         if (isWithinPlay(xPos, yPos)) {
             game.batch.draw(Assets.mainScreenEnter, 0, 0);
-        } else if (isWithinEasyMode(xPos, yPos)) {
+        } else if (isWithinEasyMode(xPos, yPos) && !isEasyMode) {
             game.batch.draw(Assets.mainScreenEasy, 0, 0);
         } else if (isWithinInstructions(xPos, yPos)) {
             game.batch.draw(Assets.mainScreenInstructions, 0, 0);
@@ -108,15 +126,6 @@ public class MainMenuScreen implements Screen {
 
     }
     
-    @Override
-    public void render(float delta) {
-        // TODO Auto-generated method stub
-    	game.batch.begin();
-    	setupMainScreen();
-    	processInput();
-    	game.batch.end();
-    }
-
     @Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub
