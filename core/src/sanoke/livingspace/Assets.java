@@ -32,9 +32,6 @@ public class Assets {
     public static Texture instructionScreenDefault;
     public static Texture instructionScreenOK;
     public static Texture pregameScreenDefault;
-    public static Texture pregameScreenUpgrades;
-    public static Texture pregameScreenPlay;
-    public static Texture pregameScreenQuit;
     
     public static Texture pauseScreenDefault;
     public static Texture pauseScreenResume;
@@ -124,9 +121,6 @@ public class Assets {
         instructionScreenDefault = new Texture(Gdx.files.internal("Instructions.jpg"));
         instructionScreenOK = new Texture(Gdx.files.internal("Instructions_OK.jpg"));
         pregameScreenDefault = new Texture(Gdx.files.internal("PreGame.jpg"));
-        pregameScreenUpgrades = new Texture(Gdx.files.internal("PreGame_Upgrades.jpg"));
-        pregameScreenPlay = new Texture(Gdx.files.internal("PreGame_Play.jpg"));
-        pregameScreenQuit = new Texture(Gdx.files.internal("PreGame_Leave.jpg"));
     }
     
     private static void loadDeathScreens() {

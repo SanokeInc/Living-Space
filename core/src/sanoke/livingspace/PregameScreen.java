@@ -84,22 +84,7 @@ public class PregameScreen implements Screen {
     }
 
     private void processInput() {
-        processMouseOver();
         processClick();
-    }
-    
-    private void processMouseOver() {
-        float xPos = Gdx.input.getX();
-        float yPos = Gdx.input.getY();
-        if (isWithinPlay(xPos, yPos)) {
-            game.batch.draw(Assets.pregameScreenPlay, 0, 0);
-        } else if (isWithinUpgrades(xPos, yPos)) {
-            game.batch.draw(Assets.pregameScreenUpgrades, 0, 0);
-        } else if (isWithinQuit(xPos, yPos)) {
-        	game.batch.draw(Assets.pregameScreenQuit, 0, 0);
-        } else {
-        	game.batch.draw(Assets.pregameScreenDefault, 0, 0);
-        }
     }
     
     private void processClick() {
