@@ -90,11 +90,11 @@ public class LivingSpaceGame extends Game {
     
     public void setMainScreen(boolean isNewGame) {
     	gameCode = 1;
-    	if (!isNewGame) this.setScreen(new MainMenuScreen(this));
+    	if (!isNewGame) this.setScreen(new MainMenuScreen(this, player));
     	else {
     		player = new Spaceship(timeReference);        
             level = 1;
-            this.setScreen(new MainMenuScreen(this));
+            this.setScreen(new MainMenuScreen(this, player));
     	}
     }
     
