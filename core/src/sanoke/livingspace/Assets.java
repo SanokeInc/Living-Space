@@ -13,6 +13,11 @@ public class Assets {
     
     public static Texture warningSign;
     
+    public static Texture ForcefieldH;
+    public static Texture ForcefieldV;
+    public static Texture ForcefieldH_Warn;
+    public static Texture ForcefieldV_Warn;
+    
     public static Texture safetyAlert;
     
     public static Texture life;
@@ -87,6 +92,10 @@ public class Assets {
         coin = new Texture(Gdx.files.internal("coin.png"));
         missile = new Texture(Gdx.files.internal("Missile_F1.png"));
         warningSign = new Texture(Gdx.files.internal("warning_placeholder.png"));
+        ForcefieldH = new Texture(Gdx.files.internal("ForcefieldH.png"));
+        ForcefieldV = new Texture(Gdx.files.internal("ForcefieldV.png"));
+        ForcefieldH_Warn = new Texture(Gdx.files.internal("ForcefieldH_Warn.png"));
+        ForcefieldV_Warn = new Texture(Gdx.files.internal("ForcefieldV_Warn.png"));
         safetyAlert = new Texture(Gdx.files.internal("SafetyAlert.png"));
         life = new Texture(Gdx.files.internal("heart_placeholder.png"));
         

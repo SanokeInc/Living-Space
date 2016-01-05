@@ -22,7 +22,7 @@ public class LevelEight extends LevelTemplate {
 	private static final int CURRENT_LEVEL = 8;
 	
 	private static final int NUM_PLACES_TO_SPAWN = 320; // 320 coordinates to fill up whole screen
-	private static final int ALIEN_TYPE = 4;
+	private static final int ALIEN_TYPE = 8;
 	
 	private static final long SECONDS_TO_NANO = 1000000000;
 	private static final long WARNING_DURATION = 5 * SECONDS_TO_NANO;

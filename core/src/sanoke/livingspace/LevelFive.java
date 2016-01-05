@@ -12,7 +12,7 @@ public class LevelFive extends LevelTemplate {
 
 	private static final int NUMBER_TO_WIN = 250;
 	
-	private static final int ALIEN_TYPE = 12;
+	private static final int ALIEN_TYPE = 9;
 	private static final long SPAWN_INTERVAL = 420;
 	private static final int ALIEN_MOVE_SPEED = 250;
 
