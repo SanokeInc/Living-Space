@@ -134,7 +134,7 @@ public class LevelTen extends LevelTemplate {
 	
 	private boolean isWithinForcefieldH(float warningX, float warningY) {
 		float y = player.getY();
-		if (y >= (warningY - FORCEFIELD_H_Y_OFFSET - 10) &&
+		if (y + Spaceship.SHIP_HEIGHT >= (warningY - FORCEFIELD_H_Y_OFFSET - 10) &&
 			y <= (warningY + FORCEFIELD_H_Y_OFFSET) - 10) {
 			return true;
 		} else {
@@ -144,7 +144,7 @@ public class LevelTen extends LevelTemplate {
 	
 	private boolean isWithinForcefieldV(float warningX, float warningY) {
 		float x = player.getX();
-		if (x >= (warningX - FORCEFIELD_V_X_OFFSET - 10) &&
+		if (x + Spaceship.SHIP_WIDTH >= (warningX - FORCEFIELD_V_X_OFFSET - 10) &&
 			x <= (warningX + FORCEFIELD_V_X_OFFSET - 10)) {
 			return true;
 		} else {
