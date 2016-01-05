@@ -10,7 +10,6 @@ public class UpgradeScreen implements Screen {
     Spaceship ship;
     
     private static final int MAX_NUM_UPGRADES = 4;
-    private static final int MAX_NUM_LIVES = 7;
     // cost for upgrades
     private static final int[] UPGRADE_COST_SPEED = {10, 20, 30, 40};
     private static final int[] UPGRADE_COST_MISSILES = {10, 20, 30, 40};

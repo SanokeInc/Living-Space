@@ -212,11 +212,11 @@ public abstract class LevelTemplate implements Screen {
         Iterator<StarBucks> coinsIter = coins.iterator();
         Rectangle currentShip = player.getShipRegion();
         while (coinsIter.hasNext()) {
-            Rectangle currentCoin = coinsIter.next().getCoinRegion();
-            if (currentCoin.overlaps(currentShip)) {
+            StarBucks coin = coinsIter.next();
+            if (!coin.isCollected() && coin.getCoinRegion().overlaps(currentShip)) {
             	Assets.coinCollectSound.play();
-                player.addCash(StarBucks.getValue());
-                coinsIter.remove();
+            	coin.collect();
+            	player.addCash(coin.getValue());
             }
         }
     }
@@ -231,7 +231,7 @@ public abstract class LevelTemplate implements Screen {
 
 			Rectangle currentShip = player.getShipRegion();
 			if (currentAlien.overlaps(currentShip) && !player.isInvulnerable()) {
-				Assets.playerCollideSound.play(); // ADDED
+				Assets.playerCollideSound.play();
 				alienIter.remove();
 				player.minusOneLife();
 				continue;
@@ -242,7 +242,7 @@ public abstract class LevelTemplate implements Screen {
 						.getMissileRegion();
 				if (currentAlien.overlaps(currentMissile)) {
 				    spawnCash(currentAlien.getX(), currentAlien.getY());
-					Assets.alienDieSound.play(); // ADDED
+					Assets.alienDieSound.play();
 				    alienIter.remove();
 					missileIter.remove();
 					break;
@@ -327,7 +327,12 @@ public abstract class LevelTemplate implements Screen {
 	
 	protected void drawCoins() {
         for (StarBucks coin : coins) {
-            game.batch.draw(coin.getImage(), coin.getX(), coin.getY());
+            if (coin.isCollected()) {
+                game.font.draw(game.batch, "+" + coin.getValue(), coin.getX(),
+                        coin.getY());
+            } else {
+                game.batch.draw(coin.getImage(), coin.getX(), coin.getY());
+            }
         }
     }
 	
@@ -344,8 +349,8 @@ public abstract class LevelTemplate implements Screen {
 	
 	private void checkAlive() {
 		if (!player.isAlive()) {
-			Assets.playerCollideSound.stop(); // ADDED
-			Assets.playerDieSound.play(); // ADDED
+			Assets.playerCollideSound.stop();
+			Assets.playerDieSound.play();
 			game.setDeathScreen();
 		}
 	}
