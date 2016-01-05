@@ -31,19 +31,19 @@ public class PregameScreen implements Screen {
 		this.ship = player;
 		this.level = initLevel;
 		
-		PLAY_BUTTON_P1_X = 704;
+		PLAY_BUTTON_P1_X = 480;
 	    PLAY_BUTTON_P1_Y = 0;
-	    PLAY_BUTTON_P2_X = 965;
-	    PLAY_BUTTON_P2_Y = 237;
+	    PLAY_BUTTON_P2_X = 1000;
+	    PLAY_BUTTON_P2_Y = 370;
 	    
 	    UPGRADES_BUTTON_P1_X = 0;
-	    UPGRADES_BUTTON_P1_Y = 375;
-	    UPGRADES_BUTTON_P2_X = 240;
-	    UPGRADES_BUTTON_P2_Y = 772;
+	    UPGRADES_BUTTON_P1_Y = 0;
+	    UPGRADES_BUTTON_P2_X = 330;
+	    UPGRADES_BUTTON_P2_Y = 800;
 	    
-	    QUIT_BUTTON_P1_X = 484;
-	    QUIT_BUTTON_P1_Y = 502;
-	    QUIT_BUTTON_P2_X = 868;
+	    QUIT_BUTTON_P1_X = 480;
+	    QUIT_BUTTON_P1_Y = 400;
+	    QUIT_BUTTON_P2_X = 1000;
 	    QUIT_BUTTON_P2_Y = 800;
 	}
 
