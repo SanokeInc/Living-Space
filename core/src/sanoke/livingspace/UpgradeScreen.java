@@ -10,7 +10,6 @@ public class UpgradeScreen implements Screen {
     Spaceship ship;
     
     private static final int MAX_NUM_UPGRADES = 4;
-    
     // cost for upgrades
     private static final int[] UPGRADE_COST_SPEED = {10, 20, 30, 40};
     private static final int[] UPGRADE_COST_MISSILES = {10, 20, 30, 40};
@@ -81,7 +80,7 @@ public class UpgradeScreen implements Screen {
         game.batch.draw(upgradeBar, COORD_X_UPGRADE_SPEED, game.HEIGHT - COORD_Y_UPGRADE_SPEED);
         upgradeBar = getUpgradeBar(ship.getNumUpgradesMissileCooldown());
         game.batch.draw(upgradeBar, COORD_X_UPGRADE_MISSILES, game.HEIGHT - COORD_Y_UPGRADE_MISSILES);
-        upgradeBar = getUpgradeBar(ship.getNumUpgradesLives());
+        upgradeBar = getUpgradeBar(ship.getNumExtraLives());
         game.batch.draw(upgradeBar, COORD_X_UPGRADE_LIVES, game.HEIGHT - COORD_Y_UPGRADE_LIVES);
         
     }
@@ -94,7 +93,7 @@ public class UpgradeScreen implements Screen {
         game.font.draw(game.batch, "" + ship.getCash(), COORD_X_CASH,
                 COORD_Y_CASH);
         game.font.draw(game.batch,
-                UPGRADE_COST_STRING_LIVES[ship.getNumUpgradesLives()],
+                UPGRADE_COST_STRING_LIVES[ship.getNumExtraLives()],
                 COORD_X_COST_LIVES, COORD_Y_COST_LIVES);
         game.font.draw(game.batch, UPGRADE_COST_STRING_MISSILES[ship
                 .getNumUpgradesMissileCooldown()], COORD_X_COST_MISSILES,
@@ -193,8 +192,8 @@ public class UpgradeScreen implements Screen {
 
     private void upgradeSpeed() {
         if (isSpeedUpgradable()) {
-        	Assets.upgradeSound.stop(); // ADDED
-        	Assets.upgradeSound.play(); // ADDED
+        	Assets.upgradeSound.stop();
+        	Assets.upgradeSound.play();
             ship.addCash(-1 * UPGRADE_COST_SPEED[ship.getNumUpgradesSpeed()]);
             ship.upgradeSpeed();
         }
@@ -202,8 +201,8 @@ public class UpgradeScreen implements Screen {
 
     private void upgradeMissile() {
         if (isMissileUpgradable()) {
-        	Assets.upgradeSound.stop(); // ADDED
-        	Assets.upgradeSound.play(); // ADDED
+        	Assets.upgradeSound.stop();
+        	Assets.upgradeSound.play();
             ship.addCash(-1 * UPGRADE_COST_MISSILES[ship.getNumUpgradesMissileCooldown()]);
             ship.upgradeMissiles();
        } 
@@ -211,9 +210,9 @@ public class UpgradeScreen implements Screen {
 
     private void upgradeLives() {
         if (isLivesUpgradable()) {
-        	Assets.upgradeSound.stop(); // ADDED
-        	Assets.upgradeSound.play(); // ADDED
-            ship.addCash(-1 * UPGRADE_COST_LIVES[ship.getNumUpgradesLives()]);
+        	Assets.upgradeSound.stop();
+        	Assets.upgradeSound.play();
+            ship.addCash(-1 * UPGRADE_COST_LIVES[ship.getNumExtraLives()]);
             ship.upgradeLives();
        }
     }
@@ -225,7 +224,7 @@ public class UpgradeScreen implements Screen {
     }
 
     private boolean isLivesUpgradable() {
-        int numUpgrades = ship.getNumUpgradesLives();
+        int numUpgrades = ship.getNumExtraLives();
         return  numUpgrades < MAX_NUM_UPGRADES
                 && ship.getCash() >= UPGRADE_COST_LIVES[numUpgrades];
     }

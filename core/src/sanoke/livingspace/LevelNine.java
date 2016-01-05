@@ -20,8 +20,8 @@ public class LevelNine extends LevelTemplate {
 	private static final int ANGLE_FACTOR = NUM_ALIEN_SPAWN / 2;
 
 	private static final int ALIEN_MOVE_SPEED = 130; 
-	private static final int ALIEN_SPAWN_OFFSET = 400; 
-
+	private static final int ALIEN_SPAWN_OFFSET = 400;
+	
 	public LevelNine(final LivingSpaceGame game, Spaceship player) {
 		super(game, player, CURRENT_LEVEL);
 
@@ -34,7 +34,7 @@ public class LevelNine extends LevelTemplate {
 	protected void spawnAliens() {
 		if (enemyCount > NUMBER_TO_WIN) {
 			aliens = new Array<Alien>();
-			isEnd = true;
+			passLevel();
 			return;
 		}
 
