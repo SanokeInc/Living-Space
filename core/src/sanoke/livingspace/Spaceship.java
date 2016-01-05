@@ -135,7 +135,7 @@ public class Spaceship {
 		return false;
 	}
 	
-	public void minusOneLife() {
+	public void minusOneLife() {	
 		if (!isEasy) {
 		    lives--;
 		}
@@ -143,6 +143,7 @@ public class Spaceship {
 			isAlive = false;
 			return;
 		}
+		Assets.playerCollideSound.play();
 		
 		isInvulnerable = true;
 		lastHitTime = timeReference.millis();

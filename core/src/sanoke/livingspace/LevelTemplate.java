@@ -231,7 +231,6 @@ public abstract class LevelTemplate implements Screen {
 
 			Rectangle currentShip = player.getShipRegion();
 			if (currentAlien.overlaps(currentShip) && !player.isInvulnerable()) {
-				Assets.playerCollideSound.play();
 				alienIter.remove();
 				player.minusOneLife();
 				continue;
