@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 public class PauseScreen implements Screen {
 	final LivingSpaceGame game;
 	Screen state;
+	Spaceship player;
 	private int resumeCode;
 	
 	// Bottom-left & Top-right points x-y coordinates for Resume button
@@ -20,11 +21,18 @@ public class PauseScreen implements Screen {
     private static int QUIT_BUTTON_P1_Y;
     private static int QUIT_BUTTON_P2_X;
     private static int QUIT_BUTTON_P2_Y;
+    
+    // revert all sound offsets by 100 when done
+    private static final int SOUND_BUTTON_P1_X = 50;
+    private static final int SOUND_BUTTON_P1_Y = 50;
+    private static final int SOUND_BUTTON_P2_X = 125;
+    private static final int SOUND_BUTTON_P2_Y = 125;
 	
-	public PauseScreen(final LivingSpaceGame game, int returnCode) {
+	public PauseScreen(final LivingSpaceGame game, int returnCode, Spaceship player) {
 		this.game = game;
 		this.resumeCode = returnCode;
 		this.state = game.getScreen();
+		this.player = player;
 		game.timeReference.pause();
 		
 		RESUME_BUTTON_P1_X = 275;
@@ -42,6 +50,8 @@ public class PauseScreen implements Screen {
     // =============== METHODS FOR PAUSE SCREEN =============== //
     private void setupPauseScreen() {
     	game.batch.draw(Assets.pauseScreenDefault, 0, 0);
+    	if (game.isSoundOn) game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+    	else game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
     }
     
     private boolean isWithinResume(float x, float y) {
@@ -61,6 +71,11 @@ public class PauseScreen implements Screen {
     			(y >= QUIT_BUTTON_P1_Y && y <= QUIT_BUTTON_P2_Y)) ? true : false;
     }
 
+    private boolean isWithinSoundSetting(float x, float y) {
+    	return ((x >= SOUND_BUTTON_P1_X && x <= SOUND_BUTTON_P2_X) &&
+                (y >= SOUND_BUTTON_P1_Y && y <= SOUND_BUTTON_P2_Y)) ? true : false;
+    }
+    
     private void processInput() {
         processMouseOver();
         processClick();
@@ -71,10 +86,19 @@ public class PauseScreen implements Screen {
         float yPos = Gdx.input.getY();
         if (isWithinResume(xPos, yPos)) {
             game.batch.draw(Assets.pauseScreenResume, 0, 0);
+            if (game.isSoundOn) game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+        	else game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
         } else if (isWithinQuit(xPos, yPos)) {
         	game.batch.draw(Assets.pauseScreenQuit, 0, 0);
+        	if (game.isSoundOn) game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+        	else game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+        } else if (isWithinSoundSetting(xPos, yPos)) {
+        	if (game.isSoundOn) game.batch.draw(Assets.soundOnHighlight, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+        	else game.batch.draw(Assets.soundOffHighlight, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
         } else {
         	game.batch.draw(Assets.pauseScreenDefault, 0, 0);
+        	if (game.isSoundOn) game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+        	else game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
         }
     }
     
@@ -83,11 +107,23 @@ public class PauseScreen implements Screen {
             float xPos = Gdx.input.getX();
             float yPos = Gdx.input.getY();
             if (isWithinResume(xPos, yPos)) {
-            	Assets.buttonClickSound.play();
+            	if (game.isSoundOn) Assets.buttonClickSound.play();
                 loadGame();
             } else if (isWithinQuit(xPos, yPos)) {
-            	Assets.buttonClickSound.play();
+            	if (game.isSoundOn) Assets.buttonClickSound.play();
             	Gdx.app.exit();
+            } else if (isWithinSoundSetting(xPos, yPos)) {
+            	if (game.isSoundOn) {
+            		game.isSoundOn = false;
+            		player.setSound(game.isSoundOn);
+            		game.batch.draw(Assets.soundOff, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+            	}
+            	else {
+            		game.isSoundOn = true;
+            		Assets.buttonClickSound.play();
+            		player.setSound(game.isSoundOn);
+            		game.batch.draw(Assets.soundOn, SOUND_BUTTON_P1_X, game.HEIGHT - SOUND_BUTTON_P1_X);
+            	}
             } else {
             	
             }

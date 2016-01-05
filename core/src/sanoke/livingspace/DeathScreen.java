@@ -61,10 +61,10 @@ public class DeathScreen implements Screen {
 			float xPos = Gdx.input.getX();
 			float yPos = Gdx.input.getY();
 			if (isWithinTryAgainButton(xPos, yPos)) {
-				Assets.buttonClickSound.play();
+				if (game.isSoundOn) Assets.buttonClickSound.play();
 				game.restart();
 			} else if (isWithinQuitButton(xPos, yPos)) {
-				Assets.buttonClickSound.play();
+				if (game.isSoundOn) Assets.buttonClickSound.play();
 				Gdx.app.exit();
 			} else {
 				status = NORMAL;

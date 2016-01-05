@@ -184,7 +184,7 @@ public class UpgradeScreen implements Screen {
             } else if (isWithinLivesUpgradeButton(xPos, yPos)) {
                 upgradeLives();
             } else if (isWithinExitButton(xPos, yPos)) {
-            	Assets.buttonClickSound.play();
+            	if (game.isSoundOn) Assets.buttonClickSound.play();
                 game.setPregameScreen(game.level);
             }
         }
@@ -193,7 +193,7 @@ public class UpgradeScreen implements Screen {
     private void upgradeSpeed() {
         if (isSpeedUpgradable()) {
         	Assets.upgradeSound.stop();
-        	Assets.upgradeSound.play();
+        	if (game.isSoundOn) Assets.upgradeSound.play();
             ship.addCash(-1 * UPGRADE_COST_SPEED[ship.getNumUpgradesSpeed()]);
             ship.upgradeSpeed();
         }
@@ -202,7 +202,7 @@ public class UpgradeScreen implements Screen {
     private void upgradeMissile() {
         if (isMissileUpgradable()) {
         	Assets.upgradeSound.stop();
-        	Assets.upgradeSound.play();
+        	if (game.isSoundOn) Assets.upgradeSound.play();
             ship.addCash(-1 * UPGRADE_COST_MISSILES[ship.getNumUpgradesMissileCooldown()]);
             ship.upgradeMissiles();
        } 
@@ -211,7 +211,7 @@ public class UpgradeScreen implements Screen {
     private void upgradeLives() {
         if (isLivesUpgradable()) {
         	Assets.upgradeSound.stop();
-        	Assets.upgradeSound.play();
+        	if (game.isSoundOn) Assets.upgradeSound.play();
             ship.addCash(-1 * UPGRADE_COST_LIVES[ship.getNumExtraLives()]);
             ship.upgradeLives();
        }

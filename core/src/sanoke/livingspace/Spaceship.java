@@ -11,6 +11,7 @@ public class Spaceship {
 	
 	private boolean isEasy;
 	private boolean isAlive;
+	private boolean isSoundOn;
 	
 	private boolean isInvulnerable;
 	private long lastHitTime;
@@ -53,6 +54,7 @@ public class Spaceship {
 	public Spaceship(PauseableTime timeReference) {
 	    isEasy = false;
 		isAlive = true;
+		isSoundOn = true;
 		lives = INIT_LIVES;
 		x = INIT_POS_X;
 		y = INIT_POS_Y;
@@ -90,6 +92,10 @@ public class Spaceship {
 		return y;
 	}
 	
+	public void setSound(boolean toPlay) {
+		isSoundOn = toPlay;
+	}
+	
 	public TextureRegion getImage() {
 		TextureRegion imageToShow = image;
 		currentFrameNumber = (currentFrameNumber + 1) % (Assets.NUM_FRAMES_SPACESHIP * FRAME_SWITCH_DELAY); 
@@ -116,7 +122,7 @@ public class Spaceship {
 	
 	public void fire() {
 		if (!isCooldown() && isAlive()) {
-			Assets.missileFireSound.play(0.20f);
+			if (isSoundOn) Assets.missileFireSound.play(0.20f);
 			missiles.add(new Missile(x + (SHIP_WIDTH  - Missile.MISSILE_WIDTH) / (float) 2,
 					y + SHIP_HEIGHT, missileSpeed));
 			lastFireTime = timeReference.millis();
@@ -143,7 +149,8 @@ public class Spaceship {
 			isAlive = false;
 			return;
 		}
-		Assets.playerCollideSound.play();
+		
+		if (isSoundOn) Assets.playerCollideSound.play();
 		
 		isInvulnerable = true;
 		lastHitTime = timeReference.millis();
