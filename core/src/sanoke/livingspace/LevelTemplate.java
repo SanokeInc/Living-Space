@@ -19,6 +19,7 @@ public abstract class LevelTemplate implements Screen {
 	Array<StarBucks> coins;
 	
 	private boolean isOver;
+	protected boolean isCollecting;
 	protected float timer;
 	protected boolean isEnd;
 	private boolean isOffScreen;
@@ -58,6 +59,7 @@ public abstract class LevelTemplate implements Screen {
 		coins = new Array<StarBucks>();
 		isOver = false;
 		isEnd = false;
+		isCollecting = false;
 		timer = 0.0f;
 		isOffScreen = false;
 		initBackground();
@@ -249,6 +251,21 @@ public abstract class LevelTemplate implements Screen {
 			}
 		}
 	}
+    
+    protected void collectAllRemainingCoins() {
+		if (!isCollecting) {
+			isCollecting = true;
+			game.batch.begin();
+			for (StarBucks coin: coins) {
+				coin.collect();
+				game.font.draw(game.batch, "+" + coin.getValue(), coin.getX(), coin.getY());
+				player.addCash(coin.getValue());
+			}
+			game.batch.end();
+			coins.clear();
+		}
+		isCollecting = false;
+	}
 	
 	private void spawnCash(float x, float y) {
         if (StarBucks.isSpawn()) {
@@ -355,6 +372,7 @@ public abstract class LevelTemplate implements Screen {
 	}
 	
 	public void passLevel() {
+		collectAllRemainingCoins();
 	    isOver = true;
 	}
 
