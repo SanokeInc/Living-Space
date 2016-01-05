@@ -70,9 +70,7 @@ public class MainMenuScreen implements Screen {
     
     // Sets game screen to Pregame Screen
     private void loadPreGame() {
-        if (isEasyMode) {
-            player.setEasyMode();
-        }
+        player.setEasyMode(isEasyMode);
     	game.setPregameScreen(game.level);
     }
     

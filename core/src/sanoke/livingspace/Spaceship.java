@@ -207,8 +207,8 @@ public class Spaceship {
         y = y + movementSpeed * delta;
     }
     
-    public void setEasyMode() {
-        isEasy = true;
+    public void setEasyMode(boolean isEasyMode) {
+        isEasy = isEasyMode;
     }
     
     
