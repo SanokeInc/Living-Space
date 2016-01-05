@@ -210,10 +210,10 @@ public abstract class LevelTemplate implements Screen {
 	
 	private void checkCollisionsForCoinsArray() {
         Iterator<StarBucks> coinsIter = coins.iterator();
-        Rectangle currentShip = player.getShipRegion();
+        
         while (coinsIter.hasNext()) {
             StarBucks coin = coinsIter.next();
-            if (!coin.isCollected() && coin.getCoinRegion().overlaps(currentShip)) {
+            if (!coin.isCollected() && player.isCollidingWith(coin.getCoinRegion())) {
             	Assets.coinCollectSound.play();
             	coin.collect();
             	player.addCash(coin.getValue());
@@ -229,8 +229,7 @@ public abstract class LevelTemplate implements Screen {
 			Array<Missile> missiles = player.getMissiles();
 			Iterator<Missile> missileIter = missiles.iterator();
 
-			Rectangle currentShip = player.getShipRegion();
-			if (currentAlien.overlaps(currentShip) && !player.isInvulnerable()) {
+			if (player.isCollidingWith(currentAlien) && !player.isInvulnerable()) {
 				alienIter.remove();
 				player.minusOneLife();
 				continue;
