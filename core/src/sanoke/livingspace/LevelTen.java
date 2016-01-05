@@ -16,7 +16,7 @@ public class LevelTen extends LevelTemplate {
 	
 	private static final int CURRENT_LEVEL = 10;
 	
-	private static final int NUMBER_TO_WIN = 330;
+	private static final int NUMBER_TO_WIN = 300;
 	
 	private static final int ALIEN_TYPE = 7;
 	
@@ -24,12 +24,12 @@ public class LevelTen extends LevelTemplate {
 	private static final long WARNING_DURATION = 2 * SECONDS_TO_NANO;
 	private static final long FORCEFIELD_DURATION = 3 * SECONDS_TO_NANO;
 	private static final long SPAWN_INTERVAL = 1 * SECONDS_TO_NANO;
-	private static final int ALIEN_MOVE_SPEED = 350;
+	private static final int ALIEN_MOVE_SPEED = 300;
 	
 	// Offsets from warning coordinates for the forcefield areas
 	private static final int FORCEFIELD_H_X_OFFSET = 1000;
-	private static final int FORCEFIELD_H_Y_OFFSET = 125;
-	private static final int FORCEFIELD_V_X_OFFSET = 100;
+	private static final int FORCEFIELD_H_Y_OFFSET = 100;
+	private static final int FORCEFIELD_V_X_OFFSET = 125;
 	private static final int FORCEFIELD_V_Y_OFFSET = 800;
 	
 	// Storage variables to track warned coordinates
@@ -118,7 +118,7 @@ public class LevelTen extends LevelTemplate {
 		}
 		
 		if (player.isAlive()) {
-			enemyCount++;
+			enemyCount += 3;
 		}
 	}
 	
@@ -134,8 +134,8 @@ public class LevelTen extends LevelTemplate {
 	
 	private boolean isWithinForcefieldH(float warningX, float warningY) {
 		float y = player.getY();
-		if (y >= (warningY - FORCEFIELD_H_Y_OFFSET) &&
-			y <= (warningY + FORCEFIELD_H_Y_OFFSET)) {
+		if (y >= (warningY - FORCEFIELD_H_Y_OFFSET - 10) &&
+			y <= (warningY + FORCEFIELD_H_Y_OFFSET) - 10) {
 			return true;
 		} else {
 			return false;
@@ -144,8 +144,8 @@ public class LevelTen extends LevelTemplate {
 	
 	private boolean isWithinForcefieldV(float warningX, float warningY) {
 		float x = player.getX();
-		if (x >= (warningX - FORCEFIELD_V_X_OFFSET) &&
-			x <= (warningX + FORCEFIELD_V_X_OFFSET)) {
+		if (x >= (warningX - FORCEFIELD_V_X_OFFSET - 10) &&
+			x <= (warningX + FORCEFIELD_V_X_OFFSET - 10)) {
 			return true;
 		} else {
 			return false;
@@ -163,23 +163,23 @@ public class LevelTen extends LevelTemplate {
 		for (Warning warning : warnings) {
 			game.batch.draw(warning.getImage(), warning.getX(), warning.getY());
 			game.batch.draw(Assets.ForcefieldH_Warn,
-							warning.getX() - FORCEFIELD_H_X_OFFSET,
-							warning.getY() - FORCEFIELD_H_Y_OFFSET);
+							warning.getX() - FORCEFIELD_H_X_OFFSET - 10,
+							warning.getY() - FORCEFIELD_H_Y_OFFSET - 10);
 			game.batch.draw(Assets.ForcefieldV_Warn,
-							warning.getX() - FORCEFIELD_V_X_OFFSET,
-							warning.getY() - FORCEFIELD_V_Y_OFFSET);
+							warning.getX() - FORCEFIELD_V_X_OFFSET - 10,
+							warning.getY() - FORCEFIELD_V_Y_OFFSET - 10);
 		}
 	}
 	
 	protected void drawForcefields() {
 		if (isForcefieldShown) {
 			game.batch.draw(Assets.ForcefieldH,
-							warnX - FORCEFIELD_H_X_OFFSET,
-							warnY - FORCEFIELD_H_Y_OFFSET);
+							warnX - FORCEFIELD_H_X_OFFSET - 10,
+							warnY - FORCEFIELD_H_Y_OFFSET - 10);
 			game.batch.draw(Assets.ForcefieldV,
-							warnX - FORCEFIELD_V_X_OFFSET,
-							warnY - FORCEFIELD_V_Y_OFFSET);
-			if (isWithinForcefieldH(warnX, warnY) || isWithinForcefieldV(warnX, warnY)
+							warnX - FORCEFIELD_V_X_OFFSET - 10,
+							warnY - FORCEFIELD_V_Y_OFFSET - 10);
+			if ((isWithinForcefieldH(warnX, warnY) || isWithinForcefieldV(warnX, warnY))
 				&& !player.isInvulnerable()) player.minusOneLife();
 		}
 	}
