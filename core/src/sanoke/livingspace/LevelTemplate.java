@@ -262,9 +262,7 @@ public abstract class LevelTemplate implements Screen {
 				player.addCash(coin.getValue());
 			}
 			game.batch.end();
-			coins.clear();
 		}
-		isCollecting = false;
 	}
 	
 	private void spawnCash(float x, float y) {
