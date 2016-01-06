@@ -22,7 +22,7 @@ public class IntroScreen implements Screen {
 	private static final int START_COORD_TEXT_1_X = -800;
 	private static final int START_COORD_TEXT_1_Y = 650;
 	private static final int END_COORD_TEXT_1_X = 100;
-	private static final int SPEED_TEXT_1 = 50;
+	private static final int SPEED_TEXT_1 = 125;
 
 	private static final String textBlock2 = " Having fled Earth during a\n"
 			+ " previous alien invasion,\n"
@@ -33,7 +33,7 @@ public class IntroScreen implements Screen {
 	private static final int START_COORD_TEXT_2_X = 1050;
 	private static final int START_COORD_TEXT_2_Y = 400;
 	private static final int END_COORD_TEXT_2_X = 100;
-	private static final int SPEED_TEXT_2 = 50;
+	private static final int SPEED_TEXT_2 = 125;
 
 	private float currentAlpha;
 	private static final float FADING_SPEED = 0.005f;
