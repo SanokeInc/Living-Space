@@ -41,6 +41,9 @@ public class Assets {
     public static Texture pregameScreenPlay;
     public static Texture pregameScreenQuit;
     
+    public static Texture introductionScreenDefault;
+    public static Texture introductionScreenSkip;
+    
     public static Texture pauseScreenDefault;
     public static Texture pauseScreenResume;
     public static Texture pauseScreenQuit;
@@ -110,6 +113,7 @@ public class Assets {
         safetyAlert = new Texture(Gdx.files.internal("SafetyAlert.png"));
         life = new Texture(Gdx.files.internal("heart_placeholder.png"));
         
+        loadIntroScreen();
         loadMainAndPregameScreens();
         loadDeathScreens();
 
@@ -122,6 +126,11 @@ public class Assets {
         loadLifeLoss();
         loadSounds();
         loadMusics();
+    }
+    
+    private static void loadIntroScreen() {
+    	introductionScreenDefault = new Texture(Gdx.files.internal("Intro_placeholder.png"));
+    	introductionScreenSkip = new Texture(Gdx.files.internal("Introhighlight_placeholder.png"));
     }
     
     private static void loadMainAndPregameScreens() {
