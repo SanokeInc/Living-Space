@@ -146,6 +146,11 @@ public class LivingSpaceGame extends Game {
     	}
     	isPaused = false;
     }
+    
+    public void setDataLoggerScreen(int level) {
+    	gameCode = 1;
+    	this.setScreen(new DataLoggerScreen(this, player, level));
+    }
 
     @Override
     public void render() {

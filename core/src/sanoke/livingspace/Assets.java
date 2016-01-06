@@ -29,6 +29,9 @@ public class Assets {
     
     public static Texture coin;
     
+    public static Texture dataLogger;
+    public static Texture dataLoggerSelect;
+    
     public static Texture mainScreenDefault;
     public static Texture mainScreenEasy;
     public static Texture mainScreenEasySelect;
@@ -54,6 +57,11 @@ public class Assets {
     public static Texture upgradesHighlight;
     public static Texture upgradesReturn;
     public static Texture upgradesBar;
+    
+    public static Texture [] catalogueScreenNumbers;
+    public static Texture catalogueScreenDefault;
+    public static Texture catalogueScreenInvalid;
+    public static final int NUMBER_ALIEN_ENTRIES = 12;
     
     public static Texture [] endScreenFrames;
     public static Texture [] endBackgroundFrames; 
@@ -109,10 +117,13 @@ public class Assets {
         ForcefieldV_Warn = new Texture(Gdx.files.internal("ForcefieldV_Warn.png"));
         safetyAlert = new Texture(Gdx.files.internal("SafetyAlert.png"));
         life = new Texture(Gdx.files.internal("heart_placeholder.png"));
+        dataLogger = new Texture(Gdx.files.internal("datalogger_placeholder.png"));
+        dataLoggerSelect = new Texture(Gdx.files.internal("dataloggerhighlight_placeholder.png"));
         
         loadMainAndPregameScreens();
         loadDeathScreens();
 
+        loadCatalogueScreens();
     	loadPauseScreens();
         loadUpgrades();
         loadEndScreens();
@@ -142,6 +153,29 @@ public class Assets {
         screenDeathNormal = new Texture(Gdx.files.internal("Death.jpg"));
         screenDeathQuit = new Texture(Gdx.files.internal("Death_Quit.jpg"));
         screenDeathRetry = new Texture(Gdx.files.internal("Death_Retry.jpg"));
+    }
+    
+    private static void loadCatalogueScreens() {
+    	catalogueScreenNumbers = new Texture [NUMBER_ALIEN_ENTRIES];
+    	Texture entry1 = new Texture(Gdx.files.internal("Catalogue_1.jpg"));
+    	Texture entry2 = new Texture(Gdx.files.internal("Catalogue_2.jpg"));
+    	Texture entry3 = new Texture(Gdx.files.internal("Catalogue_3.jpg"));
+    	Texture entry4 = new Texture(Gdx.files.internal("Catalogue_4.jpg"));
+    	Texture entry5 = new Texture(Gdx.files.internal("Catalogue_5.jpg"));
+    	Texture entry6 = new Texture(Gdx.files.internal("Catalogue_6.jpg"));
+    	Texture entry7 = new Texture(Gdx.files.internal("Catalogue_7.jpg"));
+    	Texture entry8 = new Texture(Gdx.files.internal("Catalogue_8.jpg"));
+    	Texture entry9 = new Texture(Gdx.files.internal("Catalogue_9.jpg"));
+    	Texture entry10 = new Texture(Gdx.files.internal("Catalogue_10.jpg"));
+    	Texture entry11 = new Texture(Gdx.files.internal("Catalogue_11.jpg"));
+    	Texture entry12 = new Texture(Gdx.files.internal("Catalogue_12.jpg"));
+    	
+    	Texture[] entries = {entry1, entry2, entry3, entry4, entry5, entry6, entry7,
+    			entry8, entry9, entry10, entry11, entry12};
+    	catalogueScreenNumbers = entries;
+    	
+        catalogueScreenDefault = new Texture(Gdx.files.internal("Catalogue.jpg"));;
+        catalogueScreenInvalid = new Texture(Gdx.files.internal("Catalogue_Invalid.jpg"));;
     }
     
     private static void loadUpgrades() {
