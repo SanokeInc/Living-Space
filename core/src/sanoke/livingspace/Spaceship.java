@@ -43,7 +43,7 @@ public class Spaceship {
 	private static final long INIT_COOLDOWN = 500;
 	private static final int INIT_LIVES = 3;
 	
-	private static final float UPGRADE_MULT_SPEED = 20;
+	private static final float UPGRADE_MULT_SPEED = 25;
 	private static final long UPGRADE_MULT_MISSILE_COOLDOWN = -75;
 	private static final int UPGRADE_MULT_LIVES = 1;
 	private static final int MIN_NUM_EXTRA_LIVES = 0;
