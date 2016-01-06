@@ -1,149 +1,165 @@
 package sanoke.livingspace;
 
-import java.util.Iterator;
-
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 
 public class LevelSix extends LevelTemplate {
-	private int enemyCount;
-
-	Array<Alien> ufos;
-
-	private long lastSpawnTime; // for UFO
-
+	Array<Warning> warnings;
+	
+	private long lastSpawnTime; // use this to spawn aliens
+	private long lastWarningTime; // use this to spawn warnings
+	
+	private int warningCounter;
+	
+	private GridPoint2 [] spawnLocations;
+	private GridPoint2 [] warningLocations;
+	
+	private boolean isWarningShown;
+	private boolean isSpawned;
+	private boolean isShowingAliens;
+	
 	private static final int CURRENT_LEVEL = 6;
-
-	private static final int NUMBER_TO_WIN = 350;
-
-	private static final int UFO_TYPE = 12;
-	private static final int ALIEN_TYPE = 5;
-
-	private static final long SPAWN_INTERVAL = 650;
-
-	private static final long TIME_RELEASE_ALIEN_MIN = 500;
-	private static final long TIME_RELEASE_ALIEN_MAX = 3000;
-
-	private static final int NUM_ALIEN_SPAWN = 6;
-	private static final int ANGLE_FACTOR = NUM_ALIEN_SPAWN / 2;
-
-	private static final int UFO_MOVE_SPEED = 230;
-	private static final int ALIEN_MOVE_SPEED = 200;
-	private static final float ALIEN_SPAWN_VARIANCE = 0.39f;
+	
+	private static final int NUM_PLACES_TO_SPAWN = 320; // 320 coordinates to fill up whole screen
+	private static final int ALIEN_TYPE = 8;
+	
+	private static final long SECONDS_TO_NANO = 1000000000;
+	private static final long WARNING_DURATION = 5 * SECONDS_TO_NANO;
+	private static final long SPAWN_DURATION = 3 * SECONDS_TO_NANO;
+	
+	// Offsets from warning coordinates for the safe area
+	private static final int SAFE_AREA_X_OFFSET = 60;
+	private static final int SAFE_AREA_Y_OFFSET = 60;
 
 	public LevelSix(final LivingSpaceGame game, Spaceship player) {
 		super(game, player, CURRENT_LEVEL);
-
-		enemyCount = 0;
-
-		ufos = new Array<Alien>();
-		lastSpawnTime = game.timeReference.millis();
+		
+		warnings = new Array<Warning>();
+		warningCounter = 0;
+		warningLocations = new GridPoint2[9]; // initialise 9 random safety area coordinates
+		
+		isWarningShown = isSpawned = isShowingAliens = false;
+		
+		spawnLocations = new GridPoint2[NUM_PLACES_TO_SPAWN];
+		
+		setSpawnLocations();
+		setWarningLocations();
+		
+		lastWarningTime = game.timeReference.nanoTime();
+		spawnWarnings(lastWarningTime);
+		lastSpawnTime = lastWarningTime + WARNING_DURATION;
+	}
+	
+	private void setSpawnLocations() {
+		for (int i = 0; i < 16; i++) {
+			for (int j = 0; j < 20; j++) {
+				int spawnX = j * (Assets.ALIEN_WIDTH + 14);
+				int spawnY = i * (Assets.ALIEN_HEIGHT + 8);
+				spawnLocations[i * 20 + j] = new GridPoint2(spawnX, spawnY);
+			}
+		}
+	}
+	
+	private void setWarningLocations() {
+		for (int i = 0; i < 9; i++) {
+			int spawnX = MathUtils.random(1, 19) * (Assets.ALIEN_WIDTH + 14);
+			int spawnY = MathUtils.random(1, 15) * (Assets.ALIEN_HEIGHT + 8);
+			warningLocations[i] = new GridPoint2(spawnX, spawnY);
+		}
 	}
 
 	@Override
-	protected void spawnAliens() {
-		if (enemyCount > NUMBER_TO_WIN) {
+	protected void spawnAliens() {		
+		if (warningCounter > 8) {
 			aliens = new Array<Alien>();
-			ufos = new Array<Alien>();
 			passLevel();
 			return;
 		}
-
-		long currentTime = game.timeReference.millis();
-
-		if (currentTime - lastSpawnTime > SPAWN_INTERVAL) {
-			lastSpawnTime = currentTime;
-
-			spawnUFO();
-		}
-
-		checkSpawnAliens();
-	}
-
-	private void spawnUFO() {
-		// Spawn Left
-		float randomX = 0;
-		float randomY = MathUtils.random(0, game.HEIGHT - Assets.ALIEN_HEIGHT);
-		long timeSpawned = game.timeReference.millis();
-
-		ufos.add(new Alien(randomX, randomY, UFO_TYPE, UFO_MOVE_SPEED, 0, timeSpawned));
-
-		// Spawn Right
-		randomX = game.WIDTH - Assets.ALIEN_WIDTH;
-		randomY = MathUtils.random(0, game.HEIGHT - Assets.ALIEN_HEIGHT);
-
-		ufos.add(new Alien(randomX, randomY, UFO_TYPE, -UFO_MOVE_SPEED, 0, timeSpawned));
-	}
-
-	private void checkSpawnAliens() {
-		Iterator<Alien> iter = ufos.iterator();
-
-		while (iter.hasNext()) {
-			Alien ufo = iter.next();
-			float timeElapsed = game.timeReference.millis() - ufo.getTimeSpawned();
-
-			if (timeElapsed > MathUtils.random(TIME_RELEASE_ALIEN_MIN,
-					TIME_RELEASE_ALIEN_MAX)) {
-				float x = ufo.getX();
-				float y = ufo.getY();
-
-				iter.remove();
-				spawnAll(x, y);
+		
+		long currentTime = game.timeReference.nanoTime();
+		
+		if (isShowingAliens) {
+			// Check if it is time to show safety area
+			if (currentTime - lastSpawnTime > SPAWN_DURATION) {
+				isShowingAliens = false;
+				lastSpawnTime = currentTime + WARNING_DURATION;
+				isSpawned = false;
+				aliens = new Array<Alien>();
+				spawnWarnings(currentTime);
+			}
+		} else {
+			// Check if it is time to spawn aliens
+			if (currentTime - lastWarningTime > WARNING_DURATION) {
+				isShowingAliens = true;
+				lastWarningTime = currentTime + SPAWN_DURATION;
+				killAllWarnings();
+				isWarningShown = false;
+				spawnAll(currentTime);
 			}
 		}
 	}
-
-	private void spawnAll(float x, float y) {
-		for (int i = 0; i < NUM_ALIEN_SPAWN; i++) {
-			float moveX, moveY;
-
-			float spawnVariance = MathUtils.random() / 1 * ALIEN_SPAWN_VARIANCE;
-
-			moveX = MathUtils.cos(MathUtils.PI / ANGLE_FACTOR * i
-					+ spawnVariance)
-					* ALIEN_MOVE_SPEED;
-			moveY = MathUtils.sin(MathUtils.PI / ANGLE_FACTOR * i
-					+ spawnVariance)
-					* ALIEN_MOVE_SPEED;
-
-			aliens.add(new Alien(x, y, ALIEN_TYPE, moveX, moveY, 0)); // time spawned not used.
-			if (player.isAlive()) {
-				enemyCount++;
-			}
+	
+	private void spawnWarnings(long currentTime) {
+		if (!isWarningShown) {
+			warnings.add(new Warning(warningLocations[warningCounter].x,
+								 	 warningLocations[warningCounter].y, currentTime));
+			warningCounter += 1;
+			isWarningShown = true;
 		}
 	}
-
+	
+	private void killAllWarnings() {
+		warnings.clear();
+	}
+	
+	private void spawnAll(long currentTime) {
+		if (!isSpawned) {
+			for (int i = 0; i < NUM_PLACES_TO_SPAWN; i++) {
+				int xPos = spawnLocations[i].x;
+				int yPos = spawnLocations[i].y;
+			
+				if (!isWithinSafety(xPos, yPos)) {
+					// Note: spawn time of alien is not used, thus last param set to 0.
+					aliens.add(new Alien(xPos, yPos, ALIEN_TYPE, 0, 0, 0));
+				}
+			}
+			isSpawned = true;
+		}
+	}
+	
+	private boolean isWithinSafety(int x, int y) {
+		if (x >= (warningLocations[warningCounter - 1].x - SAFE_AREA_X_OFFSET) &&
+			x <= (warningLocations[warningCounter - 1].x + SAFE_AREA_X_OFFSET) &&
+			y >= (warningLocations[warningCounter - 1].y - SAFE_AREA_Y_OFFSET) &&
+			y <= (warningLocations[warningCounter - 1].y + SAFE_AREA_Y_OFFSET)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	@Override
 	protected void updateAliensPosition(float delta) {
-		super.updateAliensPosition(delta);
-
-		Iterator<Alien> ufoIter = ufos.iterator();
-
-		while (ufoIter.hasNext()) {
-			Alien ufo = ufoIter.next();
-			ufo.move(delta, game.WIDTH, game.HEIGHT);
-
-			if (ufo.isOutOfScreen()) {
-				ufoIter.remove();
-			}
-		}
+		// No need to update: Override for efficiency
 	}
-
+	
 	@Override
-	protected void drawUnits() {
+	protected void drawUnits() {	
 		super.drawUnits();
-		drawUFO();
+		drawWarnings();
 	}
-
-	protected void drawUFO() {
-		for (Alien ufo : ufos) {
-			game.batch.draw(ufo.getImage(), ufo.getX(), ufo.getY());
+	
+	protected void drawWarnings() {
+		for (Warning warning : warnings) {
+			game.batch.draw(warning.getImage(), warning.getX(), warning.getY());
+			game.batch.draw(Assets.safetyAlert, warning.getX() - SAFE_AREA_X_OFFSET + 15,
+											    warning.getY() - SAFE_AREA_Y_OFFSET + 15);
 		}
 	}
-
+	
 	@Override
 	protected void checkCollisions() {
 		super.checkCollisions();
-		checkCollisionsForAlienArray(ufos);
 	}
 }
