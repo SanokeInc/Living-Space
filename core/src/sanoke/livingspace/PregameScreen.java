@@ -25,6 +25,12 @@ public class PregameScreen implements Screen {
     private static int QUIT_BUTTON_P1_Y;
     private static int QUIT_BUTTON_P2_X;
     private static int QUIT_BUTTON_P2_Y;
+    
+    // Bottom-left & Top-right points x-y coordinates for Data Logger
+    private static int DATA_LOGGER_P1_X;
+    private static int DATA_LOGGER_P1_Y;
+    private static int DATA_LOGGER_P2_X;
+    private static int DATA_LOGGER_P2_Y;
 	
 	public PregameScreen(final LivingSpaceGame game, Spaceship player, int initLevel) {
 		this.game = game;
@@ -45,6 +51,11 @@ public class PregameScreen implements Screen {
 	    QUIT_BUTTON_P1_Y = 400;
 	    QUIT_BUTTON_P2_X = 1000;
 	    QUIT_BUTTON_P2_Y = 800;
+	    
+	    DATA_LOGGER_P1_X = 360;
+	    DATA_LOGGER_P1_Y = 30;
+	    DATA_LOGGER_P2_X = 360 + 70;
+	    DATA_LOGGER_P2_Y = 30 + 105;
 	}
 
     
@@ -82,6 +93,16 @@ public class PregameScreen implements Screen {
     private void loadMainScreen() {
     	game.setMainScreen(false);
     }
+    
+    private boolean isWithinDataLogger(float x, float y) {
+    	return ((x >= DATA_LOGGER_P1_X && x <= DATA_LOGGER_P2_X) &&
+    			(y >= DATA_LOGGER_P1_Y && y <= DATA_LOGGER_P2_Y)) ? true : false;
+    }
+    
+    // FUNCTION: Sets game screen to Data Logger Screen
+    private void loadDataLoggerScreen() {
+    	game.setDataLoggerScreen(this.level);
+    }
 
     private void processInput() {
     	processMouseOver();
@@ -100,6 +121,12 @@ public class PregameScreen implements Screen {
         } else {
         	game.batch.draw(Assets.pregameScreenDefault, 0, 0);
         }
+        
+        if (isWithinDataLogger(xPos, yPos)) {
+        	game.batch.draw(Assets.dataLoggerSelect, DATA_LOGGER_P1_X, game.HEIGHT - DATA_LOGGER_P2_Y);
+        } else {
+        	game.batch.draw(Assets.dataLogger, DATA_LOGGER_P1_X, game.HEIGHT - DATA_LOGGER_P2_Y);
+        }
     }
     
     private void processClick() {
@@ -115,8 +142,9 @@ public class PregameScreen implements Screen {
             } else if (isWithinQuit(xPos, yPos)) {
             	if (game.isSoundOn) Assets.buttonClickSound.play();
             	loadMainScreen();
-            } else {
-            	
+            } else if (isWithinDataLogger(xPos, yPos)) {
+            	if (game.isSoundOn) Assets.buttonClickSound.play();
+            	loadDataLoggerScreen();
             }
         }
     }
