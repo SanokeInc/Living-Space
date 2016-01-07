@@ -8,10 +8,10 @@ public class IntroScreen implements Screen {
 	private LivingSpaceGame game;
 	Spaceship player;
 
-	private static final int SKIP_BUTTON_BOTTOM_LEFT_X = 782;
-	private static final int SKIP_BUTTON_BOTTOM_LEFT_Y = 782;
-	private static final int SKIP_BUTTON_TOP_RIGHT_X = 983;
-	private static final int SKIP_BUTTON_TOP_RIGHT_Y = 729;
+	private static final int SKIP_BUTTON_BOTTOM_LEFT_X = 684;
+	private static final int SKIP_BUTTON_BOTTOM_LEFT_Y = 762;
+	private static final int SKIP_BUTTON_TOP_RIGHT_X = 966;
+	private static final int SKIP_BUTTON_TOP_RIGHT_Y = 708;
 
 	private static final String textBlock1 = " Humanity's attempt to make contact\n"
 			+ " with extraterrestrial life\n"

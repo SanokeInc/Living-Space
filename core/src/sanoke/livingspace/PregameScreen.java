@@ -53,9 +53,9 @@ public class PregameScreen implements Screen {
 	    QUIT_BUTTON_P2_Y = 800;
 	    
 	    DATA_LOGGER_P1_X = 360;
-	    DATA_LOGGER_P1_Y = 30;
+	    DATA_LOGGER_P1_Y = 312 - 105;
 	    DATA_LOGGER_P2_X = 360 + 70;
-	    DATA_LOGGER_P2_Y = 30 + 105;
+	    DATA_LOGGER_P2_Y = 312;
 	}
 
     
