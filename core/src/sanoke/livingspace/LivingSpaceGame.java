@@ -35,8 +35,8 @@ public class LivingSpaceGame extends Game {
         isPaused = false;
         gameCode = 1;
         setIntroScreen();
-        if (isSoundOn) Assets.music.play();
-        else Assets.music.stop();
+        if (isSoundOn) Assets.introMusic.play();
+        else Assets.introMusic.stop();
     }
     
     public void restart() {

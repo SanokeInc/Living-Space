@@ -26,7 +26,7 @@ public class IntroScreen implements Screen {
 
 	private static final String textBlock2 = " Having fled Earth during a\n"
 			+ " previous alien invasion,\n"
-			+ " he now finds himself facing\n"
+			+ " you now find yourself facing\n"
 			+ " more alien invasions.";
 	private float textBlock2X;
 	private float textBlock2Y;
@@ -111,6 +111,8 @@ public class IntroScreen implements Screen {
 
 	// Sets game screen to Main Menu Screen
 	private void loadMainMenu() {
+		Assets.introMusic.stop();
+		Assets.music.play();
 		game.setMainScreen(false);
 	}
 
