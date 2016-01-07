@@ -21,7 +21,7 @@ public class LivingSpaceGame extends Game {
     public final int HEIGHT = 800;
     public final int WIDTH = 1000;
     
-    public int gameCode; // 1 = main screen/instruction/hub; 2 = end screen; 3 = game levels/death screen
+    public int gameCode; //0 = intro; 1 = main screen/instruction/hub; 2 = end screen; 3 = game levels/death screen
     
     public void create() {
         batch = new SpriteBatch();
@@ -33,7 +33,7 @@ public class LivingSpaceGame extends Game {
         player = new Spaceship(timeReference);        
         level = 1;
         isPaused = false;
-        gameCode = 1;
+        gameCode = 0;
         setIntroScreen();
         if (isSoundOn) Assets.introMusic.play();
         else Assets.introMusic.stop();
@@ -107,7 +107,7 @@ public class LivingSpaceGame extends Game {
     }
     
     public void setIntroScreen() {
-    	gameCode = 1;
+    	gameCode = 0;
     	this.setScreen(new IntroScreen(this, player));
     }
     
@@ -141,7 +141,11 @@ public class LivingSpaceGame extends Game {
     }
     
     public void setResume(int type) {
-    	if (type == 1) {
+    	if (type == 0) {
+    		if (isSoundOn) Assets.introMusic.play();
+    		else Assets.introMusic.stop();
+    	}
+    	else if (type == 1) {
     		if (isSoundOn) Assets.music.play(); // if resume to main menu or to the hub
     		else Assets.music.stop();
     	}
@@ -166,7 +170,11 @@ public class LivingSpaceGame extends Game {
     @Override
     public void pause() {
     	if (!isPaused) {
-    		if (this.gameCode == 1) {
+    		if (this.gameCode == 0) {
+    			if (isSoundOn) Assets.introMusic.pause(); // if paused from intro
+    			else Assets.introMusic.stop();
+    		}
+    		else if (this.gameCode == 1) {
     			if (isSoundOn) Assets.music.pause(); // if paused from main menu or from the hub
     			else Assets.music.stop();
     		}
