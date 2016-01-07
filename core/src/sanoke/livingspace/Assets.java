@@ -90,6 +90,7 @@ public class Assets {
     public static final int NUM_FRAMES_ALIEN = 4;
     private static final int FRAME_FACTOR_ALIEN = 2;
     
+    public static Music introMusic;
     public static Music music;
     public static Music endMusic;
     
@@ -102,27 +103,11 @@ public class Assets {
     public static Sound buttonClickSound;
     public static Sound coinCollectSound;
 
-    public static void loadAssets() {
-        background = new Texture(Gdx.files.internal("space.jpg"));
-        soundOn = new Texture(Gdx.files.internal("Sound_ON.png"));
-        soundOff = new Texture(Gdx.files.internal("Sound_OFF.png"));
-        soundOnHighlight = new Texture(Gdx.files.internal("Sound_ON_Highlight.png"));
-        soundOffHighlight = new Texture(Gdx.files.internal("Sound_OFF_Highlight.png"));
-        coin = new Texture(Gdx.files.internal("coin.png"));
-        missile = new Texture(Gdx.files.internal("Missile_F1.png"));
-        warningSign = new Texture(Gdx.files.internal("warning_placeholder.png"));
-        ForcefieldH = new Texture(Gdx.files.internal("ForcefieldH.png"));
-        ForcefieldV = new Texture(Gdx.files.internal("ForcefieldV.png"));
-        ForcefieldH_Warn = new Texture(Gdx.files.internal("ForcefieldH_Warn.png"));
-        ForcefieldV_Warn = new Texture(Gdx.files.internal("ForcefieldV_Warn.png"));
-        safetyAlert = new Texture(Gdx.files.internal("SafetyAlert.png"));
-        life = new Texture(Gdx.files.internal("heart_placeholder.png"));
-        dataLogger = new Texture(Gdx.files.internal("datalogger_placeholder.png"));
-        dataLoggerSelect = new Texture(Gdx.files.internal("dataloggerhighlight_placeholder.png"));
-        
+    public static void loadAssets() {        
+        loadGameElements(); // background, coin, missile, warning, safety-area
         loadMainAndPregameScreens();
         loadDeathScreens();
-
+        loadDataLogger(); // Catalogue button in Hub screen
         loadCatalogueScreens();
     	loadPauseScreens();
         loadUpgrades();
@@ -130,9 +115,20 @@ public class Assets {
         loadSpaceship();
         loadAlienTemplates();
         loadAlienFrames();
+        loadForcefields();
         loadLifeLoss();
+        loadSoundOptions();
         loadSounds();
         loadMusics();
+    }
+    
+    private static void loadGameElements() {
+    	background = new Texture(Gdx.files.internal("space.jpg"));
+        coin = new Texture(Gdx.files.internal("coin.png"));
+        missile = new Texture(Gdx.files.internal("Missile_F1.png"));
+        warningSign = new Texture(Gdx.files.internal("warning_placeholder.png"));
+        safetyAlert = new Texture(Gdx.files.internal("SafetyAlert.png"));
+        life = new Texture(Gdx.files.internal("heart_placeholder.png"));
     }
     
     private static void loadMainAndPregameScreens() {
@@ -154,6 +150,11 @@ public class Assets {
         screenDeathQuit = new Texture(Gdx.files.internal("Death_Quit.jpg"));
         screenDeathRetry = new Texture(Gdx.files.internal("Death_Retry.jpg"));
     }
+    
+    private static void loadDataLogger() {
+    	dataLogger = new Texture(Gdx.files.internal("Catalogue_Button.png"));
+        dataLoggerSelect = new Texture(Gdx.files.internal("Catalogue_Button_Hover.png"));
+    } 
     
     private static void loadCatalogueScreens() {
     	catalogueScreenNumbers = new Texture [NUMBER_ALIEN_ENTRIES];
@@ -215,6 +216,13 @@ public class Assets {
     				Spaceship.SHIP_WIDTH, Spaceship.SHIP_HEIGHT);
     	}
     }
+    
+    private static void loadForcefields() {
+    	ForcefieldH = new Texture(Gdx.files.internal("ForcefieldH.png"));
+        ForcefieldV = new Texture(Gdx.files.internal("ForcefieldV.png"));
+        ForcefieldH_Warn = new Texture(Gdx.files.internal("ForcefieldH_Warn.png"));
+        ForcefieldV_Warn = new Texture(Gdx.files.internal("ForcefieldV_Warn.png"));
+    }
 
 	private static void loadAlienFrames() {
 		alienTypeFrame = new TextureRegion[NUM_TYPE_ALIENS][NUM_FRAMES_ALIEN];
@@ -269,8 +277,15 @@ public class Assets {
 		pauseScreenResume = new Texture(Gdx.files.internal("Paused_Resume.jpg"));
 		pauseScreenQuit = new Texture(Gdx.files.internal("Paused_Quit.jpg"));
 	}
+	
+	private static void loadSoundOptions() {
+		soundOn = new Texture(Gdx.files.internal("Sound_ON.png"));
+        soundOff = new Texture(Gdx.files.internal("Sound_OFF.png"));
+        soundOnHighlight = new Texture(Gdx.files.internal("Sound_ON_Highlight.png"));
+        soundOffHighlight = new Texture(Gdx.files.internal("Sound_OFF_Highlight.png"));
+	} 
 
-	public static void loadSounds() {
+	private static void loadSounds() {
 		missileFireSound = Gdx.audio.newSound(Gdx.files.internal("Fire.mp3"));
 	    playerCollideSound = Gdx.audio.newSound(Gdx.files.internal("Player_Collide.mp3"));
 	    playerDieSound = Gdx.audio.newSound(Gdx.files.internal("Player_Die.mp3"));
@@ -282,6 +297,9 @@ public class Assets {
 	}
 	
 	public static void loadMusics() {
+		introMusic = Gdx.audio.newMusic(Gdx.files.internal("Intro.mp3"));
+		introMusic.setLooping(true);
+        introMusic.setVolume(1.0f);
 		music = Gdx.audio.newMusic(Gdx.files.internal("Main.mp3"));
         music.setLooping(true);
         music.setVolume(1.0f);
