@@ -119,6 +119,7 @@ public class IntroScreen implements Screen {
 	private void checkSwitchScreen() {
 		if (currentAlpha <= 0.0f) {
 			loadMainMenu();
+			game.font.setColor(1, 1, 1, 1);
 		}
 	}
 
