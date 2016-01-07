@@ -34,9 +34,9 @@ public class LivingSpaceGame extends Game {
         level = 1;
         isPaused = false;
         gameCode = 1;
-        setMainScreen(false);
-        if (isSoundOn) Assets.music.play();
-        else Assets.music.stop();
+        setIntroScreen();
+        if (isSoundOn) Assets.introMusic.play();
+        else Assets.introMusic.stop();
     }
     
     public void restart() {
@@ -104,6 +104,11 @@ public class LivingSpaceGame extends Game {
             level = 1;
             this.setScreen(new MainMenuScreen(this, player));
     	}
+    }
+    
+    public void setIntroScreen() {
+    	gameCode = 1;
+    	this.setScreen(new IntroScreen(this, player));
     }
     
     public void setPregameScreen(int level) {

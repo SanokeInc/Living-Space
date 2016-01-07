@@ -35,6 +35,8 @@ public class DataLoggerScreen implements Screen {
 		this.level = initLevel;
 		this.screenNumber = PARAM_SCREEN_DEFAULT;
 		
+		if (game.isSoundOn) Assets.music.play();
+		
 		setupAlienEntriesYCoord();
 	}
 	
