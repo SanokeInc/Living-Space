@@ -44,6 +44,9 @@ public class Assets {
     public static Texture pregameScreenPlay;
     public static Texture pregameScreenQuit;
     
+    public static Texture introductionScreenDefault;
+    public static Texture introductionScreenSkip;
+    
     public static Texture pauseScreenDefault;
     public static Texture pauseScreenResume;
     public static Texture pauseScreenQuit;
@@ -105,6 +108,7 @@ public class Assets {
 
     public static void loadAssets() {        
         loadGameElements(); // background, coin, missile, warning, safety-area
+        loadIntroScreen();
         loadMainAndPregameScreens();
         loadDeathScreens();
         loadDataLogger(); // Catalogue button in Hub screen
@@ -122,6 +126,11 @@ public class Assets {
         loadMusics();
     }
     
+    private static void loadIntroScreen() {
+    	introductionScreenDefault = new Texture(Gdx.files.internal("Intro.jpg"));
+    	introductionScreenSkip = new Texture(Gdx.files.internal("Intro_Skip.jpg"));
+    }
+    	
     private static void loadGameElements() {
     	background = new Texture(Gdx.files.internal("space.jpg"));
         coin = new Texture(Gdx.files.internal("coin.png"));
